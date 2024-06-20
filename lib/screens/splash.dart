@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:lottie/lottie.dart';
-import 'package:progetto_prova/provider/homePrvider.dart';
+import 'package:progetto_prova/provider/homeProvider.dart';
 import 'package:progetto_prova/screens/advice.dart';
 import 'package:progetto_prova/screens/homeHardPage.dart';
 import 'package:progetto_prova/screens/homeSoftPgae.dart';

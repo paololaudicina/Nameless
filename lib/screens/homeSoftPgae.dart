@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:progetto_prova/models/info.dart';
-import 'package:progetto_prova/provider/homePrvider.dart';
+import 'package:progetto_prova/provider/homeProvider.dart';
 import 'package:progetto_prova/screens/profilePage.dart';
 import 'package:progetto_prova/widget/lineplot.dart';
 import 'package:provider/provider.dart';
