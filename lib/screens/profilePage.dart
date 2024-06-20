@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:progetto_prova/provider/homePrvider.dart';
+import 'package:progetto_prova/provider/homeProvider.dart';
 import 'package:progetto_prova/screens/login.dart';
-import 'package:progetto_prova/widget/lineplot.dart';
+
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
