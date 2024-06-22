@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:progetto_prova/models/Quiz.dart';
-import 'package:progetto_prova/provider/homeProvider.dart';
-import 'package:progetto_prova/screens/advice.dart';
-import 'package:progetto_prova/screens/homeHardPage.dart';
-import 'package:progetto_prova/screens/homeSoftPgae.dart';
-import 'package:progetto_prova/screens/personalData.dart';
+import 'package:Nameless/models/Quiz.dart';
+import 'package:Nameless/provider/homeProvider.dart';
+import 'package:Nameless/screens/advice.dart';
+import 'package:Nameless/screens/homeHardPage.dart';
+import 'package:Nameless/screens/homeSoftPgae.dart';
+import 'package:Nameless/screens/personalData.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

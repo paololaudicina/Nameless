@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:progetto_prova/provider/homeProvider.dart';
-import 'package:progetto_prova/screens/login.dart';
+import 'package:Nameless/provider/homeProvider.dart';
+import 'package:Nameless/screens/login.dart';
 
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
