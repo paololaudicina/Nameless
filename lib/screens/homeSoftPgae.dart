@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:progetto_prova/models/info.dart';
 import 'package:progetto_prova/provider/homeProvider.dart';
+import 'package:progetto_prova/screens/calendarPage.dart';
 import 'package:progetto_prova/screens/profilePage.dart';
 import 'package:progetto_prova/widget/lineplot.dart';
 import 'package:provider/provider.dart';
@@ -54,10 +55,12 @@ class _HomeSoftPage extends State<HomeSoftPage> {
                             width:
                                 2.0), // Imposta il colore e lo spessore del bordo
                       ),
-                      child: const Column(
+                      child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.local_drink),
+                        children: [IconButton(
+                          onPressed: () {Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Calendar()));}, 
+                          icon: Icon(Icons.local_drink)),
+                          
                           Text('ADD DRINKS')
                         ],
                       ),

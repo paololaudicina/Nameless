@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:progetto_prova/models/drink.dart';
 import 'package:progetto_prova/models/heartratedata.dart';
 import 'package:progetto_prova/services/Impact.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -15,7 +18,9 @@ class HomeProvider extends ChangeNotifier {
   bool _isInitialized = false;
   bool get isInitialized => _isInitialized;
   DateTime giorno = DateTime.now();
-  
+
+  final Map<DateTime, List<Drink>> _drinks = {};
+  Map<DateTime, List<Drink>> get drinks => _drinks;
 
   Future<void> _initPreferences() async {
     await getPreferences();
@@ -34,12 +39,68 @@ class HomeProvider extends ChangeNotifier {
      personalData = sp.getBool('personalData') ?? false;
     // notifyListeners();
 
+
+    // Load drinks
+    final String? drinksString = sp.getString('drinks');
+    if (drinksString != null) {
+      final List<dynamic> decodedDrinks = jsonDecode(drinksString);
+      _drinks.clear();
+      decodedDrinks.forEach((drinkData) {
+        final Map<String, dynamic> drinkMap = drinkData.cast<String, dynamic>();
+        final List<Drink> drinksList = drinkMap['drinks'].map<Drink>((item) {
+          return Drink.fromMap(item);
+        }).toList();
+        _drinks[DateTime.parse(drinkMap['date'])] = drinksList;
+      });
+    }
+  }
+
+  Future<void> _saveDrinks() async {
+    final sp = await SharedPreferences.getInstance();
+    final List<dynamic> encodedDrinks = _drinks.entries.map((entry) {
+      final List<Map<String, dynamic>> drinksList = entry.value.map((drink) {
+        return drink.toMap();
+      }).toList();
+      return {
+        'date': entry.key.toIso8601String(),
+        'drinks': drinksList,
+      };
+    }).toList();
+    sp.setString('drinks', jsonEncode(encodedDrinks));
+  }
+
+  void addDrink(DateTime date, String name, int quantity, DateTime time) {
+    final drink = Drink(name: name, quantity: quantity, time: time);
+    if (_drinks[date] != null) {
+      _drinks[date]!.add(drink);
+    } else {
+      _drinks[date] = [drink];
+    }
+    _saveDrinks();
+    notifyListeners();
+  }
+
+  void updateDrink(DateTime date, int index, String name, int quantity, DateTime time) {
+    final drink = Drink(name: name, quantity: quantity, time: time);
+    _drinks[date]?[index] = drink;
+    _saveDrinks();
+    notifyListeners();
+  }
+
+  void removeDrink(DateTime date, int index) {
+    _drinks[date]?.removeAt(index);
+    if (_drinks[date]?.isEmpty ?? true) {
+      _drinks.remove(date);
+    }
+    _saveDrinks();
+    notifyListeners();
   }
 
   void removeAll(){
       scoreQuiz = -1;
       levelChoice= 0;
       personalData= false;
+      _drinks.clear();
       notifyListeners();
 
       /* Future<void> removeAll() async {  suggerito da chat gpt
