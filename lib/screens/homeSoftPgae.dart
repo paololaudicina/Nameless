@@ -1,8 +1,9 @@
+import 'package:Nameless/screens/activity.dart';
 import 'package:flutter/material.dart';
-import 'package:progetto_prova/models/info.dart';
-import 'package:progetto_prova/provider/homeProvider.dart';
-import 'package:progetto_prova/screens/profilePage.dart';
-import 'package:progetto_prova/widget/lineplot.dart';
+import 'package:Nameless/models/info.dart';
+import 'package:Nameless/provider/homeProvider.dart';
+import 'package:Nameless/screens/profilePage.dart';
+import 'package:Nameless/widget/lineplot.dart';
 import 'package:provider/provider.dart';
 
 class HomeSoftPage extends StatefulWidget {
@@ -66,19 +67,25 @@ class _HomeSoftPage extends State<HomeSoftPage> {
                   SizedBox(
                     width: 180,
                     height: 180,
-                    child: Card(
-                      color: Colors.lightBlue,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(
-                            15.0), // Imposta il raggio degli angoli del bordo
-                        side: const BorderSide(
-                            color: Colors.black,
-                            width:
-                                2.0), // Imposta il colore e lo spessore del bordo
-                      ),
-                      child: const Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [Icon(Icons.local_activity), Text('HOBBY')],
+                    child: InkWell(
+                      onTap: ()=>Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Activity())),
+                      child: Card(
+                        color: Colors.lightBlue,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(
+                              15.0), // Imposta il raggio degli angoli del bordo
+                          side: const BorderSide(
+                              color: Colors.black,
+                              width:
+                                  2.0), // Imposta il colore e lo spessore del bordo
+                        ),
+                        child: const Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [Icon(Icons.local_activity), Text('HOBBY')],
+                        ),
                       ),
                     ),
                   ),

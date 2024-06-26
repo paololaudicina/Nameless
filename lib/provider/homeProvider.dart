@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:progetto_prova/models/heartratedata.dart';
-import 'package:progetto_prova/services/Impact.dart';
+import 'package:Nameless/models/heartratedata.dart';
+import 'package:Nameless/services/Impact.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeProvider extends ChangeNotifier {
