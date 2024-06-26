@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:progetto_prova/models/info.dart';
-import 'package:progetto_prova/provider/homeProvider.dart';
-import 'package:progetto_prova/screens/profilePage.dart';
-import 'package:progetto_prova/widget/lineplot.dart';
+import 'package:Nameless/models/info.dart';
+import 'package:Nameless/provider/homeProvider.dart';
+import 'package:Nameless/screens/profilePage.dart';
+import 'package:Nameless/widget/lineplot.dart';
 import 'package:provider/provider.dart';
 
 class HomeHardPage extends StatefulWidget {
