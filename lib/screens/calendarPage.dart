@@ -15,6 +15,25 @@ class _CalendarState extends State<Calendar> {
   CalendarFormat _calendarFormat = CalendarFormat.month;
   DateTime _selectedDay = DateTime.now();
   DateTime _focusedDay = DateTime.now();
+   bool _isFutureSelected = false; // Track if a future day is selected
+
+    bool _isFutureDay(DateTime day) {
+    return day.isAfter(DateTime.now());
+  }
+
+  void _onDaySelected(DateTime selectedDay, DateTime focusedDay) {
+    if (_isFutureDay(selectedDay)) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Future dates cannot be selected.')),
+      );
+    } else {
+      setState(() {
+        _selectedDay = selectedDay;
+        _focusedDay = focusedDay;
+        _isFutureSelected=false;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +41,9 @@ class _CalendarState extends State<Calendar> {
 
     return Scaffold(
       appBar: AppBar(
+        
         title: Text('DRINK CALENDAR'),
+
       ),
       body: Column(
         children: [
@@ -34,12 +55,7 @@ class _CalendarState extends State<Calendar> {
             selectedDayPredicate: (day) {
               return isSameDay(_selectedDay, day);
             },
-            onDaySelected: (selectedDay, focusedDay) {
-              setState(() {
-                _selectedDay = selectedDay;
-                _focusedDay = focusedDay;
-              });
-            },
+           onDaySelected: _onDaySelected,
             onFormatChanged: (format) {
               if (_calendarFormat != format) {
                 setState(() {
@@ -92,7 +108,7 @@ class _CalendarState extends State<Calendar> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () async {
+        onPressed: _isFutureSelected ? null : () async  {
           final result = await Navigator.of(context).push(
             MaterialPageRoute(
               builder: (context) => EditDrinkPage(selectedDay: _selectedDay),
@@ -103,6 +119,7 @@ class _CalendarState extends State<Calendar> {
           }
         },
         child: Icon(Icons.add),
+        
       ),
     );
   }
