@@ -1,5 +1,6 @@
+import 'dart:async';
 import 'dart:convert';
-import 'dart:ffi';
+
 
 import 'package:Nameless/models/drink.dart';
 import 'package:flutter/material.dart';
@@ -24,10 +25,6 @@ class HomeProvider extends ChangeNotifier {
   bool personalData= false;
   bool _isInitialized = false;
   bool get isInitialized => _isInitialized;
-  
-
-
-
   final Map<DateTime, List<Drink>> _drinks = {};
   Map<DateTime, List<Drink>> get drinks => _drinks;
 
@@ -48,7 +45,7 @@ class HomeProvider extends ChangeNotifier {
      personalData = sp.getBool('personalData') ?? false;
      weight=sp.getInt('weight') ?? 0;
      if(Sex=='Male') K=0.73;
-    // notifyListeners();
+    
 
 
     // Load drinks
@@ -109,7 +106,7 @@ class HomeProvider extends ChangeNotifier {
     _saveDrinks();
     notifyListeners();
   }
-
+  
   double newBAL =0;
   double oldBAL=0;
   bool drive=true;
@@ -126,25 +123,34 @@ class HomeProvider extends ChangeNotifier {
     istantBAL=0;
   }
 
+  // this function update newball when it is called because we want a function of time, without it newBAL is updated only when alcholLevel is used
+  // in particular when add drink
+  void updateNewBAL() {
+    if (newHour != 0) {
+      int deltaT = DateTime.now().hour - newHour;
+      newBAL = oldBAL - (0.15 * deltaT);
+      if (newBAL < 0) newBAL = 0;
+      if (newBAL >= 0.5) drive = false;
+      notifyListeners(); // Notifica i listener per aggiornare l'interfaccia utente
+    }
+  }
+ Timer? _timer;
+
+  void _startTimer() {
+    _timer = Timer.periodic(const Duration(minutes: 5), (timer) {
+      // update newBAL every 5 minutes
+      updateNewBAL();
+    });
+  }
+
   void removeAll(){
       scoreQuiz = -1;
       levelChoice= 0;
       personalData= false;
       _drinks.clear();
       notifyListeners();
-
-      /* Future<void> removeAll() async {  suggerito da chat gpt
-    final sp = await SharedPreferences.getInstance();
-    await sp.remove('punteggio');
-    await sp.remove('answer2');
-    await sp.remove('sex');
-    await sp.remove('level_choice');
-    await sp.remove('datiPersonali');
-    flag_punteggio = -1;
-    level_choice_flag = 0;
-    datiPersonali_flag = false;
-    notifyListeners();*/
   }
+  
 
   void setPersonaData(bool value){
     personalData = value;
@@ -159,6 +165,7 @@ class HomeProvider extends ChangeNotifier {
 // questo chiama la funzione quando il provider nasce con il changeNotifyProvider. Nel caso specifico il provider nasce nella home.
   HomeProvider()  {
     _initPreferences();
+    _startTimer();
     notifyListeners();
   }
 

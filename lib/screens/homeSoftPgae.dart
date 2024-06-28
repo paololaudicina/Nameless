@@ -47,7 +47,8 @@ class _HomeSoftPage extends State<HomeSoftPage> {
                     width: 180,
                     height: 180,
                     child: InkWell(
-                      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => Calendar())),
+                      onTap: () => Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Calendar())),
                       child: Card(
                         color: Colors.lightBlue,
                         shape: RoundedRectangleBorder(
@@ -58,9 +59,12 @@ class _HomeSoftPage extends State<HomeSoftPage> {
                               width:
                                   2.0), // Imposta il colore e lo spessore del bordo
                         ),
-                        child: Column(
+                        child: const Column(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: [Icon(Icons.local_drink),Text('ADD DRINKS')],
+                          children: [
+                            Icon(Icons.local_drink),
+                            Text('ADD DRINKS')
+                          ],
                         ),
                       ),
                     ),
@@ -69,10 +73,8 @@ class _HomeSoftPage extends State<HomeSoftPage> {
                     width: 180,
                     height: 180,
                     child: InkWell(
-                      onTap: ()=>Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => Activity())),
+                      onTap: () => Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Activity())),
                       child: Card(
                         color: Colors.lightBlue,
                         shape: RoundedRectangleBorder(
@@ -119,6 +121,19 @@ class _HomeSoftPage extends State<HomeSoftPage> {
               const SizedBox(
                 height: 20,
               ),
+              Consumer<HomeProvider>(builder: (context, data, child) {
+                if (data.drive) {
+                  return const Text(
+                    'You can drvie',
+                    style: TextStyle(color: Colors.green, fontSize: 20),
+                  );
+                } else {
+                  return const Text(
+                    'WARNING: YOUR BLOOD ALCHOL LEVEL IS TOO HIGH TO DRIVE',
+                    style: TextStyle(color: Colors.red),
+                  );
+                }
+              }),
               ElevatedButton(
                   onPressed: () {
                     fecthHRData();
@@ -129,7 +144,8 @@ class _HomeSoftPage extends State<HomeSoftPage> {
               ),
               Consumer<HomeProvider>(builder: (context, data, child) {
                 if (data.heartrateData.isEmpty) {
-                  return  Text('nothing to display ${data.heartrateData.length}');
+                  return Text(
+                      'nothing to display ${data.heartrateData.length}');
                 } else {
                   return HRDataPlot(heartrateData: data.heartrateData);
                 }
@@ -138,12 +154,7 @@ class _HomeSoftPage extends State<HomeSoftPage> {
                 height: 20,
               ),
               IconButton(
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const ProfilePage()));
-                },
+                onPressed: () {goToProfile();},
                 icon: const Icon(Icons.person),
               )
             ],
@@ -151,6 +162,12 @@ class _HomeSoftPage extends State<HomeSoftPage> {
         ),
       ),
     );
+  }
+
+  void goToProfile() {
+    Navigator.push(context, MaterialPageRoute(builder: (context) => const ProfilePage()));
+    Provider.of<HomeProvider>(context, listen: false).updateNewBAL();
+
   }
 
   void fecthHRData() {

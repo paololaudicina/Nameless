@@ -24,7 +24,7 @@ class _CalendarState extends State<Calendar> {
   void _onDaySelected(DateTime selectedDay, DateTime focusedDay) {
     if (_isFutureDay(selectedDay)) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Future dates cannot be selected.')),
+        const SnackBar(content: Text('Future dates cannot be selected.')),
       );
     } else {
       setState(() {
@@ -42,7 +42,7 @@ class _CalendarState extends State<Calendar> {
     return Scaffold(
       appBar: AppBar(
         
-        title: Text('DRINK CALENDAR'),
+        title: const Text('DRINK CALENDAR'),
 
       ),
       body: Column(
@@ -118,7 +118,7 @@ class _CalendarState extends State<Calendar> {
             homeProvider.addDrink(_selectedDay, result['name'], result['quantity'], result['hour']);
           }
         },
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
         
       ),
     );
