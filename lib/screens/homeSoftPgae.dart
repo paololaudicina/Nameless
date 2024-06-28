@@ -46,24 +46,22 @@ class _HomeSoftPage extends State<HomeSoftPage> {
                   SizedBox(
                     width: 180,
                     height: 180,
-                    child: Card(
-                      color: Colors.lightBlue,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(
-                            15.0), // Imposta il raggio degli angoli del bordo
-                        side: const BorderSide(
-                            color: Colors.black,
-                            width:
-                                2.0), // Imposta il colore e lo spessore del bordo
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [IconButton(
-                          onPressed: () {Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Calendar()));}, 
-                          icon: Icon(Icons.local_drink)),
-                          
-                          Text('ADD DRINKS')
-                        ],
+                    child: InkWell(
+                      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => Calendar())),
+                      child: Card(
+                        color: Colors.lightBlue,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(
+                              15.0), // Imposta il raggio degli angoli del bordo
+                          side: const BorderSide(
+                              color: Colors.black,
+                              width:
+                                  2.0), // Imposta il colore e lo spessore del bordo
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [Icon(Icons.local_drink),Text('ADD DRINKS')],
+                        ),
                       ),
                     ),
                   ),

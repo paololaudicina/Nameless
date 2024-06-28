@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ffi';
 
 import 'package:Nameless/models/drink.dart';
 import 'package:flutter/material.dart';
@@ -12,11 +13,19 @@ class HomeProvider extends ChangeNotifier {
   int scoreQuiz = -1;
   int numDrinks = 0;
   int levelChoice=0;
+  int weight=0;
+  int newHour=DateTime.now().hour;
+  int prova=0;
+  double C= 13*200*0.008;
+  double K=0.66;
+  double istantBAL=0;
   List<int> listNumDrinks=[2,4,6,8,10];
   String Sex='';
   bool personalData= false;
   bool _isInitialized = false;
   bool get isInitialized => _isInitialized;
+  
+
 
 
   final Map<DateTime, List<Drink>> _drinks = {};
@@ -37,6 +46,8 @@ class HomeProvider extends ChangeNotifier {
      Sex = sp.getString('sex')?? '';
      levelChoice=sp.getInt('levelChoice')?? 0;
      personalData = sp.getBool('personalData') ?? false;
+     weight=sp.getInt('weight') ?? 0;
+     if(Sex=='Male') K=0.73;
     // notifyListeners();
 
 
@@ -76,6 +87,8 @@ class HomeProvider extends ChangeNotifier {
     } else {
       _drinks[date] = [drink];
     }
+    prova=quantity;
+    alcholLevel(hour, quantity);
     _saveDrinks();
     notifyListeners();
   }
@@ -83,6 +96,7 @@ class HomeProvider extends ChangeNotifier {
   void updateDrink(DateTime date, int index, String name, int quantity, int hour) {
     final drink = Drink(name: name, quantity: quantity, hour: hour);
     _drinks[date]?[index] = drink;
+    alcholLevel(hour, quantity);
     _saveDrinks();
     notifyListeners();
   }
@@ -94,6 +108,22 @@ class HomeProvider extends ChangeNotifier {
     }
     _saveDrinks();
     notifyListeners();
+  }
+
+  double newBAL =0;
+  double oldBAL=0;
+  bool drive=true;
+  int deltaT=0;
+
+  void alcholLevel(int hour, int quantity){
+    newHour=hour;
+    istantBAL=(quantity*C*1.055)/(weight*K);
+    int deltaT=DateTime.now().hour-newHour;
+    newBAL=istantBAL+(oldBAL-(0.15*deltaT));
+    if (newBAL<0) newBAL=0;
+    if(newBAL>=0.5) drive=false;
+    oldBAL=newBAL;
+    istantBAL=0;
   }
 
   void removeAll(){

@@ -22,7 +22,7 @@ class _ProfilePageState extends State<ProfilePage> {
     return  Scaffold(
       appBar: AppBar(
         title: Consumer<HomeProvider>(
-              builder: (context, provider, child) {return Text('sono ${provider.Sex}');},),
+              builder: (context, provider, child) {return Text('sono ${provider.newBAL}');},),
         actions: [
           Row(
           mainAxisAlignment: MainAxisAlignment.end,
