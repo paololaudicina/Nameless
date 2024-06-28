@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:progetto_prova/provider/homeProvider.dart';
-import 'package:progetto_prova/screens/splash.dart';
+import 'package:Nameless/provider/homeProvider.dart';
+import 'package:Nameless/screens/splash.dart';
 import 'package:provider/provider.dart';
 
 void main() {

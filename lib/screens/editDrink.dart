@@ -1,5 +1,5 @@
+import 'package:Nameless/models/drink.dart';
 import 'package:flutter/material.dart';
-import 'package:progetto_prova/models/drink.dart';
 
 
 class EditDrinkPage extends StatefulWidget {
@@ -14,25 +14,25 @@ class EditDrinkPage extends StatefulWidget {
 }
 
 class _EditDrinkPageState extends State<EditDrinkPage> {
-  late TextEditingController _nameController;
-  late TextEditingController _quantityController;
-  late TextEditingController _timeController;
+  TextEditingController _nameController = TextEditingController();
+  int _quantity = 1;
+  int _hour = DateTime.now().hour;
 
   @override
   void initState() {
     super.initState();
-    _nameController = TextEditingController(text: widget.drink?.name ?? '');
-    _quantityController = TextEditingController(text: widget.drink?.quantity.toString() ?? '');
-    _timeController = TextEditingController(
-      text: widget.drink != null ? widget.drink!.time.toLocal().toString().substring(11, 16) : '',
-    );
+    if (widget.drink != null) {
+      _nameController.text = widget.drink!.name;
+      _quantity = widget.drink!.quantity;
+      _hour = widget.drink!.hour;
+    }
   }
 
   Future<TimeOfDay?> _selectTime(BuildContext context) async {
-    final TimeOfDay picked = (await showTimePicker(
+    final TimeOfDay? picked = await showTimePicker(
       context: context,
-      initialTime: TimeOfDay.fromDateTime(widget.drink?.time ?? DateTime.now()),
-    ))!;
+      initialTime: TimeOfDay(hour: _hour, minute: 0),
+    );
     return picked;
   }
 
@@ -50,35 +50,51 @@ class _EditDrinkPageState extends State<EditDrinkPage> {
               controller: _nameController,
               decoration: InputDecoration(labelText: 'Drink Name'),
             ),
-            TextField(
-              controller: _quantityController,
-              decoration: InputDecoration(labelText: 'Quantity'),
-              keyboardType: TextInputType.number,
+            Row(
+              children: [
+                Text('Quantity: $_quantity'),
+                IconButton(
+                  icon: Icon(Icons.remove),
+                  onPressed: () {
+                    setState(() {
+                      if (_quantity > 1) _quantity--;
+                    });
+                  },
+                ),
+                IconButton(
+                  icon: Icon(Icons.add),
+                  onPressed: () {
+                    setState(() {
+                      _quantity++;
+                    });
+                  },
+                ),
+              ],
             ),
-            TextField(
-              controller: _timeController,
-              decoration: InputDecoration(labelText: 'Time (HH:mm)'),
-              readOnly: true,
-              onTap: () async {
-                final TimeOfDay? picked = await _selectTime(context);
-                if (picked != null) {
-                  final now = DateTime.now();
-                  final selectedTime = DateTime(now.year, now.month, now.day, picked.hour, picked.minute);
-                  _timeController.text = selectedTime.toLocal().toString().substring(11, 16);
-                }
-              },
+            Row(
+              children: [
+                Text('Time: $_hour:00'),
+                IconButton(
+                  icon: Icon(Icons.access_time),
+                  onPressed: () async {
+                    final picked = await _selectTime(context);
+                    if (picked != null) {
+                      setState(() {
+                        _hour = picked.hour;
+                      });
+                    }
+                  },
+                ),
+              ],
             ),
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
                 final String name = _nameController.text;
-                final int quantity = int.parse(_quantityController.text);
-                final DateTime time = DateTime.parse('${widget.selectedDay.toLocal().toIso8601String().split('T').first}T${_timeController.text}:00');
-
                 Navigator.of(context).pop({
                   'name': name,
-                  'quantity': quantity,
-                  'time': time,
+                  'quantity': _quantity,
+                  'hour': _hour,
                 });
               },
               child: Text(widget.drink == null ? 'Add' : 'Save'),

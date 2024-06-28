@@ -1,10 +1,10 @@
 import 'dart:convert';
 
+import 'package:Nameless/models/drink.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:progetto_prova/models/drink.dart';
-import 'package:progetto_prova/models/heartratedata.dart';
-import 'package:progetto_prova/services/Impact.dart';
+import 'package:Nameless/models/heartratedata.dart';
+import 'package:Nameless/services/Impact.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeProvider extends ChangeNotifier {
@@ -17,7 +17,7 @@ class HomeProvider extends ChangeNotifier {
   bool personalData= false;
   bool _isInitialized = false;
   bool get isInitialized => _isInitialized;
-  DateTime giorno = DateTime.now();
+
 
   final Map<DateTime, List<Drink>> _drinks = {};
   Map<DateTime, List<Drink>> get drinks => _drinks;
@@ -45,13 +45,13 @@ class HomeProvider extends ChangeNotifier {
     if (drinksString != null) {
       final List<dynamic> decodedDrinks = jsonDecode(drinksString);
       _drinks.clear();
-      decodedDrinks.forEach((drinkData) {
+      for (var drinkData in decodedDrinks) {
         final Map<String, dynamic> drinkMap = drinkData.cast<String, dynamic>();
-        final List<Drink> drinksList = drinkMap['drinks'].map<Drink>((item) {
+        final List<Drink> drinksList = (drinkMap['drinks'] as List<dynamic>).map<Drink>((item) {
           return Drink.fromMap(item);
         }).toList();
         _drinks[DateTime.parse(drinkMap['date'])] = drinksList;
-      });
+      }
     }
   }
 
@@ -69,8 +69,8 @@ class HomeProvider extends ChangeNotifier {
     sp.setString('drinks', jsonEncode(encodedDrinks));
   }
 
-  void addDrink(DateTime date, String name, int quantity, DateTime time) {
-    final drink = Drink(name: name, quantity: quantity, time: time);
+  void addDrink(DateTime date, String name, int quantity, int hour) {
+    final drink = Drink(name: name, quantity: quantity, hour: hour);
     if (_drinks[date] != null) {
       _drinks[date]!.add(drink);
     } else {
@@ -80,13 +80,13 @@ class HomeProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void updateDrink(DateTime date, int index, String name, int quantity, DateTime time) {
-    final drink = Drink(name: name, quantity: quantity, time: time);
+  void updateDrink(DateTime date, int index, String name, int quantity, int hour) {
+    final drink = Drink(name: name, quantity: quantity, hour: hour);
     _drinks[date]?[index] = drink;
     _saveDrinks();
     notifyListeners();
   }
-
+  
   void removeDrink(DateTime date, int index) {
     _drinks[date]?.removeAt(index);
     if (_drinks[date]?.isEmpty ?? true) {
