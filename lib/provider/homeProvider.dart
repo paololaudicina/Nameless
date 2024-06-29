@@ -128,10 +128,11 @@ class HomeProvider extends ChangeNotifier {
   void updateNewBAL() {
     if (newHour != 0) {
       int deltaT = DateTime.now().hour - newHour;
-      newBAL = oldBAL - (0.15 * deltaT);
+      newBAL = oldBAL - (0.15 * deltaT);     
       if (newBAL < 0) newBAL = 0;
       if (newBAL >= 0.5) drive = false;
-      notifyListeners(); // Notifica i listener per aggiornare l'interfaccia utente
+      oldBAL=newBAL; 
+      notifyListeners(); 
     }
   }
  Timer? _timer;
