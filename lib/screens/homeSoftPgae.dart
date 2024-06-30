@@ -124,7 +124,7 @@ class _HomeSoftPage extends State<HomeSoftPage> {
               Consumer<HomeProvider>(builder: (context, data, child) {
                 if (data.drive) {
                   return const Text(
-                    'You can drvie',
+                    'You can drive',
                     style: TextStyle(color: Colors.green, fontSize: 20),
                   );
                 } else {
@@ -166,7 +166,7 @@ class _HomeSoftPage extends State<HomeSoftPage> {
 
   void goToProfile() {
     Navigator.push(context, MaterialPageRoute(builder: (context) => const ProfilePage()));
-    Provider.of<HomeProvider>(context, listen: false).updateNewBAL();
+    // Provider.of<HomeProvider>(context, listen: false).updateNewBAL();
 
   }
 

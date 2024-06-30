@@ -111,27 +111,34 @@ class HomeProvider extends ChangeNotifier {
   double oldBAL=0;
   bool drive=true;
   int deltaT=0;
+  int newDeltaT=0;
 
   void alcholLevel(int hour, int quantity){
     newHour=hour;
     istantBAL=(quantity*C*1.055)/(weight*K);
-    int deltaT=DateTime.now().hour-newHour;
+    deltaT=DateTime.now().hour-newHour;
     newBAL=istantBAL+(oldBAL-(0.15*deltaT));
     if (newBAL<0) newBAL=0;
     if(newBAL>=0.5) drive=false;
     oldBAL=newBAL;
     istantBAL=0;
+    newDeltaT = deltaT; // new varivle for checking 
   }
 
   // this function update newball when it is called because we want a function of time, without it newBAL is updated only when alcholLevel is used
   // in particular when add drink
   void updateNewBAL() {
     if (newHour != 0) {
-      int deltaT = DateTime.now().hour - newHour;
-      newBAL = oldBAL - (0.15 * deltaT);     
-      if (newBAL < 0) newBAL = 0;
-      if (newBAL >= 0.5) drive = false;
-      oldBAL=newBAL; 
+      deltaT = DateTime.now().hour - newHour;
+      if (deltaT != newDeltaT){
+        int relDeltaT = deltaT - newDeltaT;
+        newBAL = oldBAL - (0.15 * relDeltaT);     
+        if (newBAL < 0) newBAL = 0;
+        if (newBAL >= 0.5) drive = false;
+        oldBAL=newBAL; 
+        newDeltaT = deltaT; 
+      }
+      
       notifyListeners(); 
     }
   }
@@ -163,7 +170,7 @@ class HomeProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-// questo chiama la funzione quando il provider nasce con il changeNotifyProvider. Nel caso specifico il provider nasce nella home.
+// this call the functions when the provider borns, in particular in splash page 
   HomeProvider()  {
     _initPreferences();
     _startTimer();

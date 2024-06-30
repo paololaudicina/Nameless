@@ -35,7 +35,8 @@ class HRDataPlot extends StatelessWidget {
           xValueMapper: (data, _) => data.time,
           yValueMapper: (data, _) => data.value,
           name: 'Heart rate',
-          markerSettings: const MarkerSettings(isVisible: true))
+          markerSettings: const MarkerSettings(isVisible: true),
+          ),
     ];
   }//_getStepDataSeries
 
