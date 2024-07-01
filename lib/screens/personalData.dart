@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:Nameless/provider/homeProvider.dart';
 import 'package:Nameless/screens/homeHardPage.dart';
 import 'package:Nameless/screens/homeSoftPgae.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -131,10 +132,11 @@ class _PersonalDataState extends State<PersonalData> {
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
                             //const bool personalData = true;
-    
+                           // DateTime soberTime=DateTime.now();
+                            String soberDateTime= DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.now());
                             final sp = await SharedPreferences.getInstance();
                             sp.setBool('personalData', true);
-    
+                            sp.setString('soberDateTime', soberDateTime);
                             sp.setString('Name', nameController.text);
                             sp.setString('Surname', surnameController.text);
                             sp.setInt('age', int.parse(ageController.text));

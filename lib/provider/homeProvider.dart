@@ -22,6 +22,7 @@ class HomeProvider extends ChangeNotifier {
   double istantBAL=0;
   List<int> listNumDrinks=[2,4,6,8,10];
   String Sex='';
+  String soberDateTime='';
   bool personalData= false;
   bool _isInitialized = false;
   bool get isInitialized => _isInitialized;
@@ -43,6 +44,7 @@ class HomeProvider extends ChangeNotifier {
      Sex = sp.getString('sex')?? '';
      levelChoice=sp.getInt('levelChoice')?? 0;
      personalData = sp.getBool('personalData') ?? false;
+     soberDateTime=sp.getString('soberDateTime') ?? '';
      weight=sp.getInt('weight') ?? 0;
      if(Sex=='Male') K=0.73;
     
@@ -70,7 +72,7 @@ class HomeProvider extends ChangeNotifier {
         return drink.toMap();
       }).toList();
       return {
-        'date': entry.key.toIso8601String(),
+        'date': entry.key.toIso8601String().split('T').first,
         'drinks': drinksList,
       };
     }).toList();
@@ -170,6 +172,11 @@ class HomeProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void setScore(int score){
+    scoreQuiz = score;
+    notifyListeners();
+  }
+
 // this call the functions when the provider borns, in particular in splash page 
   HomeProvider()  {
     _initPreferences();
@@ -202,6 +209,8 @@ class HomeProvider extends ChangeNotifier {
 
   
 
+  
+
 
 
   //Method to clear the "memory"
@@ -213,3 +222,6 @@ class HomeProvider extends ChangeNotifier {
 
 
 }
+
+
+

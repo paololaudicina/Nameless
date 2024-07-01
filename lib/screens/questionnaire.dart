@@ -194,6 +194,8 @@ class _QuestionnaireState extends State<Questionnaire> {
                   } else {
                     final sp = await SharedPreferences.getInstance();
                     await sp.setInt('scoreQuiz', score);
+                    Provider.of<HomeProvider>(context, listen: false)
+                                .setScore(score);
                     if (levelChoice != 0) {
                       if (personalData) {
                         if (levelChoice == 1) {
@@ -239,3 +241,4 @@ class _QuestionnaireState extends State<Questionnaire> {
     );
   }
 }
+

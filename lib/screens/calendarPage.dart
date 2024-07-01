@@ -38,6 +38,9 @@ class _CalendarState extends State<Calendar> {
   @override
   Widget build(BuildContext context) {
     final homeProvider = Provider.of<HomeProvider>(context);
+   /* if (!homeProvider.isInitialized) {
+      return Center(child: CircularProgressIndicator());
+    }*/
 
     return Scaffold(
       appBar: AppBar(
