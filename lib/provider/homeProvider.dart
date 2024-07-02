@@ -29,6 +29,16 @@ class HomeProvider extends ChangeNotifier {
   final Map<DateTime, List<Drink>> _drinks = {};
   Map<DateTime, List<Drink>> get drinks => _drinks;
 
+
+  Timer? _timer;
+
+  //variabili per il contatore
+  DateTime? soberTime;
+  Timer? _timerSober;
+  String _counterText='0 days, 0 hours, 0 minutes, 0 seconds';
+
+  String get counterText => _counterText; //funzione getter che serve per ottenere il valore corrente della variabile _counterText. Nota che è counterText ad essere mostrato nella HomeHardPage
+
   Future<void> _initPreferences() async {
     await getPreferences();
     _isInitialized = true;
@@ -62,6 +72,13 @@ class HomeProvider extends ChangeNotifier {
         }).toList();
         _drinks[DateTime.parse(drinkMap['date'])] = drinksList;
       }
+    }
+
+    //Recupera il tempo di inizio del contatore
+     String? soberTimeString=sp.getString('soberTime');
+    if (soberTimeString!=null){
+    soberTime=DateTime.parse(soberTimeString);
+    _startTimerSober();
     }
   }
 
@@ -144,7 +161,45 @@ class HomeProvider extends ChangeNotifier {
       notifyListeners(); 
     }
   }
- Timer? _timer;
+
+   void _startTimerSober() {
+    _timerSober?.cancel();  //si cancella il timeSober solo se questo è diverso da null.
+    _timerSober = Timer.periodic(const Duration(seconds: 1), (Timer timer) {
+      _updateCounter();
+    });
+  }
+
+  void _updateCounter() {
+    if (soberTime != null) {
+      Duration difference = DateTime.now().difference(soberTime!);
+      int days = difference.inDays;
+      int hours = difference.inHours % 24;
+      int minutes = difference.inMinutes % 60;
+      int seconds = difference.inSeconds % 60;
+
+      _counterText = '$days days, $hours hours, $minutes minutes, $seconds seconds';
+      notifyListeners();
+    }
+  }
+
+  Future<void> startCounter() async {
+    final sp = await SharedPreferences.getInstance();
+    soberTime = DateTime.now();
+    String formattedTime = DateFormat('yyyy-MM-dd HH:mm:ss').format(soberTime!);
+    sp.setString('soberTime', formattedTime);
+    _startTimerSober();
+    notifyListeners();
+  }
+
+  Future<void> stopCounter() async {
+    final sp = await SharedPreferences.getInstance();
+    sp.remove('soberTime');
+    soberTime = null;
+    _counterText = "0 days, 0 hours, 0 minutes, 0 seconds";
+    _timer?.cancel();
+    notifyListeners();
+  }
+ 
 
   void _startTimer() {
     _timer = Timer.periodic(const Duration(minutes: 5), (timer) {
@@ -177,10 +232,13 @@ class HomeProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+ 
+
 // this call the functions when the provider borns, in particular in splash page 
   HomeProvider()  {
     _initPreferences();
     _startTimer();
+    _startTimerSober();
     notifyListeners();
   }
 

@@ -133,10 +133,10 @@ class _PersonalDataState extends State<PersonalData> {
                           if (_formKey.currentState!.validate()) {
                             //const bool personalData = true;
                            // DateTime soberTime=DateTime.now();
-                            String soberDateTime= DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.now());
+                            
                             final sp = await SharedPreferences.getInstance();
                             sp.setBool('personalData', true);
-                            sp.setString('soberDateTime', soberDateTime);
+                            
                             sp.setString('Name', nameController.text);
                             sp.setString('Surname', surnameController.text);
                             sp.setInt('age', int.parse(ageController.text));
