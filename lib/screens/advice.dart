@@ -7,13 +7,20 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashQuiz extends StatefulWidget {
-  const SplashQuiz({super.key});
+  final int score;
+  const SplashQuiz({required this.score});
 
   @override
   State<SplashQuiz> createState() => _SplashQuizState();
 }
 
 class _SplashQuizState extends State<SplashQuiz> {
+  late int score;
+  @override
+  void initState() {
+    super.initState();
+    score = widget.score;
+  }
   
   Future<void> _softChoice(bool personalData) async {
     final sp = await SharedPreferences.getInstance();
@@ -55,7 +62,7 @@ class _SplashQuizState extends State<SplashQuiz> {
     return Scaffold(
       body: Center(
           child: Consumer<HomeProvider>(builder: (context, provider, child) {
-        if (provider.scoreQuiz < 4) {
+        if (score < 4) {
           return Column(
     //                mainAxisAlignment: MainAxisAlignment.center,
               children: [

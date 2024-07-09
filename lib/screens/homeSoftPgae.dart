@@ -48,7 +48,7 @@ class _HomeSoftPage extends State<HomeSoftPage> {
                     height: 180,
                     child: InkWell(
                       onTap: () => Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => Calendar())),
+                          MaterialPageRoute(builder: (context) => const CalendarPage())),
                       child: Card(
                         color: Colors.lightBlue,
                         shape: RoundedRectangleBorder(
@@ -166,7 +166,7 @@ class _HomeSoftPage extends State<HomeSoftPage> {
 
   void goToProfile() {
     Navigator.push(context, MaterialPageRoute(builder: (context) => const ProfilePage()));
-    // Provider.of<HomeProvider>(context, listen: false).updateNewBAL();
+    Provider.of<HomeProvider>(context, listen: false).updateNewBAL();
 
   }
 

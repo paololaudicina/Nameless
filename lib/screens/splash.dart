@@ -45,7 +45,7 @@ class Splash extends StatelessWidget {
             }
           } else {
             Navigator.pushReplacement(
-                context, MaterialPageRoute(builder: (context) => SplashQuiz()));
+                context, MaterialPageRoute(builder: (context) => SplashQuiz(score: scoreQuiz)));
           }
         } else {
           Navigator.pushReplacement(context,
