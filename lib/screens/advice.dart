@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:Nameless/provider/homeProvider.dart';
 import 'package:Nameless/screens/homeHardPage.dart';
-import 'package:Nameless/screens/homeSoftPgae.dart';
+import 'package:Nameless/screens/homeSoftPage.dart';
 import 'package:Nameless/screens/personalData.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
