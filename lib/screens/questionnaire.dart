@@ -35,6 +35,7 @@ class _QuestionnaireState extends State<Questionnaire> {
 
       // Add the score of the new selection
       score += _quiz.quiz[quizIndex].options.score[optionIndex];
+      print(score);
       answer[quizIndex] = true;
     });
 
@@ -91,7 +92,8 @@ class _QuestionnaireState extends State<Questionnaire> {
           title: const Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text('AUDIT TEST', style: TextStyle(fontSize: 40, color: Colors.white)),
+              Text('AUDIT TEST',
+                  style: TextStyle(fontSize: 40, color: Colors.white)),
             ],
           ),
           backgroundColor: Color.fromARGB(255, 167, 226, 240),
@@ -109,13 +111,15 @@ class _QuestionnaireState extends State<Questionnaire> {
                     side: BorderSide(color: Colors.black, width: 2.0),
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.only(top: 50, left: 20, right: 20),
+                    padding:
+                        const EdgeInsets.only(top: 50, left: 20, right: 20),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
                           _quiz.quiz[0].title,
-                          style: const TextStyle(fontSize: 20, color: Colors.white),
+                          style: const TextStyle(
+                              fontSize: 20, color: Colors.white),
                         ),
                         Padding(
                           padding: const EdgeInsets.only(top: 30),
@@ -138,12 +142,14 @@ class _QuestionnaireState extends State<Questionnaire> {
                     side: BorderSide(color: Colors.black, width: 2.0),
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.only(top: 50, left: 20, right: 20),
+                    padding:
+                        const EdgeInsets.only(top: 50, left: 20, right: 20),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(_quiz.quiz[1].title,
-                            style: const TextStyle(fontSize: 20, color: Colors.white)),
+                            style: const TextStyle(
+                                fontSize: 20, color: Colors.white)),
                         Padding(
                           padding: const EdgeInsets.only(top: 30),
                           child: SizedBox(
@@ -170,7 +176,8 @@ class _QuestionnaireState extends State<Questionnaire> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(_quiz.quiz[2].title,
-                            style: const TextStyle(fontSize: 20, color: Colors.white)),
+                            style: const TextStyle(
+                                fontSize: 20, color: Colors.white)),
                         Padding(
                           padding: const EdgeInsets.only(top: 30),
                           child: SizedBox(
@@ -193,7 +200,9 @@ class _QuestionnaireState extends State<Questionnaire> {
                       ));
                   } else {
                     final sp = await SharedPreferences.getInstance();
-                    await sp.setInt('scoreQuiz', score);
+
+                    Provider.of<HomeProvider>(context, listen: false).setScore(score);  
+
                     if (levelChoice != 0) {
                       if (personalData) {
                         if (levelChoice == 1) {
@@ -214,10 +223,13 @@ class _QuestionnaireState extends State<Questionnaire> {
                                 builder: (context) => PersonalData()));
                       }
                     } else {
+                      await sp.setInt('scoreQuiz', score);
                       Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => SplashQuiz()));
+                              builder: (context) => SplashQuiz(
+                                    score: score,
+                                  )));
                     }
                   }
                 },
@@ -239,3 +251,4 @@ class _QuestionnaireState extends State<Questionnaire> {
     );
   }
 }
+

@@ -1,24 +1,17 @@
 class Drink {
-  String name;
-  int quantity;
-  int hour;
+    final int quantity;  
+    final int hour;
+    
+    Drink({required this.quantity,required this.hour});
 
-  Drink({required this.name, required this.quantity, required this.hour});
+    // method that convert the object Drink in a map  
 
-  Map<String, dynamic> toMap() {
+    Map<String, int> toMap() {
     return {
-      'name': name,
       'quantity': quantity,
-      'hour': hour,
+      'hour': hour, 
     };
   }
 
-  factory Drink.fromMap(Map<String, dynamic> map) {
-    return Drink(
-      name: map['name'] ?? '',
-      quantity: map['quantity'] ?? 0,
-      hour: map['hour'] ?? 0,
-    );
-  }
 }
 
