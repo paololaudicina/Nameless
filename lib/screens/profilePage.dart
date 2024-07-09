@@ -18,9 +18,9 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     // String data = DateFormat('yyyy-MM-dd').format(DateTime.now());
     void remove() {
-      Provider.of<HomeProvider>(context, listen: false).removeAll();
+      Provider.of<HomeProvider>(context,listen: false).removeAll();
       Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => LoginPage()));
+          MaterialPageRoute(builder: (context) => const LoginPage()));
     }
 
     return Scaffold(
