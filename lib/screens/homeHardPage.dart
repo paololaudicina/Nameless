@@ -3,7 +3,9 @@ import 'package:Nameless/models/info.dart';
 import 'package:Nameless/provider/homeProvider.dart';
 import 'package:Nameless/screens/profilePage.dart';
 import 'package:Nameless/widget/lineplot.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeHardPage extends StatefulWidget {
   const HomeHardPage({super.key});
@@ -87,8 +89,10 @@ class _HomeHardPageState extends State<HomeHardPage> {
                   SizedBox(
                     width: 300,
                     height: 100,
+
                     child: Card(
                       color: Colors.lightBlue,
+
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(
                             15.0), // Imposta il raggio degli angoli del bordo
@@ -97,6 +101,7 @@ class _HomeHardPageState extends State<HomeHardPage> {
                             width:
                                 2.0), // Imposta il colore e lo spessore del bordo
                       ),
+
                       child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -114,6 +119,7 @@ class _HomeHardPageState extends State<HomeHardPage> {
                   onPressed: startCounter, child: Text('Start Counter')),
               ElevatedButton(
                   onPressed: stopCounter, child: Text('Stop Counter')),
+
               const SizedBox(
                 height: 20,
               ),
@@ -155,6 +161,7 @@ class _HomeHardPageState extends State<HomeHardPage> {
     Provider.of<HomeProvider>(context, listen: false).fetchHRData(giorno);
   }
 
+
   void startCounter() {
     Provider.of<HomeProvider>(context, listen: false).startCounter();
   }
@@ -163,3 +170,4 @@ class _HomeHardPageState extends State<HomeHardPage> {
     Provider.of<HomeProvider>(context, listen: false).stopCounter();
   }
 }
+

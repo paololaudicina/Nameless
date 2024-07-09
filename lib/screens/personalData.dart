@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:Nameless/provider/homeProvider.dart';
 import 'package:Nameless/screens/homeHardPage.dart';
 import 'package:Nameless/screens/homeSoftPgae.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -130,8 +131,10 @@ class _PersonalDataState extends State<PersonalData> {
                           if (_formKey.currentState!.validate()) {
                             //const bool personalData = true;
 
+
                             final sp = await SharedPreferences.getInstance();
                             sp.setBool('personalData', true);
+
 
                             sp.setString('Name', nameController.text);
                             sp.setString('Surname', surnameController.text);

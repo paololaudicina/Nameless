@@ -25,6 +25,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
     return Scaffold(
       appBar: AppBar(
+
           title: Consumer<HomeProvider>(
             builder: (context, provider, child) {
               return Text('sono ${provider.Sex}');
@@ -72,6 +73,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       title: Text('${provider.weight} kg'),
                     )
                   ]),
+
             ),
             ElevatedButton(
                 onPressed: () {

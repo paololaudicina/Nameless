@@ -12,6 +12,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class HomeProvider extends ChangeNotifier {
   int scoreQuiz = -1;
   int numDrinks = 0;
+
   int levelChoice = 0;
   int weight = 0;
   int newHour = DateTime.now().hour;
@@ -22,6 +23,7 @@ class HomeProvider extends ChangeNotifier {
   List<int> listNumDrinks = [2, 4, 6, 8, 10];
   String Sex = '';
   bool personalData = false;
+
   bool _isInitialized = false;
   bool get isInitialized => _isInitialized;
   String date = DateFormat('yyyy-MM-dd').format(DateTime.now());
@@ -42,6 +44,16 @@ class HomeProvider extends ChangeNotifier {
   String surnameUser='';
   int age=0;
 
+
+
+  Timer? _timer;
+
+  //variabili per il contatore
+  DateTime? soberTime;
+  Timer? _timerSober;
+  String _counterText='0 days, 0 hours, 0 minutes, 0 seconds';
+
+  String get counterText => _counterText; //funzione getter che serve per ottenere il valore corrente della variabile _counterText. Nota che è counterText ad essere mostrato nella HomeHardPage
 
   Future<void> _initPreferences() async {
     await getPreferences();
@@ -71,6 +83,7 @@ class HomeProvider extends ChangeNotifier {
     }
   }
 
+
   void _startTimerSober() {
     _timerSober
         ?.cancel(); //si cancella il timeSober solo se questo è diverso da null.
@@ -78,6 +91,7 @@ class HomeProvider extends ChangeNotifier {
       _updateCounter();
     });
   }
+
 
   void _updateCounter() {
     if (soberTime != null) {
@@ -90,6 +104,13 @@ class HomeProvider extends ChangeNotifier {
       _counterText =
           '$days days, $hours hours, $minutes minutes, $seconds seconds';
       notifyListeners();
+    }
+
+    //Recupera il tempo di inizio del contatore
+     String? soberTimeString=sp.getString('soberTime');
+    if (soberTimeString!=null){
+    soberTime=DateTime.parse(soberTimeString);
+    _startTimerSober();
     }
   }
 
@@ -104,6 +125,7 @@ class HomeProvider extends ChangeNotifier {
 
   Future<void> stopCounter() async {
     final sp = await SharedPreferences.getInstance();
+
     sp.remove('soberTime');
     soberTime = null;
     _counterText = "0 days, 0 hours, 0 minutes, 0 seconds";
@@ -121,6 +143,7 @@ class HomeProvider extends ChangeNotifier {
     Map<String, int> mapDrink = drink.toMap();
     if (dictionaryDrinks.containsKey(date)) {
       dictionaryDrinks[date]?.add(mapDrink);
+
     } else {
       dictionaryDrinks[date] = [mapDrink];
     }
@@ -260,7 +283,9 @@ class HomeProvider extends ChangeNotifier {
     }
   }
 
+
   Timer? _timer;
+
 
   void _startTimer() {
     _timer = Timer.periodic(const Duration(minutes: 5), (timer) {
@@ -299,11 +324,13 @@ class HomeProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+
 // this call the functions when the provider borns, in particular in splash page
   HomeProvider() {
     _initPreferences();
     _startTimer();
     _loadDrinks();
+
     _startTimerSober();
     notifyListeners();
   }
@@ -323,8 +350,10 @@ class HomeProvider extends ChangeNotifier {
       } //for
       //remember to notify the listeners
       notifyListeners();
+
     } //if
   } //fetchStepData
+
 
   //Method to clear the "memory"
   void clearData() {
@@ -332,3 +361,6 @@ class HomeProvider extends ChangeNotifier {
     notifyListeners();
   } //clearData
 }
+
+
+

@@ -57,7 +57,7 @@ class _CalendarPageState extends State<CalendarPage> {
 
   @override
   Widget build(BuildContext context) {
-   
+
 
     void _onDaySelected(DateTime selectedDay, DateTime focusedDay) {
       if (_isFutureDay(selectedDay)) {
