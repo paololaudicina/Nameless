@@ -30,9 +30,11 @@ class _LoginPage extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    int scoreQuiz = Provider.of<HomeProvider>(context,listen: false).scoreQuiz;
-    int levelChoice = Provider.of<HomeProvider>(context, listen: false).levelChoice;
-    bool personalData = Provider.of<HomeProvider>(context,listen: false).personalData;
+    int scoreQuiz = Provider.of<HomeProvider>(context, listen: false).scoreQuiz;
+    int levelChoice =
+        Provider.of<HomeProvider>(context, listen: false).levelChoice;
+    bool personalData =
+        Provider.of<HomeProvider>(context, listen: false).personalData;
     Size size = MediaQuery.of(context).size;
 
     return SafeArea(
@@ -228,46 +230,45 @@ class _LoginPage extends State<LoginPage> {
                                                 passController.text);
                                             //bool flag = true;
                                             //await sp.setBool('flag', flag);
-                                            if (scoreQuiz!= -1) {
-                                              if (levelChoice != 0){
-                                                if(personalData!=false){
-                                                  if(levelChoice==1){
+                                            if (scoreQuiz != -1) {
+                                              if (levelChoice != 0) {
+                                                if (personalData != false) {
+                                                  if (levelChoice == 1) {
                                                     Navigator.pushReplacement(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          HomeSoftPage()));
-                                                  }else {
+                                                        context,
+                                                        MaterialPageRoute(
+                                                            builder: (context) =>
+                                                                HomeSoftPage()));
+                                                  } else {
                                                     Navigator.pushReplacement(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          HomeHardPage()));
-
+                                                        context,
+                                                        MaterialPageRoute(
+                                                            builder: (context) =>
+                                                                HomeHardPage()));
                                                   }
-                                                }else{
+                                                } else {
                                                   Navigator.pushReplacement(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          PersonalData()));
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              PersonalData()));
                                                 }
-
-                                              }else{
+                                              } else {
                                                 Navigator.pushReplacement(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          SplashQuiz()));
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            SplashQuiz(
+                                                                score:
+                                                                    scoreQuiz)));
                                               }
-                                            }else{
+                                            } else {
                                               Navigator.pushReplacement(
                                                   context,
                                                   MaterialPageRoute(
                                                       builder: (context) =>
                                                           Questionnaire()));
                                             }
-                                           
                                           } else {
                                             ScaffoldMessenger.of(context)
                                               ..removeCurrentSnackBar()

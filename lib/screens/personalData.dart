@@ -101,29 +101,27 @@ class _PersonalDataState extends State<PersonalData> {
                           labelText: 'weight',
                         )),
                     SizedBox(height: 15),
-                    Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Radio<String>(
-                            value: 'Male',
-                            groupValue: _selectedSex,
-                            onChanged: (String? value) {
-                              setState(() {
-                                _selectedSex = value;
-                              });
-                            },
-                          ),
-                          const Text('Male'),
-                          Radio<String>(
-                              value: 'Female',
-                              groupValue: _selectedSex,
-                              onChanged: (String? value) {
-                                setState(() {
-                                  _selectedSex = value;
-                                });
-                              }),
-                          const Text('Female'),
-                        ]),
+                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                      Radio<String>(
+                        value: 'Male',
+                        groupValue: _selectedSex,
+                        onChanged: (String? value) {
+                          setState(() {
+                            _selectedSex = value;
+                          });
+                        },
+                      ),
+                      const Text('Male'),
+                      Radio<String>(
+                          value: 'Female',
+                          groupValue: _selectedSex,
+                          onChanged: (String? value) {
+                            setState(() {
+                              _selectedSex = value;
+                            });
+                          }),
+                      const Text('Female'),
+                    ]),
                     const SizedBox(
                       height: 15,
                     ),
@@ -131,10 +129,10 @@ class _PersonalDataState extends State<PersonalData> {
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
                             //const bool personalData = true;
-    
+
                             final sp = await SharedPreferences.getInstance();
                             sp.setBool('personalData', true);
-    
+
                             sp.setString('Name', nameController.text);
                             sp.setString('Surname', surnameController.text);
                             sp.setInt('age', int.parse(ageController.text));
@@ -142,12 +140,14 @@ class _PersonalDataState extends State<PersonalData> {
                                 'weight', int.parse(weightController.text));
                             sp.setString('sex', _selectedSex!);
                             Provider.of<HomeProvider>(context, listen: false)
-                                .setPersonaData(true);
-                            int levelChoice = Provider.of<HomeProvider>(
-                                    context,
+                                .setPersonaData(
+                              true,
+                            );
+
+                            int levelChoice = Provider.of<HomeProvider>(context,
                                     listen: false)
                                 .levelChoice;
-    
+
                             if (levelChoice == 1) {
                               Navigator.pushReplacement(
                                   context,
