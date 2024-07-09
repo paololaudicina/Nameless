@@ -50,7 +50,7 @@ class HomeProvider extends ChangeNotifier {
 
 
 
-  Future<void> _initPreferences() async {
+  Future<void> initPreferences() async {
     await getPreferences();
     _isInitialized = true;
     notifyListeners();
@@ -305,7 +305,7 @@ class HomeProvider extends ChangeNotifier {
 
 // this call the functions when the provider borns, in particular in splash page
   HomeProvider() {
-    _initPreferences();
+    initPreferences();
     _startTimer();
     _loadDrinks();
     _startTimerSober();

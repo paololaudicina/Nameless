@@ -1,7 +1,7 @@
 import 'package:Nameless/screens/personalData.dart';
 import 'package:flutter/material.dart';
 import 'package:Nameless/provider/homeProvider.dart';
-import 'package:Nameless/screens/login.dart';
+import 'package:Nameless/screens/splash.dart';
 // import 'package:intl/intl.dart';
 
 import 'package:provider/provider.dart';
@@ -17,10 +17,12 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     // String data = DateFormat('yyyy-MM-dd').format(DateTime.now());
-    void remove() {
-      Provider.of<HomeProvider>(context,listen: false).removeAll();
-      Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => const LoginPage()));
+    void remove(){
+      Provider.of<HomeProvider>(context, listen: false).removeAll();
+      
+      //Provider.of<HomeProvider>(context, listen: false).initPreferences();
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (context) => Splash()), (Route<dynamic> route) => false,);
     }
 
     return Scaffold(
