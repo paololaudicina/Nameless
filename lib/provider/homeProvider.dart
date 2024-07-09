@@ -273,10 +273,6 @@ class HomeProvider extends ChangeNotifier {
     }
   }
 
-
-
-
-
   void _startTimer() {
     _timer = Timer.periodic(const Duration(minutes: 5), (timer) {
       // update newBAL every 5 minutes
@@ -292,9 +288,6 @@ class HomeProvider extends ChangeNotifier {
     await sp.remove('scoreQuiz');
     await sp.remove('levelChoice');
     await sp.remove('personalData');
-    scoreQuiz = -1;
-    levelChoice = 0;
-    personalData = false;
     notifyListeners();
   }
 
@@ -315,29 +308,51 @@ class HomeProvider extends ChangeNotifier {
     _initPreferences();
     _startTimer();
     _loadDrinks();
-
     _startTimerSober();
     notifyListeners();
   }
 
   List<HeartRateData> heartrateData = [];
+  bool checkHRData = false;
 
   void fetchHRData(DateTime giorno) async {
-    giorno = giorno.subtract(const Duration(days: 10));
+    // giorno = giorno.subtract(const Duration(days: 10));
+    checkHRData = false;
+    heartrateData.clear();
     String day = DateFormat('y-M-d').format(giorno);
     //Get the response
     final data = await Impact().fetchHeartRateData(day);
-    //if OK parse the response adding all the elements to the list, otherwise do nothing
     if (data != null) {
       for (var i = 0; i < data['data']['data'].length; i++) {
         heartrateData.add(HeartRateData.fromJson(
             data['data']['date'], data['data']['data'][i]));
       } //for
-      //remember to notify the listeners
-      notifyListeners();
 
     } //if
+    checkHRData = true;
+    notifyListeners();
+    
   } //fetchStepData
+
+  DateTime showDate = DateTime.now().subtract(const Duration(days:1));
+
+  void subtractDate(){
+    checkHRData = false;
+    showDate = showDate.subtract(const Duration(days:1));
+    heartrateData.clear();
+    fetchHRData(showDate);
+    notifyListeners();
+
+  }
+
+  void addDate(){
+    checkHRData = false;
+    showDate = showDate.add(const Duration(days:1));
+    heartrateData.clear();
+    fetchHRData(showDate);
+    notifyListeners();
+
+  }
 
 
   //Method to clear the "memory"

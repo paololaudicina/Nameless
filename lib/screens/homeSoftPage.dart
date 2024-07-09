@@ -1,5 +1,6 @@
 import 'package:Nameless/screens/activity.dart';
 import 'package:Nameless/screens/calendarPage.dart';
+import 'package:Nameless/screens/chartPage.dart';
 import 'package:flutter/material.dart';
 import 'package:Nameless/models/info.dart';
 import 'package:Nameless/provider/homeProvider.dart';
@@ -100,19 +101,22 @@ class _HomeSoftPage extends State<HomeSoftPage> {
                   SizedBox(
                     width: 180,
                     height: 180,
-                    child: Card(
-                      color: Colors.lightBlue,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(
-                            15.0), // Imposta il raggio degli angoli del bordo
-                        side: const BorderSide(
-                            color: Colors.black,
-                            width:
-                                2.0), // Imposta il colore e lo spessore del bordo
-                      ),
-                      child: const Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [Icon(Icons.car_crash), Text('DRIVE')],
+                    child: InkWell(
+                      onTap: () {fecthHRData();},
+                      child: Card(
+                        color: Colors.lightBlue,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(
+                              15.0), // Imposta il raggio degli angoli del bordo
+                          side: const BorderSide(
+                              color: Colors.black,
+                              width:
+                                  2.0), // Imposta il colore e lo spessore del bordo
+                        ),
+                        child: const Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [Icon(Icons.insert_chart), Text('CHARTS')],
+                        ),
                       ),
                     ),
                   ),
@@ -134,22 +138,7 @@ class _HomeSoftPage extends State<HomeSoftPage> {
                   );
                 }
               }),
-              ElevatedButton(
-                  onPressed: () {
-                    fecthHRData();
-                  },
-                  child: const Text('showPlot')),
-              const SizedBox(
-                height: 20,
-              ),
-              Consumer<HomeProvider>(builder: (context, data, child) {
-                if (data.heartrateData.isEmpty) {
-                  return Text(
-                      'nothing to display ${data.heartrateData.length}');
-                } else {
-                  return HRDataPlot(heartrateData: data.heartrateData);
-                }
-              }),
+              
               const SizedBox(
                 height: 20,
               ),
@@ -171,7 +160,9 @@ class _HomeSoftPage extends State<HomeSoftPage> {
   }
 
   void fecthHRData() {
-    DateTime giorno = DateTime.now();
+    DateTime giorno = DateTime.now().subtract(const Duration(days: 1));
     Provider.of<HomeProvider>(context, listen: false).fetchHRData(giorno);
+    Navigator.push(context,MaterialPageRoute(builder: (context) => const ChartPage()));
   }
+
 }

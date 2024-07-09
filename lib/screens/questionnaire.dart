@@ -3,7 +3,7 @@ import 'package:Nameless/models/Quiz.dart';
 import 'package:Nameless/provider/homeProvider.dart';
 import 'package:Nameless/screens/advice.dart';
 import 'package:Nameless/screens/homeHardPage.dart';
-import 'package:Nameless/screens/homeSoftPgae.dart';
+import 'package:Nameless/screens/homeSoftPage.dart';
 import 'package:Nameless/screens/personalData.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -82,9 +82,9 @@ class _QuestionnaireState extends State<Questionnaire> {
   @override
   Widget build(BuildContext context) {
     int levelChoice =
-        Provider.of<HomeProvider>(context, listen: false).levelChoice;
+        Provider.of<HomeProvider>(context,listen: false).levelChoice; ////atttendhdhhfhfhgh
     bool personalData =
-        Provider.of<HomeProvider>(context, listen: false).personalData;
+        Provider.of<HomeProvider>(context,listen: false).personalData;
     return SafeArea(
       child: Scaffold(
         backgroundColor: Color.fromARGB(255, 167, 226, 240),

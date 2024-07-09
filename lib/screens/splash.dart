@@ -4,7 +4,7 @@ import 'package:lottie/lottie.dart';
 import 'package:Nameless/provider/homeProvider.dart';
 import 'package:Nameless/screens/advice.dart';
 import 'package:Nameless/screens/homeHardPage.dart';
-import 'package:Nameless/screens/homeSoftPgae.dart';
+import 'package:Nameless/screens/homeSoftPage.dart';
 import 'package:Nameless/screens/login.dart';
 import 'package:Nameless/screens/personalData.dart';
 import 'package:Nameless/screens/questionnaire.dart';
