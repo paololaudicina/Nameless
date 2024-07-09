@@ -48,12 +48,7 @@ class HomeProvider extends ChangeNotifier {
 
   Timer? _timer;
 
-  //variabili per il contatore
-  DateTime? soberTime;
-  Timer? _timerSober;
-  String _counterText='0 days, 0 hours, 0 minutes, 0 seconds';
 
-  String get counterText => _counterText; //funzione getter che serve per ottenere il valore corrente della variabile _counterText. Nota che è counterText ad essere mostrato nella HomeHardPage
 
   Future<void> _initPreferences() async {
     await getPreferences();
@@ -106,12 +101,7 @@ class HomeProvider extends ChangeNotifier {
       notifyListeners();
     }
 
-    //Recupera il tempo di inizio del contatore
-     String? soberTimeString=sp.getString('soberTime');
-    if (soberTimeString!=null){
-    soberTime=DateTime.parse(soberTimeString);
-    _startTimerSober();
-    }
+   
   }
 
   Future<void> startCounter() async {
@@ -284,7 +274,7 @@ class HomeProvider extends ChangeNotifier {
   }
 
 
-  Timer? _timer;
+
 
 
   void _startTimer() {
@@ -310,11 +300,6 @@ class HomeProvider extends ChangeNotifier {
 
   void setPersonaData(bool value){
     personalData = value;
-    // nameUser = name;
-    // surnameUser = surname;
-    // age = age;
-    // Sex = sex;
-    // weight = weight;
     notifyListeners();
   }
 
