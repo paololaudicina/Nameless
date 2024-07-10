@@ -1,10 +1,13 @@
+
+
 import 'package:Nameless/screens/personalData.dart';
 import 'package:flutter/material.dart';
 import 'package:Nameless/provider/homeProvider.dart';
 import 'package:Nameless/screens/splash.dart';
-// import 'package:intl/intl.dart';
+
 
 import 'package:provider/provider.dart';
+
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -17,12 +20,13 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     // String data = DateFormat('yyyy-MM-dd').format(DateTime.now());
-    void remove(){
+    void remove()async{
       Provider.of<HomeProvider>(context, listen: false).removeAll();
       
-      //Provider.of<HomeProvider>(context, listen: false).initPreferences();
+      Provider.of<HomeProvider>(context, listen: false).initPreferences();
       Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(builder: (context) => Splash()), (Route<dynamic> route) => false,);
+          
     }
 
     return Scaffold(
@@ -39,7 +43,7 @@ class _ProfilePageState extends State<ProfilePage> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 IconButton(
-                    onPressed: () async {
+                    onPressed: ()  async{
                       remove();
                     },
                     icon: const Icon(Icons.logout)),
@@ -68,7 +72,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                     ListTile(
                       leading: Text('Sex:'),
-                      title: Text('${provider.Sex}'),
+                      title: Text(provider.Sex),
                     ),
                     ListTile(
                       leading: Text('Weight:'),

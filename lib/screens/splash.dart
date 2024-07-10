@@ -18,6 +18,7 @@ class Splash extends StatelessWidget {
   Future<void> _refreshControl(BuildContext context) async {
     final sp = await SharedPreferences.getInstance();
     var refresh = sp.getString("refreshToken");
+    
     int scoreQuiz = Provider.of<HomeProvider>(context, listen: false).scoreQuiz;
     int levelChoice = Provider.of<HomeProvider>(context, listen: false).levelChoice;
     bool personalData = Provider.of<HomeProvider>(context, listen: false).personalData;
@@ -58,24 +59,6 @@ class Splash extends StatelessWidget {
     }
   }
 
-  /*@override
-  Widget build(BuildContext context) {
-    Future.delayed(const Duration(seconds: 3), () => _refreshControl(context));
-    return Scaffold(
-        body: Center(
-            child:
-                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-      Container(
-        height: 20,
-        width: 50,
-        child: Lottie.asset('images/chain.json'),
-      ),
-      Container(
-        child: Text('Welcome in your new life'),
-      )
-    ])));
-  }
-}*/
 
  @override
   Widget build(BuildContext context) {

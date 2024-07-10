@@ -142,9 +142,7 @@ class _PersonalDataState extends State<PersonalData> {
                                 'weight', int.parse(weightController.text));
                             sp.setString('sex', _selectedSex!);
                             Provider.of<HomeProvider>(context, listen: false)
-                                .setPersonaData(
-                              true,
-                            );
+                                .initPreferences();
 
                             int levelChoice = Provider.of<HomeProvider>(context,
                                     listen: false)
