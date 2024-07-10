@@ -1,79 +1,4 @@
 
-/*import 'package:flutter/material.dart';
-import 'package:nameless/utils/list.dart';
-
-class Activity extends StatefulWidget {
-  const Activity({super.key});
-
-  @override
-  State<Activity> createState() => _ActivityState();
-}
-
-class _ActivityState extends State<Activity> {
-  final catalogue = CatalogueList();
-  late final List<Map<String, dynamic>> _items = List.generate(
-    10,
-    (index) => {
-      "id": index,
-      "title": catalogue.list[index].title,
-      "content": catalogue.list[index].description,
-    },
-  );
-
-  @override
-  Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text('Creative activities'),
-        ),
-        body: ListView.builder(
-          itemCount: _items.length,
-          itemBuilder: (context, index) {
-            final item = _items[index];
-            return Column(
-              children: [
-                Card(
-                  
-                  color: Colors.blue,
-                  elevation: 4,
-                  child: ExpansionTile(
-                    iconColor: Colors.white,
-                    collapsedIconColor: Colors.white,
-                    childrenPadding: const EdgeInsets.symmetric(
-                      vertical: 20,
-                      horizontal: 20,
-                    ),
-                    expandedCrossAxisAlignment: CrossAxisAlignment.end,
-                    title: Text(
-                      item['title'],
-                      style: const TextStyle(color: Colors.white),
-                    ),
-                    children: [
-                      Text(
-                        item['content'],
-                        style: const TextStyle(color: Colors.white),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(height: 10)
-              ],
-            );
-          },
-        ),
-      ),
-    );
-  }
-}*/
-
-//late final Keyword: This is used to declare a non-nullable variable that will be initialized later. 
-//The variable _items is declared with late final to ensure it's only initialized once and guarantees it will be assigned before it's accessed.
-
-//Non-nullable Variables: Using late ensures that the variable is non-nullable and will be assigned before use, 
-//which helps in maintaining null safety.
-
-
 import 'package:flutter/material.dart';
 import 'package:Nameless/models/list.dart';
 
@@ -85,15 +10,7 @@ class Activity extends StatefulWidget {
 }
 
 class _ActivityState extends State<Activity> {
-  final catalogue = CatalogueList();
-  /*late final List<Map<String, dynamic>> _items = List.generate(
-    10,
-    (index) => {
-      "id": index,
-      "title": catalogue.list[index].title,
-      "content": catalogue.list[index].description,
-    },
-  );*/
+  final CatalogueList catalogue = CatalogueList();
 
   @override
   Widget build(BuildContext context) {
@@ -101,9 +18,7 @@ class _ActivityState extends State<Activity> {
       child: Scaffold(
         appBar: AppBar(
           title: Text('Creative activities'),
-          /*actions: [
-          IconButton(onPressed: () => {}, icon: Icon(Icons.search)),
-          ]*/
+          backgroundColor: Colors.lightBlue,
         ),
         body: SingleChildScrollView(
           child: Column(
@@ -119,7 +34,6 @@ class _ActivityState extends State<Activity> {
                 physics: NeverScrollableScrollPhysics(),
                 itemCount: catalogue.list.length,
                 itemBuilder: (context, index) {
-                  //final item = _items[index];
                   return Column(
                     children: [
                       InkWell(
@@ -151,10 +65,15 @@ class _ActivityState extends State<Activity> {
                         },
                         child: Container(
                           height: 100,
-                          width: 300,
+                          width: 400,
                           child: Card(
-                            child: Center(child: Text(catalogue.list[index].title)),
-                            color: Colors.orange,
+                            child: Center(
+                              child: Row(
+                                children: [
+                                  Text(catalogue.list[index].title),
+                                ],
+                              )),
+                            //color: const Color.fromARGB(255, 106, 0, 255),
                            /* child: Stack(
                               children:[
                               Image.asset('images/spaghetti.jpg', width: 400,),

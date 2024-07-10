@@ -32,7 +32,7 @@ class _HomeSoftPage extends State<HomeSoftPage> {
           actions: [
             IconButton(
                 onPressed: () {
-                  softLevelExplanation(context);
+                  levelExplanation(context);
                 },
                 icon: const Icon(Icons.info))
           ],

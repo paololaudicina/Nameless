@@ -16,7 +16,7 @@ class Questionnaire extends StatefulWidget {
 }
 
 class _QuestionnaireState extends State<Questionnaire> {
-  final _quiz = Quiz();
+  final Quiz _quiz = Quiz();
   Map<int, int?> _selectedIndexMap = {};
   List<bool> answer = [false, false, false];
   int score = 0;
@@ -201,7 +201,7 @@ class _QuestionnaireState extends State<Questionnaire> {
                   } else {
                     final sp = await SharedPreferences.getInstance();
 
-                    Provider.of<HomeProvider>(context, listen: false).setScore(score);  
+                    Provider.of<HomeProvider>(context, listen: false).initPreferences();  
 
                     if (levelChoice != 0) {
                       if (personalData) {

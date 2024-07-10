@@ -31,6 +31,7 @@ class _ChartPageState extends State<ChartPage> {
             children: [
               const SizedBox(width: 25,),
               IconButton(onPressed: () {Provider.of<HomeProvider>(context,listen: false).subtractDate();}, icon: const Icon(Icons.navigate_before,size:30)),
+              
               const SizedBox(width: 80,),
                Text(DateFormat('yyyy-MM-dd').format(Provider.of<HomeProvider>(context).showDate),style: const TextStyle(fontSize: 20),),
               const SizedBox(width: 80,),

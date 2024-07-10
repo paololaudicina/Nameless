@@ -16,7 +16,6 @@ class HomeProvider extends ChangeNotifier {
   int levelChoice = 0;
   int weight = 0;
   int newHour = DateTime.now().hour;
-  int prova = 0;
   double C = 13 * 200 * 0.008;
   double K = 0.66;
   double istantBAL = 0;
@@ -47,10 +46,11 @@ class HomeProvider extends ChangeNotifier {
 
 
   Timer? _timer;
+  DateTime showDate=DateTime.now().subtract(const Duration(days: 1));
 
 
 
-  Future<void> _initPreferences() async {
+  Future<void> initPreferences() async {
     await getPreferences();
     _isInitialized = true;
     notifyListeners();
@@ -120,11 +120,6 @@ class HomeProvider extends ChangeNotifier {
     soberTime = null;
     _counterText = "0 days, 0 hours, 0 minutes, 0 seconds";
     _timer?.cancel();
-    notifyListeners();
-  }
-
-  void setScore(int score) {
-    scoreQuiz = score;
     notifyListeners();
   }
 
@@ -284,28 +279,13 @@ class HomeProvider extends ChangeNotifier {
     final sp = await SharedPreferences.getInstance();
     await sp.remove('refreshToken');
     await sp.remove('accessToken');
-    await sp.remove('flag');
-    await sp.remove('scoreQuiz');
-    await sp.remove('levelChoice');
-    await sp.remove('personalData');
-    notifyListeners();
-  }
-
-  void setPersonaData(bool value){
-    personalData = value;
-    notifyListeners();
-  }
-
-
-  void setLevelChoice(int value) {
-    levelChoice = value;
     notifyListeners();
   }
 
 
 // this call the functions when the provider borns, in particular in splash page
   HomeProvider() {
-    _initPreferences();
+    initPreferences();
     _startTimer();
     _loadDrinks();
     _startTimerSober();
@@ -316,7 +296,6 @@ class HomeProvider extends ChangeNotifier {
   bool checkHRData = false;
 
   void fetchHRData(DateTime giorno) async {
-    // giorno = giorno.subtract(const Duration(days: 10));
     checkHRData = false;
     heartrateData.clear();
     String day = DateFormat('y-M-d').format(giorno);
@@ -329,12 +308,11 @@ class HomeProvider extends ChangeNotifier {
       } //for
 
     } //if
+    showDate=giorno;
     checkHRData = true;
     notifyListeners();
     
   } //fetchStepData
-
-  DateTime showDate = DateTime.now().subtract(const Duration(days:1));
 
   void subtractDate(){
     checkHRData = false;

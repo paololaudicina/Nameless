@@ -25,8 +25,7 @@ class _SplashQuizState extends State<SplashQuiz> {
   Future<void> _softChoice(bool personalData) async {
     final sp = await SharedPreferences.getInstance();
         await sp.setInt('levelChoice',1);
-        await sp.setBool('flag_level',true);
-        Provider.of<HomeProvider>(context,listen:false).setLevelChoice(1);
+        Provider.of<HomeProvider>(context,listen:false).initPreferences();
     
          if(!personalData){
           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> PersonalData()));
@@ -40,17 +39,14 @@ class _SplashQuizState extends State<SplashQuiz> {
   Future<void> _hardChoice(bool personalData) async {
     final sp = await SharedPreferences.getInstance();
         await sp.setInt('levelChoice',2);
-        await sp.setBool('flag_level',true);
-        Provider.of<HomeProvider>(context,listen:false).setLevelChoice(2);
-        //MANCA LA GESTIONE DELLA DATA
-    setState(() {
-      if(personalData==false){
+        Provider.of<HomeProvider>(context,listen:false).initPreferences();
+        
+    if(!personalData){
           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> PersonalData()));
         } else{
           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomeHardPage()));
-        }
+          }
 
-    });
   }
 
 
