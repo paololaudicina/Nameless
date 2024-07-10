@@ -1,3 +1,4 @@
+import 'package:Nameless/screens/activity.dart';
 import 'package:Nameless/screens/chartPage.dart';
 import 'package:flutter/material.dart';
 import 'package:Nameless/models/info.dart';
@@ -29,9 +30,17 @@ class _HomeHardPageState extends State<HomeHardPage> {
           ),
           backgroundColor: Colors.blue,
           actions: [
+             IconButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const ProfilePage()));
+                  },
+                  icon: const Icon(Icons.person)),
             IconButton(
                 onPressed: () {
-                  hardLevelExplanation(context);
+                  levelExplanation(context);
                 },
                 icon: const Icon(Icons.info))
           ],
@@ -40,6 +49,83 @@ class _HomeHardPageState extends State<HomeHardPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
+              SizedBox(height: 30),
+                         Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    width: 380,
+                    height: 300,
+
+                    child: Card(
+                     // color: Colors.white,
+
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(
+                            15.0), // Imposta il raggio degli angoli del bordo
+                        side: const BorderSide(
+                            color: Colors.black,
+                            width:
+                                2.0), // Imposta il colore e lo spessore del bordo
+                      ),
+
+                      child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text('You have been sober for', style: TextStyle(fontSize: 23),),
+                            Consumer<HomeProvider>(
+                                builder: (context, data, child) {
+                              return Text(data.counterText, style: TextStyle(fontSize: 18),);
+                            }),
+                            SizedBox(height: 30),
+                                    Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+              SizedBox(
+                      height: 150,
+                      width: 150,
+                      child: InkWell(
+                        onTap: startCounter,
+                        child: Card(
+                          child:Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text('Start Counter',style: TextStyle(fontSize: 18),),
+                              SizedBox(height: 10),
+                              Image.asset('images/start.png',height: 40,width: 40,),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  SizedBox(width: 20),
+                SizedBox(
+                      height: 150,
+                      width: 150,
+                      child: InkWell(
+                        onTap: stopCounter,
+                        child: Card(
+                          child:Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text('Stop Counter',style: TextStyle(fontSize: 18),),
+                              SizedBox(height: 10),
+                              Image.asset('images/stop.png',height: 40,width: 40,),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                ]
+              ),
+                          ]),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 30),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
@@ -68,73 +154,32 @@ class _HomeHardPageState extends State<HomeHardPage> {
                   SizedBox(
                     width: 180,
                     height: 180,
-                    child: Card(
-                      color: Colors.lightBlue,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(
-                            15.0), // Imposta il raggio degli angoli del bordo
-                        side: const BorderSide(
-                            color: Colors.black,
-                            width:
-                                2.0), // Imposta il colore e lo spessore del bordo
-                      ),
-                      child: const Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [Icon(Icons.local_activity), Text('HOBBY')],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    width: 300,
-                    height: 100,
-
-                    child: Card(
-                      color: Colors.lightBlue,
-
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(
-                            15.0), // Imposta il raggio degli angoli del bordo
-                        side: const BorderSide(
-                            color: Colors.black,
-                            width:
-                                2.0), // Imposta il colore e lo spessore del bordo
-                      ),
-
-                      child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text('You have been sober for'),
-                            Consumer<HomeProvider>(
-                                builder: (context, data, child) {
-                              return Text(data.counterText);
-                            }),
-                          ]),
-                    ),
-                  ),
-                ],
-              ),
-              ElevatedButton(
-                  onPressed: startCounter, child: Text('Start Counter')),
-              ElevatedButton(
-                  onPressed: stopCounter, child: Text('Stop Counter')),
-
-              
-              const SizedBox(
-                height: 20,
-              ),
-              IconButton(
-                  onPressed: () {
+                    child: InkWell(
+                      onTap: () {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const ProfilePage()));
-                  },
-                  icon: const Icon(Icons.person))
+                            builder: (context) => const Activity()));
+                      },
+                      child: Card(
+                        color: Colors.lightBlue,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(
+                              15.0), // Imposta il raggio degli angoli del bordo
+                          side: const BorderSide(
+                              color: Colors.black,
+                              width:
+                                  2.0), // Imposta il colore e lo spessore del bordo
+                        ),
+                        child: const Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [Icon(Icons.local_activity), Text('HOBBY')],
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ],
           ),
         ),
