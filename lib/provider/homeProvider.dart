@@ -77,7 +77,7 @@ class HomeProvider extends ChangeNotifier {
       soberTime = DateTime.parse(soberTimeString);
       _startTimerSober();
     }
-    // notifyListeners();
+    notifyListeners();
   }
 
   void _startTimerSober() {
@@ -107,7 +107,9 @@ class HomeProvider extends ChangeNotifier {
     soberTime = DateTime.now().subtract(Duration(days: 3));
     String formattedTime = DateFormat('yyyy-MM-dd HH:mm:ss').format(soberTime!);
     sp.setString('soberTime', formattedTime);
+    populateListDate(soberTime);
     _startTimerSober();
+    await getPreferences();
     notifyListeners();
   }
 
@@ -261,9 +263,7 @@ class HomeProvider extends ChangeNotifier {
 
   void removeAll() async {
     final sp = await SharedPreferences.getInstance();
-    await sp.remove('refreshToken');
-    await sp.remove('accessToken');
-    //await sp.clear();
+    await sp.clear();
     getPreferences();
     notifyListeners();
   }
@@ -273,16 +273,23 @@ class HomeProvider extends ChangeNotifier {
     initPreferences();
     _startTimer();
     _loadDrinks();
+    
     _startTimerSober();
+   
     notifyListeners();
   }
 
+  // block soft level data
   List<HeartRateData> heartrateData = [];
+  List<int> listHRValue = [];
+  // int initHour=0;
   bool checkHRData = false;
+  int heartRateMean = 0;
 
   void fetchHRData(DateTime giorno) async {
     checkHRData = false;
     heartrateData.clear();
+    listHRValue.clear();
     String day = DateFormat('y-M-d').format(giorno);
     //Get the response
     final data = await Impact().fetchHeartRateData(day);
@@ -290,12 +297,87 @@ class HomeProvider extends ChangeNotifier {
       for (var i = 0; i < data['data']['data'].length; i++) {
         heartrateData.add(HeartRateData.fromJson(
             data['data']['date'], data['data']['data'][i]));
+        listHRValue.add(heartrateData[i].value);
       } //for
+      int somma = listHRValue.reduce((value, element) => element + value);
+      heartRateMean = (somma / listHRValue.length).floor();
     } //if
+
     showDate = giorno;
     checkHRData = true;
+    meanHRrelative();
     notifyListeners();
   } //fetchStepData
+
+  String showDateFormatted = '';
+  int hourDrink = 0;
+  int initialIndex = 0;
+  int finalIndex = 0;
+  Map<int, int> mapMeanHR = {};
+  List<int> listKey = [];
+  int counter = 0;
+  bool initFlagHR = true;
+  bool finalFlagHR = true;
+
+  void meanHRrelative() {
+    showDateFormatted = DateFormat('yyyy-MM-dd').format(showDate);
+    mapMeanHR.clear();
+    listKey.clear();
+    initFlagHR = true;
+    finalFlagHR = true;
+    if (checkHRData) {
+      if (dictionaryDrinks.containsKey(showDateFormatted)) {
+        int lenListDrink = dictionaryDrinks[showDateFormatted]!.length;
+        for (var k = 0; k < lenListDrink; k++) {
+          hourDrink = dictionaryDrinks[showDateFormatted]![k]['hour']!;
+
+          for (var i = 0; i < heartrateData.length; i++) {
+            if (heartrateData[i].time.hour == hourDrink) {
+              initialIndex = i;
+              initFlagHR = false;
+              break;
+            }
+          }
+
+          for (var i = 0; i < heartrateData.length; i++) {
+            if (hourDrink == 23){
+              finalIndex = listHRValue.length-1;
+              finalFlagHR = false;
+              break;
+
+            }else if (heartrateData[i].time.hour == hourDrink + 1) {
+              finalIndex = i;
+              finalFlagHR = false;
+              break;
+            }
+            
+          }
+          
+
+          if (!initFlagHR && !finalFlagHR) {
+            int sumHRrel = listHRValue
+                .sublist(initialIndex, finalIndex)
+                .reduce((value, element) => value + element);
+            int meanHRrel = ((sumHRrel) /
+                    (listHRValue.sublist(initialIndex, finalIndex).length))
+                .floor();
+
+            if (!mapMeanHR.containsKey(hourDrink)) {
+              mapMeanHR[hourDrink] = meanHRrel;
+              listKey.add(hourDrink);
+            }
+          } else {
+            if (!mapMeanHR.containsKey(hourDrink)) {
+              mapMeanHR[hourDrink] = 0;
+              listKey.add(hourDrink);
+            }
+          }
+        }
+      }
+    }
+  }
+
+  
 
   void subtractDate() {
     checkHRData = false;
@@ -319,9 +401,10 @@ class HomeProvider extends ChangeNotifier {
     notifyListeners();
   } //clearData
 
-//block hard level data
+  //block hard level data
   List<DateTime> listDate = [];
   void populateListDate(DateTime? soberTime) {
+    listDate.clear();
     if (soberTime != null) {
       listDate.add(soberTime);
       listDate.add(soberTime.add(const Duration(days: 1)));
@@ -330,15 +413,18 @@ class HomeProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Map<String, int> meanHRHard = {};
-  List<int> listHRValue = [];
-  int heartRateMean = 0;
+  Map<String,int> meanHRHard = {};
+  bool checkHRHard= false;
 
   void fecthHRDataHard(List<DateTime> listDate) async {
+    checkHRHard= false;
     if (listDate.isNotEmpty) {
-      heartrateData.clear();
-      listHRValue.clear();
+       meanHRHard.clear();
+      
       for (var i = 0; i < listDate.length; i++) {
+        heartrateData.clear();
+      listHRValue.clear();
+     
         DateTime giorno = listDate[i];
         String day = DateFormat('y-M-d').format(giorno);
         final data = await Impact().fetchHeartRateData(day);
@@ -351,9 +437,12 @@ class HomeProvider extends ChangeNotifier {
           int somma = listHRValue.reduce((value, element) => element + value);
           heartRateMean = (somma / listHRValue.length).floor();
           meanHRHard[day] = heartRateMean;
+
         } //if
       }
+      checkHRHard = true;
     }
     notifyListeners();
   }
+
 }

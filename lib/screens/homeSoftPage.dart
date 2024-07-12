@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:Nameless/models/info.dart';
 import 'package:Nameless/provider/homeProvider.dart';
 import 'package:Nameless/screens/profilePage.dart';
-import 'package:Nameless/widget/lineplot.dart';
 import 'package:provider/provider.dart';
 
 class HomeSoftPage extends StatefulWidget {
@@ -31,6 +30,12 @@ class _HomeSoftPage extends State<HomeSoftPage> {
           backgroundColor: Colors.blue,
           actions: [
             IconButton(
+              onPressed: () {
+                goToProfile();
+              },
+              icon: const Icon(Icons.person),
+            ),
+            IconButton(
                 onPressed: () {
                   levelExplanation(context);
                 },
@@ -48,8 +53,10 @@ class _HomeSoftPage extends State<HomeSoftPage> {
                     width: 180,
                     height: 180,
                     child: InkWell(
-                      onTap: () => Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => const CalendarPage())),
+                      onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const CalendarPage())),
                       child: Card(
                         color: Colors.lightBlue,
                         shape: RoundedRectangleBorder(
@@ -102,7 +109,9 @@ class _HomeSoftPage extends State<HomeSoftPage> {
                     width: 180,
                     height: 180,
                     child: InkWell(
-                      onTap: () {fecthHRData();},
+                      onTap: () {
+                        fecthHRData();
+                      },
                       child: Card(
                         color: Colors.lightBlue,
                         shape: RoundedRectangleBorder(
@@ -120,8 +129,6 @@ class _HomeSoftPage extends State<HomeSoftPage> {
                       ),
                     ),
                   ),
-                  
-                  
                 ],
               ),
               const SizedBox(
@@ -135,39 +142,51 @@ class _HomeSoftPage extends State<HomeSoftPage> {
                     child: Card(
                       color: Colors.green[200],
                       child: Column(
-                         mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           SizedBox(height: 20),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              
-                              Image.asset('images/rate.png',height: 60,width: 60),
-                              SizedBox(width:25),
+                              Image.asset('images/rate.png',
+                                  height: 60, width: 60),
+                              SizedBox(width: 25),
                               Column(
-                                 mainAxisAlignment: MainAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Text('Your blood Alchool Level',style: TextStyle(fontSize: 18),),
-                                  Text('${((data.totalBAC * 100).roundToDouble()) / 100} g/L',style: TextStyle(fontSize:15),),
+                                  Text(
+                                    'Your blood Alchool Level',
+                                    style: TextStyle(fontSize: 18),
+                                  ),
+                                  Text(
+                                    '${((data.totalBAC * 100).roundToDouble()) / 100} g/L',
+                                    style: TextStyle(fontSize: 15),
+                                  ),
                                 ],
                               )
                             ],
                           ),
-                          SizedBox(height:20),
-                      
+                          SizedBox(height: 20),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Image.asset('images/safeDriver.png',height: 60,width: 60),
-                             SizedBox(width:20),
-                              Text('You are a safe driver',style: TextStyle(fontSize: 20),),
-                                
+                              Image.asset('images/safeDriver.png',
+                                  height: 60, width: 60),
+                              SizedBox(width: 20),
+                              Text(
+                                'You are a safe driver',
+                                style: TextStyle(fontSize: 20),
+                              ),
                             ],
                           ),
-                          SizedBox(height:20),
+                          SizedBox(height: 20),
                           Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: Text('*The calculation of the blood alcohol level was done considering a V = 200 mL at 13%', style: TextStyle(fontSize: 11),textAlign: TextAlign.center,),
+                            child: Text(
+                              '*The calculation of the blood alcohol level was done considering a V = 200 mL at 13%',
+                              style: TextStyle(fontSize: 11),
+                              textAlign: TextAlign.center,
+                            ),
                           ),
                         ],
                       ),
@@ -180,39 +199,51 @@ class _HomeSoftPage extends State<HomeSoftPage> {
                     child: Card(
                       color: Colors.red[200],
                       child: Column(
-                         mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           SizedBox(height: 20),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              
-                              Image.asset('images/rate.png',height: 60,width: 60),
-                              SizedBox(width:25),
+                              Image.asset('images/rate.png',
+                                  height: 60, width: 60),
+                              SizedBox(width: 25),
                               Column(
-                                 mainAxisAlignment: MainAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Text('Your blood Alchool Level',style: TextStyle(fontSize: 18),),
-                                  Text('${((data.totalBAC * 100).roundToDouble()) / 100} g/L',style: TextStyle(fontSize:15),),
+                                  Text(
+                                    'Your blood Alchool Level',
+                                    style: TextStyle(fontSize: 18),
+                                  ),
+                                  Text(
+                                    '${((data.totalBAC * 100).roundToDouble()) / 100} g/L',
+                                    style: TextStyle(fontSize: 15),
+                                  ),
                                 ],
                               )
                             ],
                           ),
-                          SizedBox(height:20),
-                      
+                          SizedBox(height: 20),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Image.asset('images/noSafeDriver.png',height: 60,width: 60),
-                             SizedBox(width:20),
-                              Text('You are not a safe driver',style: TextStyle(fontSize: 20),),
-                                
+                              Image.asset('images/noSafeDriver.png',
+                                  height: 60, width: 60),
+                              SizedBox(width: 20),
+                              Text(
+                                'You are not a safe driver',
+                                style: TextStyle(fontSize: 20),
+                              ),
                             ],
                           ),
-                           SizedBox(height:20),
+                          SizedBox(height: 20),
                           Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: Text('*The calculation of the blood alcohol level was done considering a V = 200 mL at 13%', style: TextStyle(fontSize: 11),textAlign: TextAlign.center,),
+                            child: Text(
+                              '*The calculation of the blood alcohol level was done considering a V = 200 mL at 13%',
+                              style: TextStyle(fontSize: 11),
+                              textAlign: TextAlign.center,
+                            ),
                           ),
                         ],
                       ),
@@ -220,14 +251,9 @@ class _HomeSoftPage extends State<HomeSoftPage> {
                   );
                 }
               }),
-              
               const SizedBox(
                 height: 20,
               ),
-              IconButton(
-                onPressed: () {goToProfile();},
-                icon: const Icon(Icons.person),
-              )
             ],
           ),
         ),
@@ -236,15 +262,15 @@ class _HomeSoftPage extends State<HomeSoftPage> {
   }
 
   void goToProfile() {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => const ProfilePage()));
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => const ProfilePage()));
     Provider.of<HomeProvider>(context, listen: false).updateBAL();
-
   }
 
   void fecthHRData() {
     DateTime giorno = DateTime.now().subtract(const Duration(days: 1));
     Provider.of<HomeProvider>(context, listen: false).fetchHRData(giorno);
-    Navigator.push(context,MaterialPageRoute(builder: (context) => const ChartPage()));
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => const ChartPage()));
   }
-
 }

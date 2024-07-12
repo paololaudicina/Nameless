@@ -141,12 +141,12 @@ class _CalendarPageState extends State<CalendarPage> {
             ),
             floatingActionButton: FloatingActionButton(
               backgroundColor: const Color.fromARGB(255, 71, 169, 248),
-              onPressed: () {_addMeal(_selectedDay);}, 
+              onPressed: () {_addDrink(_selectedDay);}, 
               child: const Icon(Icons.add),
             )),
       );
     }
-    void _addMeal(DateTime _selectedDay) {
+    void _addDrink(DateTime _selectedDay) {
     Provider.of<HomeProvider>(context,listen:false).initNumber();
     String date = DateFormat('yyyy-MM-dd').format(_selectedDay);
     Navigator.push(
