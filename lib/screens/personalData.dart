@@ -128,12 +128,10 @@ class _PersonalDataState extends State<PersonalData> {
                     ElevatedButton(
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
-                            //const bool personalData = true;
-
+                            
 
                             final sp = await SharedPreferences.getInstance();
                             sp.setBool('personalData', true);
-
 
                             sp.setString('Name', nameController.text);
                             sp.setString('Surname', surnameController.text);
@@ -141,23 +139,37 @@ class _PersonalDataState extends State<PersonalData> {
                             sp.setInt(
                                 'weight', int.parse(weightController.text));
                             sp.setString('sex', _selectedSex!);
+                            
                             Provider.of<HomeProvider>(context, listen: false)
-                                .initPreferences();
-
-                            int levelChoice = Provider.of<HomeProvider>(context,
+                                .getPreferences();
+                            bool flagEdit = Provider.of<HomeProvider>(context,
                                     listen: false)
-                                .levelChoice;
+                                .flagEdit;
 
-                            if (levelChoice == 1) {
-                              Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => HomeSoftPage()));
+                            if (!flagEdit) {
+                              int levelChoice = Provider.of<HomeProvider>(
+                                      context,
+                                      listen: false)
+                                  .levelChoice;
+
+                              if (levelChoice == 1) {
+                                Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => HomeSoftPage()));
+                              } else {
+                                Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => HomeHardPage()));
+                              }
                             } else {
-                              Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => HomeHardPage()));
+                              Provider.of<HomeProvider>(context, listen: false)
+                                  .upDateFlagEdit();
+
+                              Provider.of<HomeProvider>(context, listen: false)
+                                  .getPreferences();
+                              Navigator.pop(context);
                             }
                           } else {
                             ScaffoldMessenger.of(context)
@@ -174,4 +186,6 @@ class _PersonalDataState extends State<PersonalData> {
           ),
         ));
   }
+
+  
 }

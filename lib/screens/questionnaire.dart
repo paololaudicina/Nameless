@@ -82,7 +82,7 @@ class _QuestionnaireState extends State<Questionnaire> {
   @override
   Widget build(BuildContext context) {
     int levelChoice =
-        Provider.of<HomeProvider>(context,listen: false).levelChoice; ////atttendhdhhfhfhgh
+        Provider.of<HomeProvider>(context,listen: false).levelChoice; 
     bool personalData =
         Provider.of<HomeProvider>(context,listen: false).personalData;
     return SafeArea(
@@ -200,8 +200,9 @@ class _QuestionnaireState extends State<Questionnaire> {
                       ));
                   } else {
                     final sp = await SharedPreferences.getInstance();
+                   
 
-                    Provider.of<HomeProvider>(context, listen: false).initPreferences();  
+                    Provider.of<HomeProvider>(context, listen: false).getPreferences();  
 
                     if (levelChoice != 0) {
                       if (personalData) {

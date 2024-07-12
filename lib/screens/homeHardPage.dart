@@ -36,6 +36,7 @@ class _HomeHardPageState extends State<HomeHardPage> {
                         context,
                         MaterialPageRoute(
                             builder: (context) => const ProfilePage()));
+                            Provider.of<HomeProvider>(context, listen:false).populateListDate(Provider.of<HomeProvider>(context, listen:false).soberTime);
                   },
                   icon: const Icon(Icons.person)),
             IconButton(
@@ -196,6 +197,7 @@ class _HomeHardPageState extends State<HomeHardPage> {
 
   void startCounter() {
     Provider.of<HomeProvider>(context, listen: false).startCounter();
+    //Provider.of<HomeProvider>(context, listen: false).populateListDate(Provider.of<HomeProvider>(context, listen: false).soberTime);
   }
 
   void stopCounter() {

@@ -18,10 +18,10 @@ class Splash extends StatelessWidget {
   Future<void> _refreshControl(BuildContext context) async {
     final sp = await SharedPreferences.getInstance();
     var refresh = sp.getString("refreshToken");
-    
-    int scoreQuiz = Provider.of<HomeProvider>(context, listen: false).scoreQuiz;
-    int levelChoice = Provider.of<HomeProvider>(context, listen: false).levelChoice;
-    bool personalData = Provider.of<HomeProvider>(context, listen: false).personalData;
+
+   int scoreQuiz = Provider.of<HomeProvider>(context, listen: false).scoreQuiz;
+  int levelChoice = Provider.of<HomeProvider>(context, listen: false).levelChoice;
+   bool personalData = Provider.of<HomeProvider>(context, listen: false).personalData;
 
     if (refresh != null) {
       bool hasExpired = JwtDecoder.isExpired(refresh);
@@ -94,5 +94,4 @@ class Splash extends StatelessWidget {
     );
   }
 }
-
 
