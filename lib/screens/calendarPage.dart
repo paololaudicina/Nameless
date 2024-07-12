@@ -75,7 +75,7 @@ class _CalendarPageState extends State<CalendarPage> {
     }
       return SafeArea(
         child: Scaffold(
-            //è il widget che definisce una pagina
+            
             appBar: AppBar(
              backgroundColor: const Color.fromARGB(255, 71, 169, 248),
               title: const Text('Calendar Page'),
@@ -107,19 +107,13 @@ class _CalendarPageState extends State<CalendarPage> {
                       final drinkProvider = Provider.of<HomeProvider>(context, listen: false);
                       String formattedDate = DateFormat('yyyy-MM-dd').format(day);
                        drinkProvider.sumQuantity(formattedDate);
-                      int drinkCount = drinkProvider.mapQuantity[formattedDate]!;
-                  
-                      Color dayColor;
-                      if (drinkCount > 4) {
-                        dayColor = Colors.red;
-                      } else {
-                        dayColor = Colors.green;
-                      }
+                      
+                      
                   
                       return Center(
                         child: Text(
                           day.day.toString(),
-                          style: TextStyle(color: dayColor),
+                          style: TextStyle(color: (drinkProvider.calendarColors[formattedDate]!=null)? drinkProvider.calendarColors[formattedDate] : Colors.green),
                         ),
                       );
                     },

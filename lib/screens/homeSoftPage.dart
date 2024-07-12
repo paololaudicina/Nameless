@@ -61,11 +61,11 @@ class _HomeSoftPage extends State<HomeSoftPage> {
                         color: Colors.lightBlue,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(
-                              15.0), // Imposta il raggio degli angoli del bordo
+                              15.0), 
                           side: const BorderSide(
                               color: Colors.black,
                               width:
-                                  2.0), // Imposta il colore e lo spessore del bordo
+                                  2.0), 
                         ),
                         child: const Column(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -87,11 +87,11 @@ class _HomeSoftPage extends State<HomeSoftPage> {
                         color: Colors.lightBlue,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(
-                              15.0), // Imposta il raggio degli angoli del bordo
+                              15.0), 
                           side: const BorderSide(
                               color: Colors.black,
                               width:
-                                  2.0), // Imposta il colore e lo spessore del bordo
+                                  2.0), 
                         ),
                         child: const Column(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -179,15 +179,7 @@ class _HomeSoftPage extends State<HomeSoftPage> {
                               ),
                             ],
                           ),
-                          SizedBox(height: 20),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              '*The calculation of the blood alcohol level was done considering a V = 200 mL at 13%',
-                              style: TextStyle(fontSize: 11),
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
+
                         ],
                       ),
                     ),
@@ -236,15 +228,7 @@ class _HomeSoftPage extends State<HomeSoftPage> {
                               ),
                             ],
                           ),
-                          SizedBox(height: 20),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              '*The calculation of the blood alcohol level was done considering a V = 200 mL at 13%',
-                              style: TextStyle(fontSize: 11),
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
+                        
                         ],
                       ),
                     ),

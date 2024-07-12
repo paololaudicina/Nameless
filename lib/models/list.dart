@@ -32,11 +32,6 @@ class CatalogueList {
       imageUrl: 'images/photo.png' 
     ),
 
-    /*Catalogue(
-      title: 'Handicrafts (knitting, crocheting, woodworking, pottery)', 
-      description: "Benefits: Reduces stress and anxiety, improves patience and concentration, provides a sense of accomplishment and productivity"
-    ),*/
-
     Catalogue(
       title: 'Creative Cooking', 
       description: "Benefits: Stimulates creativity and innovation, promotes a healthy diet, encourages mindfulness and relaxation",

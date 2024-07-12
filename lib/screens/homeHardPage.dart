@@ -1,6 +1,5 @@
 import 'package:Nameless/screens/activity.dart';
 import 'package:Nameless/screens/chartHardPage.dart';
-import 'package:Nameless/screens/chartPage.dart';
 import 'package:flutter/material.dart';
 import 'package:Nameless/models/info.dart';
 import 'package:Nameless/provider/homeProvider.dart';
@@ -60,15 +59,15 @@ class _HomeHardPageState extends State<HomeHardPage> {
                     height: 300,
 
                     child: Card(
-                     // color: Colors.white,
+                    
 
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(
-                            15.0), // Imposta il raggio degli angoli del bordo
+                            15.0), 
                         side: const BorderSide(
                             color: Colors.black,
                             width:
-                                2.0), // Imposta il colore e lo spessore del bordo
+                                2.0), 
                       ),
 
                       child: Column(
@@ -140,11 +139,11 @@ class _HomeHardPageState extends State<HomeHardPage> {
                         color: Colors.lightBlue,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(
-                              15.0), // Imposta il raggio degli angoli del bordo
+                              15.0), 
                           side: const BorderSide(
                               color: Colors.black,
                               width:
-                                  2.0), // Imposta il colore e lo spessore del bordo
+                                  2.0), 
                         ),
                         child: const Column(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -167,11 +166,11 @@ class _HomeHardPageState extends State<HomeHardPage> {
                         color: Colors.lightBlue,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(
-                              15.0), // Imposta il raggio degli angoli del bordo
+                              15.0), 
                           side: const BorderSide(
                               color: Colors.black,
                               width:
-                                  2.0), // Imposta il colore e lo spessore del bordo
+                                  2.0), 
                         ),
                         child: const Column(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -190,7 +189,7 @@ class _HomeHardPageState extends State<HomeHardPage> {
   }
 
   void fecthHRDataHard() {
-    // DateTime giorno = DateTime.now();
+    
     Provider.of<HomeProvider>(context, listen: false).populateListDate(Provider.of<HomeProvider>(context, listen: false).soberTime);
     Provider.of<HomeProvider>(context, listen: false).fecthHRDataHard(Provider.of<HomeProvider>(context, listen: false).listDate);
     Navigator.push(context,MaterialPageRoute(builder: (context) => const ChartHardPage()));

@@ -16,6 +16,7 @@ class AddDrink extends StatefulWidget {
 class _AddDrinkState extends State<AddDrink> {
   int quantity = 0;
   int hour = -1;
+  int? selectedDrink;
 
   late String date;
 
@@ -28,109 +29,192 @@ class _AddDrinkState extends State<AddDrink> {
           .dictionaryDrinks[date]![widget.index!];
       quantity = drink['quantity']!;
       hour = drink['hour']!;
+      selectedDrink = drink['type'];
       Provider.of<HomeProvider>(context, listen: false)
           .updateNumber(widget.date, widget.index!);
     }
+    
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Add Drink Page')),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          const Text(
-            'How many drinks?',
-            style: TextStyle(fontSize: 30),
-          ),
-          const SizedBox(
-            height: 30,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              IconButton(
-                onPressed: () {
-                  Provider.of<HomeProvider>(context, listen: false)
-                      .removeNumber();
-                },
-                icon: const Icon(Icons.remove, size: 30),
-              ),
-              const SizedBox(width: 15,),
-              Consumer<HomeProvider>(
-                builder: (context, provider, child) {
-                  return Text(
-                    '${provider.number}',
-                    style: const TextStyle(fontSize: 30),
-                  );
-                },
-              ),
-              const SizedBox(width: 15,),
-              IconButton(
-                onPressed: () {
-                  Provider.of<HomeProvider>(context, listen: false).addNumber();
-                },
-                icon: const Icon(Icons.add, size: 30),
-              ),
-              
-            ],
-          ),
-          const SizedBox(height: 30,),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              
-              IconButton(
-                    onPressed: () {
-                      _selectedHour();
-                    },
-                    icon: const Icon(Icons.access_time_outlined, size: 40),
-                  ),
-                  const Text('What time?',style: TextStyle(fontSize: 20),),
-            ],
-          ),
-          const SizedBox(
-            height: 30,
-          ),
-          ElevatedButton(
-            onPressed: () {
-              if (widget.index != null) {
-                if (widget.date == DateFormat('yyyy-MM-dd').format(DateTime.now()) && hour == -1 ){
-                    ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                        content: Text('you forgot to select the hour or you selcted a future hour')), //scaffoldMessage when the day is today and user selected an future hour  
-                  );
-                } else {
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(title: const Text('Add Drink Page'),
+        backgroundColor: Colors.lightBlue,
+        actions: [
+          IconButton(onPressed: (){showDialog(
+                      barrierDismissible:false,
+                      
+                      context: context,
+                      builder: (context) => AlertDialog(
+                            content: Container(
+                              height: 300,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children:[
+                                  const Text('Explaination',textAlign: TextAlign.center,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18 )),
+                                  const SizedBox(height: 10),
+                                  const Text(
+                                    'in this page you can add or modify your drinks. In according to the selcted drink, your alchool level is calculated. Keep in mind: ',
+                                    style: TextStyle(fontSize: 17),
+                                    textAlign: TextAlign.left,
+                                  ),
+                                  const SizedBox(height: 5,),
+                                  const Text('Beer : 330 mL and 6 %'),
+                                  const Text('Wine : 120 mL and 12 %'),
+                                  const Text('Cocktail : 200 mL and 18 %'),
 
-                _updateDrink();
-                }
-              } else {
-                if (hour != -1) {
-                  _addDrink(hour);
-                } else {
-                  if (widget.date == DateFormat('yyyy-MM-dd').format(DateTime.now()) ){
-                    ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                        content: Text('you forgot to select the hour or you selcted a future hour')), //scaffoldMessage when the day is today and user selected an future hour  
-                  );
-
-                  }else {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                        content: Text('You must choose the hour')));//scaffoldMessage when the user don't selected an hour
+                                  const SizedBox(height: 10),
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: const Text('Ok'),
+                                  )
+                                ]
+                            )
+                            )
+                      )
+          );
+                                  }, icon: const Icon(Icons.info)
+                                  )
+        ]),
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                        Radio<int>(
+                          value: 1,
+                          groupValue: selectedDrink,
+                          onChanged: (int? value) {
+                            setState(() {
+                              selectedDrink = value;
+                            });
+                          },
+                        ),
+                        const Text('beer'),
+                        Radio<int>(
+                            value: 2,
+                            groupValue: selectedDrink,
+                            onChanged: (int? value) {
+                              setState(() {
+                                selectedDrink= value;
+                              });
+                            }),
+                        const Text('wine'),
+                        Radio<int>(
+                            value: 3,
+                            groupValue: selectedDrink,
+                            onChanged: (int? value) {
+                              setState(() {
+                                selectedDrink= value;
+                              });
+                            }),
+                        const Text('cocktail'),
+                      ]),
+                      const SizedBox(
+              height: 30,
+            ),
+            const Text(
+              'How many?',
+              style: TextStyle(fontSize: 30),
+            ),
+            const SizedBox(
+              height: 30,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                IconButton(
+                  onPressed: () {
+                    Provider.of<HomeProvider>(context, listen: false)
+                        .removeNumber();
+                  },
+                  icon: const Icon(Icons.remove, size: 30),
+                ),
+                const SizedBox(width: 15,),
+                Consumer<HomeProvider>(
+                  builder: (context, provider, child) {
+                    return Text(
+                      '${provider.number}',
+                      style: const TextStyle(fontSize: 30),
+                    );
+                  },
+                ),
+                const SizedBox(width: 15,),
+                IconButton(
+                  onPressed: () {
+                    Provider.of<HomeProvider>(context, listen: false).addNumber();
+                  },
+                  icon: const Icon(Icons.add, size: 30),
+                ),
+                
+              ],
+            ),
+            const SizedBox(height: 30,),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                
+                IconButton(
+                      onPressed: () {
+                        _selectedHour();
+                      },
+                      icon: const Icon(Icons.access_time_outlined, size: 40),
+                    ),
+                    const Text('What time?',style: TextStyle(fontSize: 20),),
+              ],
+            ),
+            const SizedBox(
+              height: 30,
+            ),
+            ElevatedButton(
+              onPressed: () {
+                 if (selectedDrink!=null){
+                if (widget.index != null) {
+                  if (widget.date == DateFormat('yyyy-MM-dd').format(DateTime.now()) && hour == -1 ){
+                      ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                          content: Text('you forgot to select the hour or you selcted a future hour')), //scaffoldMessage when the day is today and user selected an future hour  
+                    );
+                  } else {
+      
+                  _updateDrink();
                   }
-                  
+                } else {
+                  if (hour != -1) {
+                    _addDrink(hour);
+                  } else {
+                    if (widget.date == DateFormat('yyyy-MM-dd').format(DateTime.now()) ){
+                      ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                          content: Text('you forgot to select the hour or you selcted a future hour')), //scaffoldMessage when the day is today and user selected a future hour  
+                    );
+      
+                    }else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                          content: Text('You must choose the hour')));//scaffoldMessage when the user don't selected an hour
+                    }
+                    
+                  }
                 }
+              }else {
+                ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                          content: Text('You must choose the type of drink')));
               }
-            },
-            child: (widget.index != null)
-                ? const Text('Modify')
-                : const Text('Add'),
-          ),
-        ],
+              },
+              child: (widget.index != null)
+                  ? const Text('Modify')
+                  : const Text('Add'),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -138,7 +222,7 @@ class _AddDrinkState extends State<AddDrink> {
   void _addDrink(int hour) {
     quantity = Provider.of<HomeProvider>(context, listen: false).number;
     Provider.of<HomeProvider>(context, listen: false)
-        .addDrink(date, quantity, hour);
+        .addDrink(date, quantity, hour, selectedDrink!);
         Provider.of<HomeProvider>(context, listen: false).updateBAL();
     Navigator.pop(context);
   }
@@ -146,7 +230,7 @@ class _AddDrinkState extends State<AddDrink> {
   void _updateDrink() {
     quantity = Provider.of<HomeProvider>(context, listen: false).number;
     Provider.of<HomeProvider>(context, listen: false)
-        .updateDrink(widget.date, widget.index!, quantity, hour);
+        .updateDrink(widget.date, widget.index!, quantity, hour, selectedDrink!);
         Provider.of<HomeProvider>(context, listen: false).updateBAL();
     Navigator.pop(context);
   }
