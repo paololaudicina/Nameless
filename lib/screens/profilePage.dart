@@ -1,105 +1,10 @@
-// import 'package:Nameless/screens/personalData.dart';
-// import 'package:flutter/material.dart';
-// import 'package:Nameless/provider/homeProvider.dart';
-// import 'package:Nameless/screens/Login.dart';
-
-// import 'package:provider/provider.dart';
-
-// class ProfilePage extends StatefulWidget {
-//   const ProfilePage({super.key});
-
-//   @override
-//   State<ProfilePage> createState() => _ProfilePageState();
-// }
-
-// class _ProfilePageState extends State<ProfilePage> {
-//   @override
-//   Widget build(BuildContext context) {
-//     // String data = DateFormat('yyyy-MM-dd').format(DateTime.now());
-//     void remove(){
-//       Provider.of<HomeProvider>(context, listen: false).removeAll();
-
-//       //Provider.of<HomeProvider>(context, listen: false).getPreferences();
-//       Navigator.of(context).pushAndRemoveUntil(
-//           MaterialPageRoute(builder: (context) => LoginPage()), (Route<dynamic> route) => false,);
-
-//     }
-
-//     return Scaffold(
-//       appBar: AppBar(
-
-//           title: Consumer<HomeProvider>(
-//             builder: (context, provider, child) {
-//               return Text(' ${Provider.of<HomeProvider>(context,listen: false).meanHRHard}');
-//             },
-//           ),
-//           actions: [
-//             Row(
-//               mainAxisAlignment: MainAxisAlignment.end,
-//               crossAxisAlignment: CrossAxisAlignment.center,
-//               children: [
-//                 IconButton(
-//                     onPressed: ()  async{
-//                       remove();
-//                     },
-//                     icon: const Icon(Icons.logout)),
-//                  Text('LOG-OUT ')
-//               ],
-//             )
-//           ]),
-//       body: Consumer<HomeProvider>(builder: (context, provider, child) {
-//         return Container(
-//           child: Stack(children: [
-//             Card(
-//               child: Column(
-//                   mainAxisAlignment: MainAxisAlignment.spaceAround,
-//                   children: [
-//                     ListTile(
-//                       leading: Text('Name: '),
-//                       title: Text(provider.nameUser),
-//                     ),
-//                     ListTile(
-//                       leading: Text('Surname: '),
-//                       title: Text('${provider.surnameUser}'),
-//                     ),
-//                     ListTile(
-//                       leading: Text('Age:'),
-//                       title: Text('${provider.age}'),
-//                     ),
-//                     ListTile(
-//                       leading: Text('Sex:'),
-//                       title: Text(provider.Sex),
-//                     ),
-//                     ListTile(
-//                       leading: Text('Weight:'),
-//                       title: Text('${provider.weight} kg'),
-//                     )
-//                   ]),
-
-//             ),
-//             ElevatedButton(
-//                 onPressed: () {
-//                   provider.upDateFlagEdit();
-//                   Navigator.push(context,
-//                       MaterialPageRoute(builder: (context) => PersonalData()));
-//                 },
-//                 child: Text('EDIT'))
-//           ]),
-//         );
-//       }),
-//     );
-//   }
-// }
-
 import 'package:Nameless/screens/advice.dart';
 import 'package:Nameless/screens/personalData.dart';
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 import 'package:Nameless/provider/homeProvider.dart';
 import 'package:Nameless/screens/login.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/widgets.dart';
-// import 'package:intl/intl.dart';
+
 
 import 'package:provider/provider.dart';
 
@@ -308,13 +213,46 @@ class _ProfilePageState extends State<ProfilePage> {
               SizedBox(height: 40),
               ElevatedButton(
                 onPressed: () {
-                  Navigator.of(context).pushAndRemoveUntil(
-                    MaterialPageRoute(
-                        builder: (context) => SplashQuiz(
-                              score: scoreQuiz,
-                            )),
-                    (Route<dynamic> route) => false,
-                  );
+                  showDialog(
+                      
+                      context: context,
+                      builder: (context) => AlertDialog(
+                            content: Container(
+                              height: 170,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children:[
+                                  const Text('Switch Level',textAlign: TextAlign.center,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18 )),
+                                  const SizedBox(height: 10),
+                                  const Text(
+                                    'If you press ok, you lose your progress, otherwise press outside the card',
+                                    style: TextStyle(fontSize: 17),
+                                    textAlign: TextAlign.left,
+                                  ),
+                                  const SizedBox(height: 10),
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      if (provider.levelChoice == 1){
+                                        provider.switchSoft();
+                                      }else{
+                                        provider.stopCounter();
+                                      }
+                                      
+                                       Navigator.of(context)
+                                        .pushAndRemoveUntil(
+                                      MaterialPageRoute(
+                                          builder: (context) => SplashQuiz(
+                                                score: scoreQuiz,
+                                              )),
+                                      (Route<dynamic> route) => false,
+                                    );},
+                                    child: const Text('Ok'),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ));
                 },
                 child: Text(
                   'SWITCH LEVEL',

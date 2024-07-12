@@ -114,7 +114,7 @@ class _AddDrinkState extends State<AddDrink> {
                   if (widget.date == DateFormat('yyyy-MM-dd').format(DateTime.now()) ){
                     ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
-                        content: Text('you forgot to select the hour or you selcted a future hour')), //scaffoldMessage when the day is today and user selected an future hour  
+                        content: Text('you forgot to select the hour or you selcted a future hour')), //scaffoldMessage when the day is today and user selected a future hour  
                   );
 
                   }else {

@@ -75,7 +75,7 @@ class _CalendarPageState extends State<CalendarPage> {
     }
       return SafeArea(
         child: Scaffold(
-            //è il widget che definisce una pagina
+            
             appBar: AppBar(
              backgroundColor: const Color.fromARGB(255, 71, 169, 248),
               title: const Text('Calendar Page'),

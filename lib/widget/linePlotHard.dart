@@ -44,7 +44,7 @@ class LinePlotHard extends StatelessWidget {
   
   List<ScatterSeries<MapEntry<String, int>,String>> _getMeanHRSeries() {
     return <ScatterSeries<MapEntry<String, int>,String>> [
-                      // Creazione della serie lineare
+                      
                       ScatterSeries<MapEntry<String, int>, String>(
                         dataSource: meanHRHard.entries.toList(),
                         xValueMapper: (entry, _) => entry.key,

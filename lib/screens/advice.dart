@@ -60,7 +60,6 @@ class _SplashQuizState extends State<SplashQuiz> {
           child: Consumer<HomeProvider>(builder: (context, provider, child) {
         if (score < 4) {
           return Column(
-    //                mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
                   margin: EdgeInsets.only(top:70),
@@ -126,7 +125,6 @@ class _SplashQuizState extends State<SplashQuiz> {
               );
         } else {
           return Column(
-              //mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
                    margin: EdgeInsets.only(top:70),

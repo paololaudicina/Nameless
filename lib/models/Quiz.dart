@@ -32,6 +32,6 @@ class Quiz{
                 ]
          ,      score: [0,1,2,3,4]),
          ),
-    //question number 4
+    
   ];
 }

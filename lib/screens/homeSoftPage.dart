@@ -61,11 +61,11 @@ class _HomeSoftPage extends State<HomeSoftPage> {
                         color: Colors.lightBlue,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(
-                              15.0), // Imposta il raggio degli angoli del bordo
+                              15.0), 
                           side: const BorderSide(
                               color: Colors.black,
                               width:
-                                  2.0), // Imposta il colore e lo spessore del bordo
+                                  2.0), 
                         ),
                         child: const Column(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -87,11 +87,11 @@ class _HomeSoftPage extends State<HomeSoftPage> {
                         color: Colors.lightBlue,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(
-                              15.0), // Imposta il raggio degli angoli del bordo
+                              15.0), 
                           side: const BorderSide(
                               color: Colors.black,
                               width:
-                                  2.0), // Imposta il colore e lo spessore del bordo
+                                  2.0), 
                         ),
                         child: const Column(
                           mainAxisAlignment: MainAxisAlignment.center,

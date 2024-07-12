@@ -120,6 +120,7 @@ class HomeProvider extends ChangeNotifier {
     soberTime = null;
     _counterText = "0 days, 0 hours, 0 minutes, 0 seconds";
     _timer?.cancel();
+    meanHRHard.clear();
     notifyListeners();
   }
 
@@ -266,6 +267,14 @@ class HomeProvider extends ChangeNotifier {
     await sp.clear();
     getPreferences();
     notifyListeners();
+  }
+
+  void switchSoft() async{
+     final sp = await SharedPreferences.getInstance();
+     await sp.remove('drinks');
+     totalBAC = 0;
+     dictionaryDrinks.clear();
+     notifyListeners();
   }
 
 // this call the functions when the provider borns, in particular in splash page
