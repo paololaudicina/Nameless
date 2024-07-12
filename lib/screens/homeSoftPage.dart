@@ -179,15 +179,7 @@ class _HomeSoftPage extends State<HomeSoftPage> {
                               ),
                             ],
                           ),
-                          SizedBox(height: 20),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              '*The calculation of the blood alcohol level was done considering a V = 200 mL at 13%',
-                              style: TextStyle(fontSize: 11),
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
+
                         ],
                       ),
                     ),
@@ -236,15 +228,7 @@ class _HomeSoftPage extends State<HomeSoftPage> {
                               ),
                             ],
                           ),
-                          SizedBox(height: 20),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              '*The calculation of the blood alcohol level was done considering a V = 200 mL at 13%',
-                              style: TextStyle(fontSize: 11),
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
+                        
                         ],
                       ),
                     ),

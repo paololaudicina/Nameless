@@ -16,7 +16,7 @@ class HomeProvider extends ChangeNotifier {
   int levelChoice = 0;
   int weight = 0;
   int newHour = DateTime.now().hour;
-  double C = 13 * 200 * 0.008;
+  double C = 0;
   double K = 0.66;
   double istantBAL = 0;
   List<int> listNumDrinks = [2, 4, 6, 8, 10];
@@ -124,8 +124,8 @@ class HomeProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void addDrink(String date, int quantity, int hour) {
-    Drink drink = Drink(quantity: quantity, hour: hour);
+  void addDrink(String date, int quantity, int hour, int type) {
+    Drink drink = Drink(quantity: quantity, hour: hour,type: type);
     Map<String, int> mapDrink = drink.toMap();
     if (dictionaryDrinks.containsKey(date)) {
       dictionaryDrinks[date]?.add(mapDrink);
@@ -135,7 +135,7 @@ class HomeProvider extends ChangeNotifier {
 
     _saveDrinks();
     sumQuantity(date);
-    _updateCalendarColors();
+    updateCalendarColors();
     notifyListeners();
   }
 
@@ -146,17 +146,18 @@ class HomeProvider extends ChangeNotifier {
     }
     _saveDrinks();
     sumQuantity(date);
-    _updateCalendarColors();
+    updateCalendarColors();
     updateBAL();
     notifyListeners();
   }
 
-  void updateDrink(String date, int index, int quantity, int hour) {
+  void updateDrink(String date, int index, int quantity, int hour, int type) {
     dictionaryDrinks[date]![index]['quantity'] = quantity;
     dictionaryDrinks[date]![index]['hour'] = hour;
+    dictionaryDrinks[date]![index]['type'] = type;
     _saveDrinks();
     sumQuantity(date);
-    _updateCalendarColors();
+    updateCalendarColors();
     notifyListeners();
   }
 
@@ -177,7 +178,7 @@ class HomeProvider extends ChangeNotifier {
             value.map((item) => Map<String, int>.from(item)),
           )));
       _loadTotalQuantity();
-      _updateCalendarColors();
+      updateCalendarColors();
       notifyListeners();
     }
   }
@@ -212,7 +213,7 @@ class HomeProvider extends ChangeNotifier {
     } else {
       mapQuantity[date] = 0;
     }
-    _updateCalendarColors();
+    updateCalendarColors();
   }
 
   void _loadTotalQuantity() {
@@ -221,16 +222,21 @@ class HomeProvider extends ChangeNotifier {
       sumQuantity(element);
     }
   }
+  int? limit;
 
-  void _updateCalendarColors() {
+  void updateCalendarColors() async{
+    final sp = await SharedPreferences.getInstance();
+    limit = sp.getInt('limit');
+    limit = (limit==null)? (numDrinks - 1): limit;
     calendarColors.clear();
     mapQuantity.forEach((date, quantity) {
-      if (quantity > (numDrinks - 1)) {
+      if (quantity > (limit!)) {
         calendarColors[date] = Colors.red;
       } else {
         calendarColors[date] = Colors.green; // o un altro colore di default
       }
     });
+    notifyListeners();
   }
 
   int hours = 0;
@@ -246,6 +252,9 @@ class HomeProvider extends ChangeNotifier {
       for (var i = 0; i < dictionaryDrinks[date]!.length; i++) {
         quantityAlchool = dictionaryDrinks[date]![i]['quantity']!;
         hours = now.hour - dictionaryDrinks[date]![i]['hour']!;
+        if (dictionaryDrinks[date]![i]['type']==1) { C = 330*6*0.008;}
+        if (dictionaryDrinks[date]![i]['type']==2) { C = 125*12*0.008;}
+        if (dictionaryDrinks[date]![i]['type']==3) { C = 200*18*0.008;}
         drinkBAC =
             ((quantityAlchool * C * 1.055) / (weight * K)) - (0.15 * hours);
         totalBAC += drinkBAC > 0 ? drinkBAC : 0.0;
@@ -256,7 +265,7 @@ class HomeProvider extends ChangeNotifier {
   }
 
   void _startTimer() {
-    _timer = Timer.periodic(const Duration(minutes: 5), (timer) {
+    _timer = Timer.periodic(const Duration(minutes: 1), (timer) {
       // update newBAL every 5 minutes
       updateBAL();
     });
