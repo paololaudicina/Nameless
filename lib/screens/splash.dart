@@ -12,8 +12,30 @@ import 'package:Nameless/services/Impact.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class Splash extends StatelessWidget {
+class Splash extends StatefulWidget {
   const Splash({super.key});
+
+  @override
+  State<Splash> createState() => _SplashState();
+}
+
+class _SplashState extends State<Splash> {
+
+   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _checkInitialization();
+    });
+  }
+
+  void _checkInitialization() async {
+    final homeProvider = Provider.of<HomeProvider>(context, listen: false);
+    while (!homeProvider.isInitialized) {
+      await Future.delayed(const Duration(seconds: 3));
+    }
+    _refreshControl(context);
+  }
 
   Future<void> _refreshControl(BuildContext context) async {
     final sp = await SharedPreferences.getInstance();
@@ -29,16 +51,19 @@ class Splash extends StatelessWidget {
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => LoginPage()));
       } else {
-        Impact().refreshToken();
+        await Impact().refreshToken();
         if (scoreQuiz != -1) {
           if (levelChoice != 0) {
             if (personalData != false) {
               if (levelChoice == 1) {
+                Provider.of<HomeProvider>(context,listen: false).updateBAL(); // to updateBAL when we restart the app green arrow
                 Navigator.pushReplacement(context,
                     MaterialPageRoute(builder: (context) => HomeSoftPage()));
               } else {
-                Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (context) => HomeHardPage()));
+                if (mounted) {
+                  Navigator.pushReplacement(context,
+                      MaterialPageRoute(builder: (context) => HomeHardPage()));
+                }
               }
             } else {
               Navigator.pushReplacement(context,
@@ -46,7 +71,9 @@ class Splash extends StatelessWidget {
             }
           } else {
             Navigator.pushReplacement(
-                context, MaterialPageRoute(builder: (context) => SplashQuiz(score: scoreQuiz)));
+                context,
+                MaterialPageRoute(
+                    builder: (context) => SplashQuiz(score: scoreQuiz)));
           }
         } else {
           Navigator.pushReplacement(context,
@@ -59,8 +86,7 @@ class Splash extends StatelessWidget {
     }
   }
 
-
- @override
+  @override
   Widget build(BuildContext context) {
     return Consumer<HomeProvider>(
       builder: (context, homeProvider, child) {
@@ -71,7 +97,6 @@ class Splash extends StatelessWidget {
             ),
           );
         } else {
-          Future.delayed(Duration(seconds: 3), () => _refreshControl(context));
           return Scaffold(
             body: Center(
               child: Column(
@@ -94,4 +119,3 @@ class Splash extends StatelessWidget {
     );
   }
 }
-

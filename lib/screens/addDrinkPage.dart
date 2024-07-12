@@ -15,7 +15,7 @@ class AddDrink extends StatefulWidget {
 
 class _AddDrinkState extends State<AddDrink> {
   int quantity = 0;
-  int hour = 0;
+  int hour = -1;
 
   late String date;
 
@@ -98,7 +98,7 @@ class _AddDrinkState extends State<AddDrink> {
           ElevatedButton(
             onPressed: () {
               if (widget.index != null) {
-                if (widget.date == DateFormat('yyyy-MM-dd').format(DateTime.now()) && hour ==0 ){
+                if (widget.date == DateFormat('yyyy-MM-dd').format(DateTime.now()) && hour == -1 ){
                     ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
                         content: Text('you forgot to select the hour or you selcted a future hour')), //scaffoldMessage when the day is today and user selected an future hour  
@@ -108,8 +108,8 @@ class _AddDrinkState extends State<AddDrink> {
                 _updateDrink();
                 }
               } else {
-                if (hour != 0) {
-                  _addDrink();
+                if (hour != -1) {
+                  _addDrink(hour);
                 } else {
                   if (widget.date == DateFormat('yyyy-MM-dd').format(DateTime.now()) ){
                     ScaffoldMessenger.of(context).showSnackBar(
@@ -135,7 +135,7 @@ class _AddDrinkState extends State<AddDrink> {
     );
   }
 
-  void _addDrink() {
+  void _addDrink(int hour) {
     quantity = Provider.of<HomeProvider>(context, listen: false).number;
     Provider.of<HomeProvider>(context, listen: false)
         .addDrink(date, quantity, hour);
@@ -163,7 +163,7 @@ class _AddDrinkState extends State<AddDrink> {
       if (date == DateFormat('yyyy-MM-dd').format(DateTime.now()) &&
           pickedTime.hour > DateTime.now().hour) {
         setState(() {
-          hour = 0;
+          hour = -1;
         });
       } else {
         setState(() {
@@ -172,7 +172,7 @@ class _AddDrinkState extends State<AddDrink> {
       }
     } else {
       setState(() {
-        hour = 0;
+        hour = -1;
       });
     }
   }
