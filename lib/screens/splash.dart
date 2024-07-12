@@ -1,26 +1,49 @@
 import 'package:flutter/material.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:lottie/lottie.dart';
-import 'package:progetto_prova/provider/homeProvider.dart';
-import 'package:progetto_prova/screens/advice.dart';
-import 'package:progetto_prova/screens/homeHardPage.dart';
-import 'package:progetto_prova/screens/homeSoftPgae.dart';
-import 'package:progetto_prova/screens/login.dart';
-import 'package:progetto_prova/screens/personalData.dart';
-import 'package:progetto_prova/screens/questionnaire.dart';
-import 'package:progetto_prova/services/Impact.dart';
+import 'package:Nameless/provider/homeProvider.dart';
+import 'package:Nameless/screens/advice.dart';
+import 'package:Nameless/screens/homeHardPage.dart';
+import 'package:Nameless/screens/homeSoftPage.dart';
+import 'package:Nameless/screens/login.dart';
+import 'package:Nameless/screens/personalData.dart';
+import 'package:Nameless/screens/questionnaire.dart';
+import 'package:Nameless/services/Impact.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class Splash extends StatelessWidget {
+class Splash extends StatefulWidget {
   const Splash({super.key});
+
+  @override
+  State<Splash> createState() => _SplashState();
+}
+
+class _SplashState extends State<Splash> {
+
+   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _checkInitialization();
+    });
+  }
+
+  void _checkInitialization() async {
+    final homeProvider = Provider.of<HomeProvider>(context, listen: false);
+    while (!homeProvider.isInitialized) {
+      await Future.delayed(const Duration(seconds: 3));
+    }
+    _refreshControl(context);
+  }
 
   Future<void> _refreshControl(BuildContext context) async {
     final sp = await SharedPreferences.getInstance();
     var refresh = sp.getString("refreshToken");
-    int scoreQuiz = Provider.of<HomeProvider>(context, listen: false).scoreQuiz;
-    int levelChoice = Provider.of<HomeProvider>(context, listen: false).levelChoice;
-    bool personalData = Provider.of<HomeProvider>(context, listen: false).personalData;
+
+   int scoreQuiz = Provider.of<HomeProvider>(context, listen: false).scoreQuiz;
+  int levelChoice = Provider.of<HomeProvider>(context, listen: false).levelChoice;
+   bool personalData = Provider.of<HomeProvider>(context, listen: false).personalData;
 
     if (refresh != null) {
       bool hasExpired = JwtDecoder.isExpired(refresh);
@@ -28,16 +51,19 @@ class Splash extends StatelessWidget {
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => LoginPage()));
       } else {
-        Impact().refreshToken();
+        await Impact().refreshToken();
         if (scoreQuiz != -1) {
           if (levelChoice != 0) {
             if (personalData != false) {
               if (levelChoice == 1) {
+                Provider.of<HomeProvider>(context,listen: false).updateBAL(); // to updateBAL when we restart the app green arrow
                 Navigator.pushReplacement(context,
                     MaterialPageRoute(builder: (context) => HomeSoftPage()));
               } else {
-                Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (context) => HomeHardPage()));
+                if (mounted) {
+                  Navigator.pushReplacement(context,
+                      MaterialPageRoute(builder: (context) => HomeHardPage()));
+                }
               }
             } else {
               Navigator.pushReplacement(context,
@@ -45,7 +71,9 @@ class Splash extends StatelessWidget {
             }
           } else {
             Navigator.pushReplacement(
-                context, MaterialPageRoute(builder: (context) => SplashQuiz()));
+                context,
+                MaterialPageRoute(
+                    builder: (context) => SplashQuiz(score: scoreQuiz)));
           }
         } else {
           Navigator.pushReplacement(context,
@@ -58,26 +86,7 @@ class Splash extends StatelessWidget {
     }
   }
 
-  /*@override
-  Widget build(BuildContext context) {
-    Future.delayed(const Duration(seconds: 3), () => _refreshControl(context));
-    return Scaffold(
-        body: Center(
-            child:
-                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-      Container(
-        height: 20,
-        width: 50,
-        child: Lottie.asset('images/chain.json'),
-      ),
-      Container(
-        child: Text('Welcome in your new life'),
-      )
-    ])));
-  }
-}*/
-
- @override
+  @override
   Widget build(BuildContext context) {
     return Consumer<HomeProvider>(
       builder: (context, homeProvider, child) {
@@ -88,7 +97,6 @@ class Splash extends StatelessWidget {
             ),
           );
         } else {
-          Future.delayed(Duration(seconds: 3), () => _refreshControl(context));
           return Scaffold(
             body: Center(
               child: Column(

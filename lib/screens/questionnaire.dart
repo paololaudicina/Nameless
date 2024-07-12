@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:progetto_prova/models/Quiz.dart';
-import 'package:progetto_prova/provider/homeProvider.dart';
-import 'package:progetto_prova/screens/advice.dart';
-import 'package:progetto_prova/screens/homeHardPage.dart';
-import 'package:progetto_prova/screens/homeSoftPgae.dart';
-import 'package:progetto_prova/screens/personalData.dart';
+import 'package:Nameless/models/Quiz.dart';
+import 'package:Nameless/provider/homeProvider.dart';
+import 'package:Nameless/screens/advice.dart';
+import 'package:Nameless/screens/homeHardPage.dart';
+import 'package:Nameless/screens/homeSoftPage.dart';
+import 'package:Nameless/screens/personalData.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -16,7 +16,7 @@ class Questionnaire extends StatefulWidget {
 }
 
 class _QuestionnaireState extends State<Questionnaire> {
-  final _quiz = Quiz();
+  final Quiz _quiz = Quiz();
   Map<int, int?> _selectedIndexMap = {};
   List<bool> answer = [false, false, false];
   int score = 0;
@@ -35,6 +35,7 @@ class _QuestionnaireState extends State<Questionnaire> {
 
       // Add the score of the new selection
       score += _quiz.quiz[quizIndex].options.score[optionIndex];
+      print(score);
       answer[quizIndex] = true;
     });
 
@@ -81,9 +82,9 @@ class _QuestionnaireState extends State<Questionnaire> {
   @override
   Widget build(BuildContext context) {
     int levelChoice =
-        Provider.of<HomeProvider>(context, listen: false).levelChoice;
+        Provider.of<HomeProvider>(context,listen: false).levelChoice; 
     bool personalData =
-        Provider.of<HomeProvider>(context, listen: false).personalData;
+        Provider.of<HomeProvider>(context,listen: false).personalData;
     return SafeArea(
       child: Scaffold(
         backgroundColor: Color.fromARGB(255, 167, 226, 240),
@@ -91,7 +92,8 @@ class _QuestionnaireState extends State<Questionnaire> {
           title: const Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text('AUDIT TEST', style: TextStyle(fontSize: 40, color: Colors.white)),
+              Text('AUDIT TEST',
+                  style: TextStyle(fontSize: 40, color: Colors.white)),
             ],
           ),
           backgroundColor: Color.fromARGB(255, 167, 226, 240),
@@ -109,13 +111,15 @@ class _QuestionnaireState extends State<Questionnaire> {
                     side: BorderSide(color: Colors.black, width: 2.0),
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.only(top: 50, left: 20, right: 20),
+                    padding:
+                        const EdgeInsets.only(top: 50, left: 20, right: 20),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
                           _quiz.quiz[0].title,
-                          style: const TextStyle(fontSize: 20, color: Colors.white),
+                          style: const TextStyle(
+                              fontSize: 20, color: Colors.white),
                         ),
                         Padding(
                           padding: const EdgeInsets.only(top: 30),
@@ -138,12 +142,14 @@ class _QuestionnaireState extends State<Questionnaire> {
                     side: BorderSide(color: Colors.black, width: 2.0),
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.only(top: 50, left: 20, right: 20),
+                    padding:
+                        const EdgeInsets.only(top: 50, left: 20, right: 20),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(_quiz.quiz[1].title,
-                            style: const TextStyle(fontSize: 20, color: Colors.white)),
+                            style: const TextStyle(
+                                fontSize: 20, color: Colors.white)),
                         Padding(
                           padding: const EdgeInsets.only(top: 30),
                           child: SizedBox(
@@ -170,7 +176,8 @@ class _QuestionnaireState extends State<Questionnaire> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(_quiz.quiz[2].title,
-                            style: const TextStyle(fontSize: 20, color: Colors.white)),
+                            style: const TextStyle(
+                                fontSize: 20, color: Colors.white)),
                         Padding(
                           padding: const EdgeInsets.only(top: 30),
                           child: SizedBox(
@@ -193,7 +200,10 @@ class _QuestionnaireState extends State<Questionnaire> {
                       ));
                   } else {
                     final sp = await SharedPreferences.getInstance();
-                    await sp.setInt('scoreQuiz', score);
+                   
+
+                    Provider.of<HomeProvider>(context, listen: false).getPreferences();  
+
                     if (levelChoice != 0) {
                       if (personalData) {
                         if (levelChoice == 1) {
@@ -214,10 +224,13 @@ class _QuestionnaireState extends State<Questionnaire> {
                                 builder: (context) => PersonalData()));
                       }
                     } else {
+                      await sp.setInt('scoreQuiz', score);
                       Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => SplashQuiz()));
+                              builder: (context) => SplashQuiz(
+                                    score: score,
+                                  )));
                     }
                   }
                 },
@@ -239,3 +252,4 @@ class _QuestionnaireState extends State<Questionnaire> {
     );
   }
 }
+

@@ -1,25 +1,31 @@
 import 'package:flutter/material.dart';
-import 'package:progetto_prova/provider/homeProvider.dart';
-import 'package:progetto_prova/screens/homeHardPage.dart';
-import 'package:progetto_prova/screens/homeSoftPgae.dart';
-import 'package:progetto_prova/screens/personalData.dart';
+import 'package:Nameless/provider/homeProvider.dart';
+import 'package:Nameless/screens/homeHardPage.dart';
+import 'package:Nameless/screens/homeSoftPage.dart';
+import 'package:Nameless/screens/personalData.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashQuiz extends StatefulWidget {
-  const SplashQuiz({super.key});
+  final int score;
+  const SplashQuiz({required this.score});
 
   @override
   State<SplashQuiz> createState() => _SplashQuizState();
 }
 
 class _SplashQuizState extends State<SplashQuiz> {
+  late int score;
+  @override
+  void initState() {
+    super.initState();
+    score = widget.score;
+  }
   
   Future<void> _softChoice(bool personalData) async {
     final sp = await SharedPreferences.getInstance();
         await sp.setInt('levelChoice',1);
-        await sp.setBool('flag_level',true);
-        Provider.of<HomeProvider>(context,listen:false).setLevelChoice(1);
+        Provider.of<HomeProvider>(context,listen:false).getPreferences();
     
          if(!personalData){
           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> PersonalData()));
@@ -33,17 +39,14 @@ class _SplashQuizState extends State<SplashQuiz> {
   Future<void> _hardChoice(bool personalData) async {
     final sp = await SharedPreferences.getInstance();
         await sp.setInt('levelChoice',2);
-        await sp.setBool('flag_level',true);
-        Provider.of<HomeProvider>(context,listen:false).setLevelChoice(2);
-        //MANCA LA GESTIONE DELLA DATA
-    setState(() {
-      if(personalData==false){
+        Provider.of<HomeProvider>(context,listen:false).getPreferences();
+        
+    if(!personalData){
           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> PersonalData()));
         } else{
           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomeHardPage()));
-        }
+          }
 
-    });
   }
 
 
@@ -55,9 +58,8 @@ class _SplashQuizState extends State<SplashQuiz> {
     return Scaffold(
       body: Center(
           child: Consumer<HomeProvider>(builder: (context, provider, child) {
-        if (provider.scoreQuiz < 4) {
+        if (score < 4) {
           return Column(
-    //                mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
                   margin: EdgeInsets.only(top:70),
@@ -123,7 +125,6 @@ class _SplashQuizState extends State<SplashQuiz> {
               );
         } else {
           return Column(
-              //mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
                    margin: EdgeInsets.only(top:70),

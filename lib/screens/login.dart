@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:progetto_prova/provider/homeProvider.dart';
-import 'package:progetto_prova/screens/advice.dart';
-import 'package:progetto_prova/screens/homeHardPage.dart';
-import 'package:progetto_prova/screens/homeSoftPgae.dart';
-import 'package:progetto_prova/screens/personalData.dart';
-import 'package:progetto_prova/screens/questionnaire.dart';
-import 'package:progetto_prova/services/Impact.dart';
+import 'package:Nameless/provider/homeProvider.dart';
+import 'package:Nameless/screens/advice.dart';
+import 'package:Nameless/screens/homeHardPage.dart';
+import 'package:Nameless/screens/homeSoftPage.dart';
+import 'package:Nameless/screens/personalData.dart';
+import 'package:Nameless/screens/questionnaire.dart';
+import 'package:Nameless/services/Impact.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -30,42 +30,38 @@ class _LoginPage extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    int scoreQuiz = Provider.of<HomeProvider>(context,listen: false).scoreQuiz;
-    int levelChoice = Provider.of<HomeProvider>(context, listen: false).levelChoice;
-    bool personalData = Provider.of<HomeProvider>(context,listen: false).personalData;
+    int scoreQuiz = Provider.of<HomeProvider>(context, listen: false).scoreQuiz;
+    int levelChoice =
+        Provider.of<HomeProvider>(context, listen: false).levelChoice;
+    bool personalData =
+        Provider.of<HomeProvider>(context, listen: false).personalData;
     Size size = MediaQuery.of(context).size;
 
     return SafeArea(
         child: Scaffold(
-            //backgroundColor: Colors.black,
+            
             body: Stack(
       children: [
         Container(
           height: size.height,
           width: size.width,
           color: Colors.white,
-          /*decoration: BoxDecoration(
-            gradient: LinearGradient(colors: [Colors.white,Color.fromARGB(255, 199, 209, 223)], begin: Alignment.topCenter, end: Alignment.bottomCenter)
-          ),*/
+          
         ),
         SingleChildScrollView(
             child: Center(
           child: Column(
             children: [
-              /*Padding(
-                    padding: EdgeInsets.only( top:15, right: 15),
-                    child: Image.asset(
-                                "images/senza_sfondo.png",height: 270,)
-                  ),*/
+              
               Container(
                   margin: EdgeInsets.only(top: 30, left: 10, right: 10),
 
-                  //color:Colors.red,
+                  
                   child: Image.asset(
                     "images/Data_security_05.jpg",
                     height: 250,
                   )),
-              // SizedBox(height: 20),
+              
 
               Container(
                 height: 350,
@@ -83,7 +79,7 @@ class _LoginPage extends State<LoginPage> {
                             fontSize: 25,
                             fontWeight: FontWeight.bold,
                           ),
-                          //textAlign: TextAlign.start,  //problema nel posizionare il testo sulla sinistra
+                          
                         ),
                       ),
                       const Padding(
@@ -95,7 +91,7 @@ class _LoginPage extends State<LoginPage> {
                             fontSize: 17,
                             fontWeight: FontWeight.bold,
                           ),
-                          //textAlign: TextAlign.start,  //problema nel posizionare il testo sulla sinistra
+                          
                         ),
                       ),
                       SizedBox(height: 20),
@@ -118,13 +114,13 @@ class _LoginPage extends State<LoginPage> {
                                       filled: true,
                                       fillColor:
                                           Color.fromARGB(255, 85, 129, 196),
-                                      //labelText: 'Username',
+                                      
                                       hintText: 'Username',
                                       hintStyle: TextStyle(color: Colors.white),
                                       border: OutlineInputBorder(
                                           borderRadius:
                                               BorderRadius.circular(15)),
-                                      //border: OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
+                                      
                                       focusedBorder: OutlineInputBorder(
                                           borderSide:
                                               BorderSide(color: Colors.white),
@@ -169,18 +165,12 @@ class _LoginPage extends State<LoginPage> {
                                       border: OutlineInputBorder(
                                           borderRadius:
                                               BorderRadius.circular(15)),
-                                      /*enabledBorder: OutlineInputBorder(  come cambiare il colore del bordo prima dell'on tap
-                borderRadius: BorderRadius.circular(25.0),
-                borderSide: BorderSide(
-                  color: Colors.red,
-                  
-                ),
-                                ),*/
+
                                       prefixIcon:
                                           Icon(Icons.lock, color: Colors.white),
                                       suffixIcon: IconButton(
                                         icon: Icon(
-                                          // Based on passwordVisible state choose the icon
+                                         
                                           _passwordVisible
                                               ? Icons.visibility
                                               : Icons.visibility_off,
@@ -228,46 +218,45 @@ class _LoginPage extends State<LoginPage> {
                                                 passController.text);
                                             //bool flag = true;
                                             //await sp.setBool('flag', flag);
-                                            if (scoreQuiz!= -1) {
-                                              if (levelChoice != 0){
-                                                if(personalData!=false){
-                                                  if(levelChoice==1){
+                                            if (scoreQuiz != -1) {
+                                              if (levelChoice != 0) {
+                                                if (personalData != false) {
+                                                  if (levelChoice == 1) {
                                                     Navigator.pushReplacement(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          HomeSoftPage()));
-                                                  }else {
+                                                        context,
+                                                        MaterialPageRoute(
+                                                            builder: (context) =>
+                                                                HomeSoftPage()));
+                                                  } else {
                                                     Navigator.pushReplacement(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          HomeHardPage()));
-
+                                                        context,
+                                                        MaterialPageRoute(
+                                                            builder: (context) =>
+                                                                HomeHardPage()));
                                                   }
-                                                }else{
+                                                } else {
                                                   Navigator.pushReplacement(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          PersonalData()));
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              PersonalData()));
                                                 }
-
-                                              }else{
+                                              } else {
                                                 Navigator.pushReplacement(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          SplashQuiz()));
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            SplashQuiz(
+                                                                score:
+                                                                    scoreQuiz)));
                                               }
-                                            }else{
+                                            } else {
                                               Navigator.pushReplacement(
                                                   context,
                                                   MaterialPageRoute(
                                                       builder: (context) =>
                                                           Questionnaire()));
                                             }
-                                           
                                           } else {
                                             ScaffoldMessenger.of(context)
                                               ..removeCurrentSnackBar()

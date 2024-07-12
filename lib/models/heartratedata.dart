@@ -14,6 +14,6 @@ class HeartRateData{
 
   @override
   String toString() {
-    return 'StepData(time: $time, value: $value, confidence: $confidence)';
+    return 'HeartRateData(time: $time, value: $value, confidence: $confidence)';
   }//toString
 }//Steps
