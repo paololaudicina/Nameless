@@ -98,7 +98,15 @@ class _AddDrinkState extends State<AddDrink> {
           ElevatedButton(
             onPressed: () {
               if (widget.index != null) {
+                if (widget.date == DateFormat('yyyy-MM-dd').format(DateTime.now()) && hour ==0 ){
+                    ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                        content: Text('you forgot to select the hour or you selcted a future hour')), //scaffoldMessage when the day is today and user selected an future hour  
+                  );
+                } else {
+
                 _updateDrink();
+                }
               } else {
                 if (hour != 0) {
                   _addDrink();
@@ -131,6 +139,7 @@ class _AddDrinkState extends State<AddDrink> {
     quantity = Provider.of<HomeProvider>(context, listen: false).number;
     Provider.of<HomeProvider>(context, listen: false)
         .addDrink(date, quantity, hour);
+        Provider.of<HomeProvider>(context, listen: false).updateBAL();
     Navigator.pop(context);
   }
 
@@ -138,6 +147,7 @@ class _AddDrinkState extends State<AddDrink> {
     quantity = Provider.of<HomeProvider>(context, listen: false).number;
     Provider.of<HomeProvider>(context, listen: false)
         .updateDrink(widget.date, widget.index!, quantity, hour);
+        Provider.of<HomeProvider>(context, listen: false).updateBAL();
     Navigator.pop(context);
   }
 

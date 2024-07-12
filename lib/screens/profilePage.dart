@@ -3,7 +3,7 @@
 import 'package:Nameless/screens/personalData.dart';
 import 'package:flutter/material.dart';
 import 'package:Nameless/provider/homeProvider.dart';
-import 'package:Nameless/screens/splash.dart';
+import 'package:Nameless/screens/Login.dart';
 
 
 import 'package:provider/provider.dart';
@@ -20,12 +20,12 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     // String data = DateFormat('yyyy-MM-dd').format(DateTime.now());
-    void remove()async{
+    void remove(){
       Provider.of<HomeProvider>(context, listen: false).removeAll();
       
-      Provider.of<HomeProvider>(context, listen: false).initPreferences();
+      //Provider.of<HomeProvider>(context, listen: false).getPreferences();
       Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (context) => Splash()), (Route<dynamic> route) => false,);
+          MaterialPageRoute(builder: (context) => LoginPage()), (Route<dynamic> route) => false,);
           
     }
 
@@ -34,7 +34,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
           title: Consumer<HomeProvider>(
             builder: (context, provider, child) {
-              return Text('sono ${provider.Sex}');
+              return Text('ciao ${provider.listDate.length}');
             },
           ),
           actions: [
@@ -83,6 +83,7 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
             ElevatedButton(
                 onPressed: () {
+                  provider.upDateFlagEdit();
                   Navigator.pushReplacement(context,
                       MaterialPageRoute(builder: (context) => PersonalData()));
                 },

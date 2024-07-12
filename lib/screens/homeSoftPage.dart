@@ -120,6 +120,8 @@ class _HomeSoftPage extends State<HomeSoftPage> {
                       ),
                     ),
                   ),
+                  
+                  
                 ],
               ),
               const SizedBox(
@@ -127,14 +129,94 @@ class _HomeSoftPage extends State<HomeSoftPage> {
               ),
               Consumer<HomeProvider>(builder: (context, data, child) {
                 if (data.drive) {
-                  return const Text(
-                    'You can drive',
-                    style: TextStyle(color: Colors.green, fontSize: 20),
+                  return Container(
+                    width: 350,
+                    height: 250,
+                    child: Card(
+                      color: Colors.green[200],
+                      child: Column(
+                         mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SizedBox(height: 20),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              
+                              Image.asset('images/rate.png',height: 60,width: 60),
+                              SizedBox(width:25),
+                              Column(
+                                 mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text('Your blood Alchool Level',style: TextStyle(fontSize: 18),),
+                                  Text('${((data.totalBAC * 100).roundToDouble()) / 100} g/L',style: TextStyle(fontSize:15),),
+                                ],
+                              )
+                            ],
+                          ),
+                          SizedBox(height:20),
+                      
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Image.asset('images/safeDriver.png',height: 60,width: 60),
+                             SizedBox(width:20),
+                              Text('You are a safe driver',style: TextStyle(fontSize: 20),),
+                                
+                            ],
+                          ),
+                          SizedBox(height:20),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text('*The calculation of the blood alcohol level was done considering a V = 200 mL at 13%', style: TextStyle(fontSize: 11),textAlign: TextAlign.center,),
+                          ),
+                        ],
+                      ),
+                    ),
                   );
                 } else {
-                  return const Text(
-                    'WARNING: YOUR BLOOD ALCHOL LEVEL IS TOO HIGH TO DRIVE',
-                    style: TextStyle(color: Colors.red),
+                  return Container(
+                    width: 350,
+                    height: 250,
+                    child: Card(
+                      color: Colors.red[200],
+                      child: Column(
+                         mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SizedBox(height: 20),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              
+                              Image.asset('images/rate.png',height: 60,width: 60),
+                              SizedBox(width:25),
+                              Column(
+                                 mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text('Your blood Alchool Level',style: TextStyle(fontSize: 18),),
+                                  Text('${((data.totalBAC * 100).roundToDouble()) / 100} g/L',style: TextStyle(fontSize:15),),
+                                ],
+                              )
+                            ],
+                          ),
+                          SizedBox(height:20),
+                      
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Image.asset('images/noSafeDriver.png',height: 60,width: 60),
+                             SizedBox(width:20),
+                              Text('You are not a safe driver',style: TextStyle(fontSize: 20),),
+                                
+                            ],
+                          ),
+                           SizedBox(height:20),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text('*The calculation of the blood alcohol level was done considering a V = 200 mL at 13%', style: TextStyle(fontSize: 11),textAlign: TextAlign.center,),
+                          ),
+                        ],
+                      ),
+                    ),
                   );
                 }
               }),
@@ -155,7 +237,7 @@ class _HomeSoftPage extends State<HomeSoftPage> {
 
   void goToProfile() {
     Navigator.push(context, MaterialPageRoute(builder: (context) => const ProfilePage()));
-    Provider.of<HomeProvider>(context, listen: false).updateNewBAL();
+    Provider.of<HomeProvider>(context, listen: false).updateBAL();
 
   }
 
