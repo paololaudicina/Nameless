@@ -27,8 +27,8 @@ class _HomeSoftPage extends State<HomeSoftPage> {
           title: const Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text('SOFT LEVEL',
-                  style: TextStyle(fontSize: 40, color: Colors.white)),
+              Text('Soft Level',
+                  style: TextStyle(fontSize: 35, color: Colors.white)),
             ],
           ),
           backgroundColor: Colors.blue,
@@ -62,7 +62,7 @@ class _HomeSoftPage extends State<HomeSoftPage> {
                           MaterialPageRoute(
                               builder: (context) => const CalendarPage())),
                       child: Card(
-                        color: Colors.lightBlue,
+                        color: Colors.blue,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(15.0),
                           side:
@@ -71,7 +71,7 @@ class _HomeSoftPage extends State<HomeSoftPage> {
                         child: const Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Icon(Icons.local_drink),
+                            Icon(Icons.local_bar),
                             Text('ADD DRINKS')
                           ],
                         ),
@@ -85,7 +85,7 @@ class _HomeSoftPage extends State<HomeSoftPage> {
                       onTap: () => Navigator.push(context,
                           MaterialPageRoute(builder: (context) => Activity())),
                       child: Card(
-                        color: Colors.lightBlue,
+                        color: Colors.blue,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(15.0),
                           side:
@@ -111,7 +111,7 @@ class _HomeSoftPage extends State<HomeSoftPage> {
                         fecthHRData();
                       },
                       child: Card(
-                        color: Colors.lightBlue,
+                        color: Colors.blue,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(
                               15.0), // Imposta il raggio degli angoli del bordo
@@ -122,7 +122,7 @@ class _HomeSoftPage extends State<HomeSoftPage> {
                         ),
                         child: const Column(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: [Icon(Icons.insert_chart), Text('CHARTS')],
+                          children: [Icon(Icons.favorite), Text('CHART HR')],
                         ),
                       ),
                     ),
@@ -134,147 +134,208 @@ class _HomeSoftPage extends State<HomeSoftPage> {
               ),
               Consumer<HomeProvider>(builder: (context, data, child) {
                 if (data.drive) {
-                  return Container(
-                    width: 350,
-                    height: 300,
-                    child: Card(
-                      color: Colors.green[200],
-                      child: Padding(
-                        padding: const EdgeInsets.all(10),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                         
-                          children: [
-                            SizedBox(height: 20),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
+                  return Column(
+                    children: [
+                      Container(
+                        width: 350,
+                        height: 300,
+                        child: Card(
+                          color: Colors.green[200],
+                          child: Padding(
+                            padding: const EdgeInsets.all(10),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                             
                               children: [
-                                Image.asset('images/rate.png',
-                                    height: 60, width: 60),
-                                SizedBox(width: 25),
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
+                                SizedBox(height: 20),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
+                                    Image.asset('images/rate.png',
+                                        height: 60, width: 60),
+                                    SizedBox(width: 25),
+                                    Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          'Your blood Alchool Level',
+                                          style: TextStyle(fontSize: 18),
+                                        ),
+                                        Text(
+                                          '${((data.totalBAC * 100).roundToDouble()) / 100} g/L',
+                                          style: TextStyle(fontSize: 15),
+                                        ),
+                                      ],
+                                    )
+                                  ],
+                                ),
+                                SizedBox(height: 20),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Image.asset('images/safeDriver.png',
+                                        height: 60, width: 60),
+                                    SizedBox(width: 30),
                                     Text(
-                                      'Your blood Alchool Level',
-                                      style: TextStyle(fontSize: 18),
+                                      'You are a safe driver',
+                                      style: TextStyle(fontSize: 20),
+                                      textAlign:  TextAlign.center,
                                     ),
-                                    Text(
-                                      '${((data.totalBAC * 100).roundToDouble()) / 100} g/L',
-                                      style: TextStyle(fontSize: 15),
+                                  ],
+                                ),
+                                SizedBox(height: 20),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  //crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Image.asset('images/healthSoft.png',
+                                        height: 60, width: 60),
+                                    SizedBox(width: 20),
+                                    Expanded(
+                                      child: Text(
+                                        healthStatus(),
+                                        style: const TextStyle(fontSize: 15),
+                                        textAlign: TextAlign.center,
+                                      ),
                                     ),
                                   ],
                                 )
                               ],
                             ),
-                            SizedBox(height: 20),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Image.asset('images/safeDriver.png',
-                                    height: 60, width: 60),
-                                SizedBox(width: 30),
-                                Text(
-                                  'You are a safe driver',
-                                  style: TextStyle(fontSize: 20),
-                                  textAlign:  TextAlign.center,
-                                ),
-                              ],
-                            ),
-                            SizedBox(height: 20),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              //crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Image.asset('images/healthSoft.png',
-                                    height: 60, width: 60),
-                                SizedBox(width: 20),
-                                Expanded(
-                                  child: Text(
-                                    healthStatus(),
-                                    style: const TextStyle(fontSize: 15),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                ),
-                              ],
-                            )
-                          ],
+                          ),
                         ),
                       ),
-                    ),
+                         Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  ElevatedButton(onPressed: (){data.updateBALfake();},
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.blue,
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 40, vertical: 15),
+                            
+                          ), child: const Text('ADD HOUR',style: TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white),
+                          ),),
+                  ElevatedButton(onPressed: (){data.updateBAL();},
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.blue,
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 40, vertical: 15),
+                            
+                          ), child: const Text('RESET',style: TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white),
+                          ),),
+                ],
+              )
+                    ],
                   );
                 } else {
-                  return Container(
-                    width: 350,
-                    height: 300,
-                    child: Card(
-                      color: Colors.red[200],
-                      child: Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            SizedBox(height: 20),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
+                  return Column(
+                    children: [
+                      Container(
+                        width: 350,
+                        height: 300,
+                        child: Card(
+                          color: Colors.red[200],
+                          child: Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Image.asset('images/rate.png',
-                                    height: 60, width: 60),
-                                SizedBox(width: 25),
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
+                                SizedBox(height: 20),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
+                                    Image.asset('images/rate.png',
+                                        height: 60, width: 60),
+                                    SizedBox(width: 25),
+                                    Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          'Your blood Alchool Level',
+                                          style: TextStyle(fontSize: 18),
+                                        ),
+                                        Text(
+                                          '${((data.totalBAC * 100).roundToDouble()) / 100} g/L',
+                                          style: TextStyle(fontSize: 15),
+                                        ),
+                                      ],
+                                    )
+                                  ],
+                                ),
+                                SizedBox(height: 20),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Image.asset('images/noSafeDriver.png',
+                                        height: 60, width: 60),
+                                    SizedBox(width: 20),
                                     Text(
-                                      'Your blood Alchool Level',
-                                      style: TextStyle(fontSize: 18),
+                                      'You are not a safe driver',
+                                      style: TextStyle(fontSize: 20),
                                     ),
-                                    Text(
-                                      '${((data.totalBAC * 100).roundToDouble()) / 100} g/L',
-                                      style: TextStyle(fontSize: 15),
+                                  ],
+                                ),
+                                SizedBox(height: 20),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Image.asset('images/healthHard.png',
+                                        height: 60, width: 60),
+                                    SizedBox(width: 20),
+                                    Expanded(
+                                      child: Text(
+                                        healthStatus(),
+                                        style: const TextStyle(fontSize: 15),
+                                        textAlign: TextAlign.center,
+                                      ),
                                     ),
                                   ],
                                 )
                               ],
                             ),
-                            SizedBox(height: 20),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Image.asset('images/noSafeDriver.png',
-                                    height: 60, width: 60),
-                                SizedBox(width: 20),
-                                Text(
-                                  'You are not a safe driver',
-                                  style: TextStyle(fontSize: 20),
-                                ),
-                              ],
-                            ),
-                            SizedBox(height: 20),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Image.asset('images/healthHard.png',
-                                    height: 60, width: 60),
-                                SizedBox(width: 20),
-                                Expanded(
-                                  child: Text(
-                                    healthStatus(),
-                                    style: const TextStyle(fontSize: 15),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                ),
-                              ],
-                            )
-                          ],
+                          ),
                         ),
                       ),
-                    ),
+                        Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  ElevatedButton(onPressed: (){data.updateBALfake();},
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.blue,
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 40, vertical: 15),
+                          
+                          ), child: const Text('ADD HOUR',style: TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white),
+                          ),),
+                  ElevatedButton(onPressed: (){data.updateBAL();},
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.blue,
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 40, vertical: 15),
+                            
+                          ), child: const Text('RESET',style: TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white),
+                          ),),
+                ],
+              )
+                    ],
                   );
                 }
               }),
-              const SizedBox(
-                height: 20,
-              ),
+              
+             
             ],
           ),
         ),

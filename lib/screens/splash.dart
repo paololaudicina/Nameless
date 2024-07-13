@@ -90,12 +90,15 @@ class _SplashState extends State<Splash> {
     return Consumer<HomeProvider>(
       builder: (context, homeProvider, child) {
         if (!homeProvider.isInitialized) {
-          return const Scaffold(
+          return const SafeArea(
+            child: Scaffold(
             body: Center(
               child: CircularProgressIndicator(),
             ),
-          );
+          ));
         } else {
+
+
           return SafeArea(
           child:Scaffold(
             body: Container(

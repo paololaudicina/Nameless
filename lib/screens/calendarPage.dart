@@ -48,7 +48,7 @@ class _CalendarPageState extends State<CalendarPage> {
               trailing:
                   IconButton(onPressed: () {Provider.of<HomeProvider>(context, listen: false).removeDrink(date, index);}, 
                   icon: const Icon(Icons.delete)),
-              tileColor: Color.fromARGB(255, 62, 180, 234),
+              tileColor: Colors.blue,
             ),
           ),
       itemCount: Provider.of<HomeProvider>(context, listen: false)
@@ -77,8 +77,43 @@ class _CalendarPageState extends State<CalendarPage> {
         child: Scaffold(
             
             appBar: AppBar(
-             backgroundColor: const Color.fromARGB(255, 71, 169, 248),
-              title: const Text('Calendar Page'),
+             backgroundColor: Colors.blue,
+              title: const Text('Calendar Page',style: TextStyle(fontSize: 35,color:Colors.white)),
+              actions: [IconButton(onPressed: () {
+               
+                  showDialog(
+                      barrierDismissible: false,
+                      context: context,
+                      builder: (context) => AlertDialog(
+                          content: Container(
+                              height:220,
+                              child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    const Text('Explanation',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 18)),
+                                    const SizedBox(height: 10),
+                                    const Text(
+                                      'In this page you can add, modify or remove drink. The day colored green means you are under the limit. If you overcome the limit, you will see it colored red ',
+                                      
+                                      textAlign: TextAlign.left,
+                                    ),
+                                    
+                                    const SizedBox(height: 10),
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: const Text('Ok'),
+                                    )
+                                  ]))));
+                
+
+              },
+               icon: Icon(Icons.info))],
             ),
             body: SingleChildScrollView(
               child: Column(
@@ -114,6 +149,31 @@ class _CalendarPageState extends State<CalendarPage> {
                         ),
                       );
                     },
+                    selectedBuilder: (context,day,focusedDay) {
+                      return Container(
+                        margin: const EdgeInsets.all(4),
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          color: Colors.blue,
+                          borderRadius: BorderRadius.circular(10)
+                        ),
+                        child: Text('${day.day}',style:TextStyle(color:Colors.white))
+                      );
+                    },
+                    todayBuilder: (context,day,focusedDay) {
+                      return Opacity(
+                        opacity: 0.5,
+                        child: Container(
+                          margin: const EdgeInsets.all(4),
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            color: Colors.blue,
+                            borderRadius: BorderRadius.circular(10)
+                          ),
+                          child: Text('${day.day}',style:TextStyle(color:Colors.white))
+                        ),
+                      );
+                    }
                     )
                   ),
                   const SizedBox(height: 20,),
@@ -122,7 +182,7 @@ class _CalendarPageState extends State<CalendarPage> {
                       builder: (context, drinkProvider, child) {
                     if (drinkProvider.dictionaryDrinks[date] == null) {
                       return const Center(
-                          child: Text('Nessun drink aggiunto'));
+                          child: Text('No drinks added',style:TextStyle(fontSize: 17)));
                     } else {
                       return _listView(date);
                     }

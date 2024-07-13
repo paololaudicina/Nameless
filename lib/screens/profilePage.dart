@@ -1,9 +1,12 @@
+
 import 'package:Nameless/screens/advice.dart';
 import 'package:Nameless/screens/personalData.dart';
 
 import 'package:flutter/material.dart';
 import 'package:Nameless/provider/homeProvider.dart';
 import 'package:Nameless/screens/login.dart';
+
+
 
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -16,6 +19,7 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  
   @override
   Widget build(BuildContext context) {
     // String data = DateFormat('yyyy-MM-dd').format(DateTime.now());
@@ -39,12 +43,13 @@ class _ProfilePageState extends State<ProfilePage> {
       }
     }
 
+
     return SafeArea(
         child: Scaffold(
       appBar: AppBar(
           title: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-            Text('Profile page',
-                style: TextStyle(fontSize: 35, color: Colors.black))
+            Text('Profile Page',
+                style: TextStyle(fontSize: 35, color: Colors.white))
           ]),
           backgroundColor: Colors.blue,
           actions: [
@@ -54,9 +59,12 @@ class _ProfilePageState extends State<ProfilePage> {
                 },
                 icon: const Icon(Icons.logout)),
             SizedBox(width: 10),
+
           ]),
+
       body: Consumer<HomeProvider>(builder: (context, provider, child) {
         return SingleChildScrollView(
+
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -201,8 +209,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                         sex: provider.Sex,
                                       )));
                         },
-                        child: Text('EDIT',
-                            style: const TextStyle(
+                        child: const Text('EDIT',
+                            style:  TextStyle(
                               color: Colors.black,
                               fontSize: 15,
                               fontWeight: FontWeight.bold,
@@ -262,25 +270,24 @@ class _ProfilePageState extends State<ProfilePage> {
                                       ),
                                     ));
                           },
-                          child: Text(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.blue,
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 40, vertical: 15),
+
+                          ),
+                          child: const Text(
                             'SWITCH LEVEL',
                             style: TextStyle(
                                 fontSize: 13,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white),
                           ),
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.blue,
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 40, vertical: 15),
-                            textStyle: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
                         ),
                         ElevatedButton(
                           onPressed: () {
+                            Provider.of<HomeProvider>(context,listen:false).initNumber();
+                            
                             showDialog(
                                 context: context,
                                 builder: (context) => AlertDialog(
@@ -378,10 +385,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             backgroundColor: Colors.blue,
                             padding: EdgeInsets.symmetric(
                                 horizontal: 40, vertical: 15),
-                            textStyle: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
+                           
                           ),
                         ),
                       ],
@@ -448,10 +452,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             backgroundColor: Colors.blue,
                             padding: EdgeInsets.symmetric(
                                 horizontal: 40, vertical: 15),
-                            textStyle: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
+                           
                           ),
                         ),
                       ],
@@ -459,5 +460,7 @@ class _ProfilePageState extends State<ProfilePage> {
             ]));
       }),
     ));
+
   }
 }
+

@@ -263,8 +263,27 @@ class HomeProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
+  void updateBALfake() {
+    DateTime now = DateTime.now().add(Duration(hours: 1));
+    totalBAC = 0.0;
+    drive = true;
+    if (dictionaryDrinks[date] != null) {
+      for (var i = 0; i < dictionaryDrinks[date]!.length; i++) {
+        quantityAlchool = dictionaryDrinks[date]![i]['quantity']!;
+        hours = now.hour - dictionaryDrinks[date]![i]['hour']!;
+        if (dictionaryDrinks[date]![i]['type']==1) { C = 330*6*0.008;}
+        if (dictionaryDrinks[date]![i]['type']==2) { C = 125*12*0.008;}
+        if (dictionaryDrinks[date]![i]['type']==3) { C = 200*18*0.008;}
+        drinkBAC =
+            ((quantityAlchool * C * 1.055) / (weight * K)) - (0.15 * hours);
+        totalBAC += drinkBAC > 0 ? drinkBAC : 0.0;
+      }
+      if (totalBAC > 0.5) drive = false;
+      notifyListeners();
+    }
+  }
 
-  void _startTimer() {
+  void startTimer() {
     _timer = Timer.periodic(const Duration(minutes: 1), (timer) {
       // update newBAL every 5 minutes
       updateBAL();
@@ -273,7 +292,9 @@ class HomeProvider extends ChangeNotifier {
 
   void removeAll() async {
     final sp = await SharedPreferences.getInstance();
-    await sp.clear();
+    // await sp.remove('refreshToken');
+    // await sp.remove('accessToken');
+   await sp.clear();
     getPreferences();
     notifyListeners();
   }
@@ -290,7 +311,7 @@ class HomeProvider extends ChangeNotifier {
 // this call the functions when the provider borns, in particular in splash page
   HomeProvider() {
     initPreferences();
-    _startTimer();
+    startTimer();
     _loadDrinks();
     
     _startTimerSober();
@@ -424,10 +445,24 @@ class HomeProvider extends ChangeNotifier {
   List<DateTime> listDate = [];
   void populateListDate(DateTime? soberTime) {
     listDate.clear();
+    
     if (soberTime != null) {
-      listDate.add(soberTime);
-      listDate.add(soberTime.add(const Duration(days: 1)));
-      listDate.add(soberTime.add(const Duration(days: 2)));
+      int diff = DateTime.now().day - soberTime.day;
+      for (int i = 0; i< diff; i++){
+        listDate.add(soberTime.add( Duration(days: i)));
+      }
+    }
+    notifyListeners();
+  }
+
+  void populateListDateFake(DateTime? soberTime) {
+    listDate.clear();
+    
+    if (soberTime != null) {
+      int diff = DateTime.now().subtract(Duration(days:1)).day - soberTime.day;
+      for (int i = 0; i< diff; i++){
+        listDate.add(soberTime.add( Duration(days: i)));
+      }
     }
     notifyListeners();
   }

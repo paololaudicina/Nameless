@@ -17,6 +17,7 @@ class _ChartPageState extends State<ChartPage> {
       controller: ScrollController(),
       itemBuilder: (context, index) => Container(
             margin: const EdgeInsets.all(8),
+            
             child: ListTile(
               title: Text(
                   'Hour range: ${listKey[index]} - ${listKey[index] + 1}',
@@ -29,11 +30,11 @@ class _ChartPageState extends State<ChartPage> {
                     style: TextStyle(color: Colors.white, fontSize: 17),
                   ),
                   Text(
-                      'Physiological value: ${Provider.of<HomeProvider>(context).finalFlagHR || Provider.of<HomeProvider>(context).age < 60 ? ' 60 - 80 ' : ' 80 - 100 '}',
+                      'Physiological range: ${Provider.of<HomeProvider>(context).finalFlagHR || Provider.of<HomeProvider>(context).age < 60 ? ' 60 - 80 ' : ' 80 - 100 '}',
                       style: TextStyle(color: Colors.white, fontSize: 17))
                 ],
               ),
-              tileColor: Color.fromARGB(255, 62, 180, 234),
+              tileColor: Colors.blue,
             ),
           ),
       itemCount:
@@ -43,7 +44,7 @@ class _ChartPageState extends State<ChartPage> {
     return SafeArea(
         child: Scaffold(
       appBar: AppBar(
-          title: const Text('Chart Page'),
+          title: const Text('Chart Page',style: TextStyle(fontSize: 35,color: Colors.white),),
           backgroundColor: Colors.blue,
           actions: [
             IconButton(
@@ -53,7 +54,7 @@ class _ChartPageState extends State<ChartPage> {
                       context: context,
                       builder: (context) => AlertDialog(
                           content: Container(
-                              height: 300,
+                              height:350,
                               child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
@@ -64,8 +65,8 @@ class _ChartPageState extends State<ChartPage> {
                                             fontSize: 18)),
                                     const SizedBox(height: 10),
                                     const Text(
-                                      'In this page you can see the chart of your specific heart rate. If you added drinks in Calendar Page, the app shows you: ',
-                                      style: TextStyle(fontSize: 17),
+                                      'In this page you can see the chart of your daily heart rate. If you added drinks in Calendar Page, the app shows you: ',
+                                      
                                       textAlign: TextAlign.left,
                                     ),
                                     const SizedBox(
@@ -76,7 +77,9 @@ class _ChartPageState extends State<ChartPage> {
                                     const Text(
                                         'Mean HR : your HR\'s mean in these range'),
                                     const Text(
-                                        'Physiological value: your physiological value'),
+                                        'Physiological range: based on your age     '),
+                                        const SizedBox(height: 10),
+                                    const Text('The time range is 1 hour as the effect of alcohol occur within an hour. Then you can compare your average HR with your physiological one',style: TextStyle(fontWeight: FontWeight.bold),),
                                     const SizedBox(height: 10),
                                     ElevatedButton(
                                       onPressed: () {
@@ -128,14 +131,20 @@ class _ChartPageState extends State<ChartPage> {
               if (data.checkHRData) {
                 if (data.heartrateData.isEmpty) {
                   return const Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Text(
-                        'nothing to display. The selected date is after the yesterday date'),
+                    padding: EdgeInsets.symmetric(horizontal : 35,vertical :250),
+                    child: Column(
+                      children: [
+                        Text(
+                            'Nothing to display.',style: TextStyle(fontSize: 15)),
+                            Text(' The selected date is after the yesterday date',style: TextStyle(fontSize: 15))
+                      ],
+                    ),
                   );
                 } else {
                   return Column(
                     children: [
-                      HRDataPlot(heartrateData: data.heartrateData),
+                      HRDataPlot(heartrateData: data.heartrateData
+                             ),
                       _listView(data.listKey)
                     ],
                   );

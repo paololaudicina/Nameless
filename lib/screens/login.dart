@@ -39,30 +39,25 @@ class _LoginPage extends State<LoginPage> {
 
     return SafeArea(
         child: Scaffold(
-            
             body: Stack(
       children: [
         Container(
           height: size.height,
           width: size.width,
           color: Colors.white,
-          
         ),
         SingleChildScrollView(
             child: Center(
           child: Column(
             children: [
-              
+              SizedBox(height: 20,),
               Container(
                   margin: EdgeInsets.only(top: 30, left: 10, right: 10),
-
-                  
                   child: Image.asset(
-                    "images/Data_security_05.jpg",
+                    "images/wellness.png",
                     height: 250,
                   )),
-              
-
+                  SizedBox(height: 20,),
               Container(
                 height: 350,
                 width: 350,
@@ -75,11 +70,10 @@ class _LoginPage extends State<LoginPage> {
                         child: Text(
                           'Login',
                           style: TextStyle(
-                            color: Color.fromARGB(255, 43, 96, 176),
+                            color: Colors.blue,
                             fontSize: 25,
                             fontWeight: FontWeight.bold,
                           ),
-                          
                         ),
                       ),
                       const Padding(
@@ -87,11 +81,10 @@ class _LoginPage extends State<LoginPage> {
                         child: Text(
                           'Please Sign in to continue',
                           style: TextStyle(
-                            color: Color.fromARGB(255, 43, 96, 176),
+                            color: Colors.blue,
                             fontSize: 17,
                             fontWeight: FontWeight.bold,
                           ),
-                          
                         ),
                       ),
                       SizedBox(height: 20),
@@ -112,21 +105,21 @@ class _LoginPage extends State<LoginPage> {
                                     controller: userController,
                                     decoration: InputDecoration(
                                       filled: true,
-                                      fillColor:
-                                          Color.fromARGB(255, 85, 129, 196),
-                                      
+                                      fillColor: Colors.blue,
+
                                       hintText: 'Username',
                                       hintStyle: TextStyle(color: Colors.white),
+                                      
+
+                                      focusedBorder: OutlineInputBorder(
+                                          borderSide:
+                                              BorderSide(color: Colors.black),
+                                          borderRadius:
+                                              BorderRadius.circular(15)),
                                       border: OutlineInputBorder(
                                           borderRadius:
                                               BorderRadius.circular(15)),
                                       
-                                      focusedBorder: OutlineInputBorder(
-                                          borderSide:
-                                              BorderSide(color: Colors.white),
-                                          borderRadius:
-                                              BorderRadius.circular(15)),
-                                      // border: ,
                                       prefixIcon: Icon(
                                         Icons.email,
                                         color: Colors.white,
@@ -153,8 +146,7 @@ class _LoginPage extends State<LoginPage> {
                                     obscureText: !_passwordVisible,
                                     decoration: InputDecoration(
                                       filled: true,
-                                      fillColor:
-                                          Color.fromARGB(255, 85, 129, 196),
+                                      fillColor: Colors.blue,
                                       hintText: 'Password',
                                       hintStyle: TextStyle(color: Colors.white),
                                       focusedBorder: OutlineInputBorder(
@@ -165,12 +157,10 @@ class _LoginPage extends State<LoginPage> {
                                       border: OutlineInputBorder(
                                           borderRadius:
                                               BorderRadius.circular(15)),
-
                                       prefixIcon:
                                           Icon(Icons.lock, color: Colors.white),
                                       suffixIcon: IconButton(
                                         icon: Icon(
-                                         
                                           _passwordVisible
                                               ? Icons.visibility
                                               : Icons.visibility_off,
@@ -198,11 +188,11 @@ class _LoginPage extends State<LoginPage> {
                                   height: 50,
                                   width: 100,
                                   child: ElevatedButton(
-                                      style: ButtonStyle(
-                                          backgroundColor:
-                                              MaterialStatePropertyAll(
-                                                  Color.fromARGB(
-                                                      255, 85, 129, 196))),
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: Colors.blue,
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 20, vertical: 15),
+                                      ),
                                       onPressed: () async {
                                         if (_formKey.currentState!.validate()) {
                                           final response = await Impact()
@@ -267,9 +257,9 @@ class _LoginPage extends State<LoginPage> {
                                           }
                                         }
                                       },
-                                      child: Text(
-                                        'Login',
-                                        style: TextStyle(color: Colors.white),
+                                      child: const Text(
+                                        'LOGIN',
+                                        style: TextStyle(color: Colors.white,fontSize: 13),
                                       )),
                                 )
                               ]))
