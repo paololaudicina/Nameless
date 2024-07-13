@@ -281,8 +281,9 @@ class HomeProvider extends ChangeNotifier {
   void switchSoft() async{
      final sp = await SharedPreferences.getInstance();
      await sp.remove('drinks');
-     totalBAC = 0;
+     await sp.remove('limit');
      dictionaryDrinks.clear();
+     updateBAL();
      notifyListeners();
   }
 
