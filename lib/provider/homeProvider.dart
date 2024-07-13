@@ -457,6 +457,7 @@ class HomeProvider extends ChangeNotifier {
 
   void populateListDateFake(DateTime? soberTime) {
     listDate.clear();
+    //
     
     if (soberTime != null) {
       int diff = DateTime.now().subtract(Duration(days:1)).day - soberTime.day;
