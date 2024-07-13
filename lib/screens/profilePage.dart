@@ -1,9 +1,12 @@
+
 import 'package:Nameless/screens/advice.dart';
 import 'package:Nameless/screens/personalData.dart';
 
 import 'package:flutter/material.dart';
 import 'package:Nameless/provider/homeProvider.dart';
 import 'package:Nameless/screens/login.dart';
+
+
 
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -16,6 +19,7 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  
   @override
   Widget build(BuildContext context) {
     // String data = DateFormat('yyyy-MM-dd').format(DateTime.now());
@@ -39,6 +43,7 @@ class _ProfilePageState extends State<ProfilePage> {
       }
     }
 
+
     return SafeArea(
         child: Scaffold(
       appBar: AppBar(
@@ -54,9 +59,12 @@ class _ProfilePageState extends State<ProfilePage> {
                 },
                 icon: const Icon(Icons.logout)),
             SizedBox(width: 10),
+
           ]),
+
       body: Consumer<HomeProvider>(builder: (context, provider, child) {
         return SingleChildScrollView(
+
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -452,5 +460,7 @@ class _ProfilePageState extends State<ProfilePage> {
             ]));
       }),
     ));
+
   }
 }
+
