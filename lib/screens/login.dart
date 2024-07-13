@@ -129,7 +129,7 @@ class _LoginPage extends State<LoginPage> {
                                       //border: OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
                                       focusedBorder: OutlineInputBorder(
                                           borderSide:
-                                              BorderSide(color: Colors.white),
+                                              BorderSide(color: Colors.black),
                                           borderRadius:
                                               BorderRadius.circular(15)),
                                       // border: ,

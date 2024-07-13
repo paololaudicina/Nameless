@@ -25,8 +25,11 @@ class _ActivityState extends State<Activity> {
             //crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text('Creative activities can be very helpful for people looking to reduce or quit drinking alcohol. These activities not only help distract from the urge to drink but also promote mental well-being, improve mood, and build new healthy habits. Here are some creative activities and their benefits:'),
+                padding: const EdgeInsets.all(16.0),
+                child: Text(
+                  'Creative activities can be very helpful for people looking to reduce or quit drinking alcohol. These activities not only help distract from the urge to drink but also promote mental well-being, improve mood, and build new healthy habits. Here are some creative activities and their benefits:',
+                  style: TextStyle(fontSize: 16),
+                  ),
               ),
               SizedBox (height: 10),
               ListView.builder(
@@ -47,9 +50,14 @@ class _ActivityState extends State<Activity> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    Text(catalogue.list[index].title),
+                                    Text(catalogue.list[index].title,
+                                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                                    textAlign: TextAlign.center,
+                                    ),
                                     SizedBox(height: 10),
-                                    Text(catalogue.list[index].description),
+                                    Text(catalogue.list[index].description,
+                                      style: TextStyle(fontSize: 14),
+                                      textAlign: TextAlign.left,),
                                     SizedBox(height: 10),
                                     ElevatedButton(
                                       onPressed: () => Navigator.pop(
@@ -65,12 +73,28 @@ class _ActivityState extends State<Activity> {
                         },
                         child: Container(
                           height: 100,
-                          width: 400,
+                          width: double.infinity,
+                          margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                           child: Card(
-                            child: Center(
+                            elevation: 2,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
                               child: Row(
                                 children: [
-                                  Text(catalogue.list[index].title),
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(8.0),
+                                    child:Image.asset(
+                                      catalogue.list[index].imageUrl,
+                                      height: 50,
+                                       width: 50,
+                                      fit: BoxFit.cover,
+                                    )
+                                  ),
+                                  SizedBox(width: 10),
+                                  Expanded(
+                                    child: Text(catalogue.list[index].title,
+                                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                                  ),)
                                 ],
                               )),
                             //color: const Color.fromARGB(255, 106, 0, 255),
@@ -83,7 +107,6 @@ class _ActivityState extends State<Activity> {
                           ),
                         ),
                       ),
-                      SizedBox(height: 10)
                     ],
                   );
                 },
