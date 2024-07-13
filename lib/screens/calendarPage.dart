@@ -107,9 +107,6 @@ class _CalendarPageState extends State<CalendarPage> {
                       final drinkProvider = Provider.of<HomeProvider>(context, listen: false);
                       String formattedDate = DateFormat('yyyy-MM-dd').format(day);
                        drinkProvider.sumQuantity(formattedDate);
-                      
-                      
-                  
                       return Center(
                         child: Text(
                           day.day.toString(),
