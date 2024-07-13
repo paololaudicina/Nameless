@@ -1,7 +1,7 @@
 class CatalogueEffect {
   final List<CatalogueHealth> list=[
     CatalogueHealth(
-      rangeAlchool: [0,0],
+      rangeAlchool: [0,0.1],
       description: 'No effect for your health' 
     ),
 

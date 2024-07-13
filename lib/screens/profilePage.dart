@@ -43,8 +43,8 @@ class _ProfilePageState extends State<ProfilePage> {
         child: Scaffold(
       appBar: AppBar(
           title: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-            Text('Profile page',
-                style: TextStyle(fontSize: 35, color: Colors.black))
+            Text('Profile Page',
+                style: TextStyle(fontSize: 35, color: Colors.white))
           ]),
           backgroundColor: Colors.blue,
           actions: [
@@ -201,8 +201,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                         sex: provider.Sex,
                                       )));
                         },
-                        child: Text('EDIT',
-                            style: const TextStyle(
+                        child: const Text('EDIT',
+                            style:  TextStyle(
                               color: Colors.black,
                               fontSize: 15,
                               fontWeight: FontWeight.bold,
@@ -262,25 +262,24 @@ class _ProfilePageState extends State<ProfilePage> {
                                       ),
                                     ));
                           },
-                          child: Text(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.blue,
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 40, vertical: 15),
+
+                          ),
+                          child: const Text(
                             'SWITCH LEVEL',
                             style: TextStyle(
                                 fontSize: 13,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white),
                           ),
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.blue,
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 40, vertical: 15),
-                            textStyle: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
                         ),
                         ElevatedButton(
                           onPressed: () {
+                            Provider.of<HomeProvider>(context,listen:false).initNumber();
+                            
                             showDialog(
                                 context: context,
                                 builder: (context) => AlertDialog(
@@ -378,10 +377,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             backgroundColor: Colors.blue,
                             padding: EdgeInsets.symmetric(
                                 horizontal: 40, vertical: 15),
-                            textStyle: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
+                           
                           ),
                         ),
                       ],
@@ -448,10 +444,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             backgroundColor: Colors.blue,
                             padding: EdgeInsets.symmetric(
                                 horizontal: 40, vertical: 15),
-                            textStyle: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
+                           
                           ),
                         ),
                       ],

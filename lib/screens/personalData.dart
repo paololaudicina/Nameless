@@ -55,8 +55,11 @@ class _PersonalDataState extends State<PersonalData> {
     return SafeArea(
         child: Scaffold(
             appBar: AppBar(
-              title: const Text('Personal Data',
-                  style: TextStyle(fontSize: 28, color: Colors.black)),
+              automaticallyImplyLeading: false,
+              title: Center(
+                child: const Text('Personal Data',
+                    style: TextStyle(fontSize: 35, color: Colors.white),),
+              ),
               backgroundColor: Colors.blue,
             ),
             body: Padding(
@@ -239,21 +242,18 @@ class _PersonalDataState extends State<PersonalData> {
                                               Text('Missing personal data')));
                                   }
                                 },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.blue,
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 40, vertical: 15),
+
+                                ),
                                 child: const Text(
                                   'SAVE',
                                   style: TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.bold,
                                       color: Colors.white),
-                                ),
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.blue,
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 40, vertical: 15),
-                                  textStyle: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                  ),
                                 ),
                               ),
                             ],
