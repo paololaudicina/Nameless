@@ -75,7 +75,7 @@ class _CalendarPageState extends State<CalendarPage> {
     }
       return SafeArea(
         child: Scaffold(
-            //è il widget che definisce una pagina
+            
             appBar: AppBar(
              backgroundColor: const Color.fromARGB(255, 71, 169, 248),
               title: const Text('Calendar Page'),
@@ -107,19 +107,10 @@ class _CalendarPageState extends State<CalendarPage> {
                       final drinkProvider = Provider.of<HomeProvider>(context, listen: false);
                       String formattedDate = DateFormat('yyyy-MM-dd').format(day);
                        drinkProvider.sumQuantity(formattedDate);
-                      int drinkCount = drinkProvider.mapQuantity[formattedDate]!;
-                  
-                      Color dayColor;
-                      if (drinkCount > 4) {
-                        dayColor = Colors.red;
-                      } else {
-                        dayColor = Colors.green;
-                      }
-                  
                       return Center(
                         child: Text(
                           day.day.toString(),
-                          style: TextStyle(color: dayColor),
+                          style: TextStyle(color: (drinkProvider.calendarColors[formattedDate]!=null)? drinkProvider.calendarColors[formattedDate] : Colors.green),
                         ),
                       );
                     },
@@ -141,12 +132,12 @@ class _CalendarPageState extends State<CalendarPage> {
             ),
             floatingActionButton: FloatingActionButton(
               backgroundColor: const Color.fromARGB(255, 71, 169, 248),
-              onPressed: () {_addMeal(_selectedDay);}, 
+              onPressed: () {_addDrink(_selectedDay);}, 
               child: const Icon(Icons.add),
             )),
       );
     }
-    void _addMeal(DateTime _selectedDay) {
+    void _addDrink(DateTime _selectedDay) {
     Provider.of<HomeProvider>(context,listen:false).initNumber();
     String date = DateFormat('yyyy-MM-dd').format(_selectedDay);
     Navigator.push(

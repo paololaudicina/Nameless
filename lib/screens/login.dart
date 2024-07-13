@@ -39,35 +39,29 @@ class _LoginPage extends State<LoginPage> {
 
     return SafeArea(
         child: Scaffold(
-            //backgroundColor: Colors.black,
+            
             body: Stack(
       children: [
         Container(
           height: size.height,
           width: size.width,
           color: Colors.white,
-          /*decoration: BoxDecoration(
-            gradient: LinearGradient(colors: [Colors.white,Color.fromARGB(255, 199, 209, 223)], begin: Alignment.topCenter, end: Alignment.bottomCenter)
-          ),*/
+          
         ),
         SingleChildScrollView(
             child: Center(
           child: Column(
             children: [
-              /*Padding(
-                    padding: EdgeInsets.only( top:15, right: 15),
-                    child: Image.asset(
-                                "images/senza_sfondo.png",height: 270,)
-                  ),*/
+              
               Container(
                   margin: EdgeInsets.only(top: 30, left: 10, right: 10),
 
-                  //color:Colors.red,
+                  
                   child: Image.asset(
                     "images/Data_security_05.jpg",
                     height: 250,
                   )),
-              // SizedBox(height: 20),
+              
 
               Container(
                 height: 350,
@@ -85,7 +79,7 @@ class _LoginPage extends State<LoginPage> {
                             fontSize: 25,
                             fontWeight: FontWeight.bold,
                           ),
-                          //textAlign: TextAlign.start,  //problema nel posizionare il testo sulla sinistra
+                          
                         ),
                       ),
                       const Padding(
@@ -97,7 +91,7 @@ class _LoginPage extends State<LoginPage> {
                             fontSize: 17,
                             fontWeight: FontWeight.bold,
                           ),
-                          //textAlign: TextAlign.start,  //problema nel posizionare il testo sulla sinistra
+                          
                         ),
                       ),
                       SizedBox(height: 20),
@@ -120,13 +114,13 @@ class _LoginPage extends State<LoginPage> {
                                       filled: true,
                                       fillColor:
                                           Color.fromARGB(255, 85, 129, 196),
-                                      //labelText: 'Username',
+                                      
                                       hintText: 'Username',
                                       hintStyle: TextStyle(color: Colors.white),
                                       border: OutlineInputBorder(
                                           borderRadius:
                                               BorderRadius.circular(15)),
-                                      //border: OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
+                                      
                                       focusedBorder: OutlineInputBorder(
                                           borderSide:
                                               BorderSide(color: Colors.black),
@@ -171,18 +165,12 @@ class _LoginPage extends State<LoginPage> {
                                       border: OutlineInputBorder(
                                           borderRadius:
                                               BorderRadius.circular(15)),
-                                      /*enabledBorder: OutlineInputBorder(  come cambiare il colore del bordo prima dell'on tap
-                borderRadius: BorderRadius.circular(25.0),
-                borderSide: BorderSide(
-                  color: Colors.red,
-                  
-                ),
-                                ),*/
+
                                       prefixIcon:
                                           Icon(Icons.lock, color: Colors.white),
                                       suffixIcon: IconButton(
                                         icon: Icon(
-                                          // Based on passwordVisible state choose the icon
+                                         
                                           _passwordVisible
                                               ? Icons.visibility
                                               : Icons.visibility_off,

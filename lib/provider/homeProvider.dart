@@ -16,7 +16,7 @@ class HomeProvider extends ChangeNotifier {
   int levelChoice = 0;
   int weight = 0;
   int newHour = DateTime.now().hour;
-  double C = 13 * 200 * 0.008;
+  double C = 0;
   double K = 0.66;
   double istantBAL = 0;
   List<int> listNumDrinks = [2, 4, 6, 8, 10];
@@ -33,22 +33,23 @@ class HomeProvider extends ChangeNotifier {
   Map<String, Color> calendarColors = {};
   int totalQuantity = 0;
 
-  String soberDateTime = '';
   DateTime? soberTime;
   Timer? _timerSober;
   String _counterText = '0 days, 0 hours, 0 minutes, 0 seconds';
   String get counterText => _counterText;
 
-  String nameUser='';
-  String surnameUser='';
-  int age=0;
-
-
+  String nameUser = '';
+  String surnameUser = '';
+  int age = 0;
 
   Timer? _timer;
-  DateTime showDate=DateTime.now().subtract(const Duration(days: 1));
+  DateTime showDate = DateTime.now().subtract(const Duration(days: 1));
 
+  bool flagEdit = false;
 
+  void upDateFlagEdit() {
+    flagEdit = !flagEdit;
+  }
 
   Future<void> initPreferences() async {
     await getPreferences();
@@ -65,19 +66,19 @@ class HomeProvider extends ChangeNotifier {
     levelChoice = sp.getInt('levelChoice') ?? 0;
     personalData = sp.getBool('personalData') ?? false;
     weight = sp.getInt('weight') ?? 0;
-    nameUser = sp.getString('Name')?? 'nameUser';
+    nameUser = sp.getString('Name') ?? 'nameUser';
     surnameUser = sp.getString('Surname') ?? 'surnameUser';
     age = sp.getInt('age') ?? 0;
     if (Sex == 'Male') K = 0.73;
-    soberDateTime = sp.getString('soberDateTime') ?? '';
+    //soberDateTime = sp.getString('soberDateTime') ?? '';
 
     String? soberTimeString = sp.getString('soberTime');
     if (soberTimeString != null) {
       soberTime = DateTime.parse(soberTimeString);
       _startTimerSober();
     }
+    notifyListeners();
   }
-
 
   void _startTimerSober() {
     _timerSober
@@ -86,7 +87,6 @@ class HomeProvider extends ChangeNotifier {
       _updateCounter();
     });
   }
-
 
   void _updateCounter() {
     if (soberTime != null) {
@@ -100,16 +100,16 @@ class HomeProvider extends ChangeNotifier {
           '$days days, $hours hours, $minutes minutes, $seconds seconds';
       notifyListeners();
     }
-
-   
   }
 
   Future<void> startCounter() async {
     final sp = await SharedPreferences.getInstance();
-    soberTime = DateTime.now();
+    soberTime = DateTime.now().subtract(Duration(days: 3));
     String formattedTime = DateFormat('yyyy-MM-dd HH:mm:ss').format(soberTime!);
     sp.setString('soberTime', formattedTime);
+    populateListDate(soberTime);
     _startTimerSober();
+    await getPreferences();
     notifyListeners();
   }
 
@@ -120,22 +120,22 @@ class HomeProvider extends ChangeNotifier {
     soberTime = null;
     _counterText = "0 days, 0 hours, 0 minutes, 0 seconds";
     _timer?.cancel();
+    meanHRHard.clear();
     notifyListeners();
   }
 
-  void addDrink(String date, int quantity, int hour) {
-    Drink drink = Drink(quantity: quantity, hour: hour);
+  void addDrink(String date, int quantity, int hour, int type) {
+    Drink drink = Drink(quantity: quantity, hour: hour,type: type);
     Map<String, int> mapDrink = drink.toMap();
     if (dictionaryDrinks.containsKey(date)) {
       dictionaryDrinks[date]?.add(mapDrink);
-
     } else {
       dictionaryDrinks[date] = [mapDrink];
     }
 
     _saveDrinks();
     sumQuantity(date);
-    _updateCalendarColors();
+    updateCalendarColors();
     notifyListeners();
   }
 
@@ -146,16 +146,18 @@ class HomeProvider extends ChangeNotifier {
     }
     _saveDrinks();
     sumQuantity(date);
-    _updateCalendarColors();
+    updateCalendarColors();
+    updateBAL();
     notifyListeners();
   }
 
-  void updateDrink(String date, int index, int quantity, int hour) {
+  void updateDrink(String date, int index, int quantity, int hour, int type) {
     dictionaryDrinks[date]![index]['quantity'] = quantity;
     dictionaryDrinks[date]![index]['hour'] = hour;
+    dictionaryDrinks[date]![index]['type'] = type;
     _saveDrinks();
     sumQuantity(date);
-    _updateCalendarColors();
+    updateCalendarColors();
     notifyListeners();
   }
 
@@ -176,7 +178,7 @@ class HomeProvider extends ChangeNotifier {
             value.map((item) => Map<String, int>.from(item)),
           )));
       _loadTotalQuantity();
-      _updateCalendarColors();
+      updateCalendarColors();
       notifyListeners();
     }
   }
@@ -211,7 +213,7 @@ class HomeProvider extends ChangeNotifier {
     } else {
       mapQuantity[date] = 0;
     }
-    _updateCalendarColors();
+    updateCalendarColors();
   }
 
   void _loadTotalQuantity() {
@@ -220,84 +222,93 @@ class HomeProvider extends ChangeNotifier {
       sumQuantity(element);
     }
   }
+  int? limit;
 
-  void _updateCalendarColors() {
+  void updateCalendarColors() async{
+    final sp = await SharedPreferences.getInstance();
+    limit = sp.getInt('limit');
+    limit = (limit==null)? (numDrinks - 1): limit;
     calendarColors.clear();
     mapQuantity.forEach((date, quantity) {
-      if (quantity > (numDrinks - 1)) {
+      if (quantity > (limit!)) {
         calendarColors[date] = Colors.red;
       } else {
         calendarColors[date] = Colors.green; // o un altro colore di default
       }
     });
+    notifyListeners();
   }
 
-  double newBAL = 0;
-  double oldBAL = 0;
+  int hours = 0;
+  int quantityAlchool = 0;
+  double drinkBAC = 0.0;
+  double totalBAC = 0.0;
   bool drive = true;
-  int deltaT = 0;
-  int newDeltaT = 0;
-
-  void alcholLevel(int hour, int quantity) {
-    newHour = hour;
-    istantBAL = (quantity * C * 1.055) / (weight * K);
-    deltaT = DateTime.now().hour - newHour;
-    newBAL = istantBAL + (oldBAL - (0.15 * deltaT));
-    if (newBAL < 0) newBAL = 0;
-    if (newBAL >= 0.5) drive = false;
-    oldBAL = newBAL;
-    istantBAL = 0;
-    newDeltaT = deltaT; // new variable for checking
-  }
-
-  // this function update newball when it is called because we want a function of time, without it newBAL is updated only when alcholLevel is used
-  // in particular when add drink
-  void updateNewBAL() {
-    if (newHour != 0) {
-      deltaT = DateTime.now().hour - newHour;
-      if (deltaT != newDeltaT) {
-        int relDeltaT = deltaT - newDeltaT;
-        newBAL = oldBAL - (0.15 * relDeltaT);
-        if (newBAL < 0) newBAL = 0;
-        if (newBAL >= 0.5) drive = false;
-        oldBAL = newBAL;
-        newDeltaT = deltaT;
+  void updateBAL() {
+    DateTime now = DateTime.now();
+    totalBAC = 0.0;
+    drive = true;
+    if (dictionaryDrinks[date] != null) {
+      for (var i = 0; i < dictionaryDrinks[date]!.length; i++) {
+        quantityAlchool = dictionaryDrinks[date]![i]['quantity']!;
+        hours = now.hour - dictionaryDrinks[date]![i]['hour']!;
+        if (dictionaryDrinks[date]![i]['type']==1) { C = 330*6*0.008;}
+        if (dictionaryDrinks[date]![i]['type']==2) { C = 125*12*0.008;}
+        if (dictionaryDrinks[date]![i]['type']==3) { C = 200*18*0.008;}
+        drinkBAC =
+            ((quantityAlchool * C * 1.055) / (weight * K)) - (0.15 * hours);
+        totalBAC += drinkBAC > 0 ? drinkBAC : 0.0;
       }
-
+      if (totalBAC > 0.5) drive = false;
       notifyListeners();
     }
   }
 
   void _startTimer() {
-    _timer = Timer.periodic(const Duration(minutes: 5), (timer) {
+    _timer = Timer.periodic(const Duration(minutes: 1), (timer) {
       // update newBAL every 5 minutes
-      updateNewBAL();
+      updateBAL();
     });
   }
 
   void removeAll() async {
     final sp = await SharedPreferences.getInstance();
-    await sp.remove('refreshToken');
-    await sp.remove('accessToken');
+    await sp.clear();
+    getPreferences();
     notifyListeners();
   }
 
+  void switchSoft() async{
+     final sp = await SharedPreferences.getInstance();
+     await sp.remove('drinks');
+     await sp.remove('limit');
+     dictionaryDrinks.clear();
+     updateBAL();
+     notifyListeners();
+  }
 
 // this call the functions when the provider borns, in particular in splash page
   HomeProvider() {
     initPreferences();
     _startTimer();
     _loadDrinks();
+    
     _startTimerSober();
+   
     notifyListeners();
   }
 
+  // block soft level data
   List<HeartRateData> heartrateData = [];
+  List<int> listHRValue = [];
+  // int initHour=0;
   bool checkHRData = false;
+  int heartRateMean = 0;
 
   void fetchHRData(DateTime giorno) async {
     checkHRData = false;
     heartrateData.clear();
+    listHRValue.clear();
     String day = DateFormat('y-M-d').format(giorno);
     //Get the response
     final data = await Impact().fetchHeartRateData(day);
@@ -305,40 +316,152 @@ class HomeProvider extends ChangeNotifier {
       for (var i = 0; i < data['data']['data'].length; i++) {
         heartrateData.add(HeartRateData.fromJson(
             data['data']['date'], data['data']['data'][i]));
+        listHRValue.add(heartrateData[i].value);
       } //for
-
+      int somma = listHRValue.reduce((value, element) => element + value);
+      heartRateMean = (somma / listHRValue.length).floor();
     } //if
-    showDate=giorno;
+
+    showDate = giorno;
     checkHRData = true;
+    meanHRrelative();
     notifyListeners();
-    
   } //fetchStepData
 
-  void subtractDate(){
+  String showDateFormatted = '';
+  int hourDrink = 0;
+  int initialIndex = 0;
+  int finalIndex = 0;
+  Map<int, int> mapMeanHR = {};
+  List<int> listKey = [];
+  int counter = 0;
+  bool initFlagHR = true;
+  bool finalFlagHR = true;
+
+  void meanHRrelative() {
+    showDateFormatted = DateFormat('yyyy-MM-dd').format(showDate);
+    mapMeanHR.clear();
+    listKey.clear();
+    initFlagHR = true;
+    finalFlagHR = true;
+    if (checkHRData) {
+      if (dictionaryDrinks.containsKey(showDateFormatted)) {
+        int lenListDrink = dictionaryDrinks[showDateFormatted]!.length;
+        for (var k = 0; k < lenListDrink; k++) {
+          hourDrink = dictionaryDrinks[showDateFormatted]![k]['hour']!;
+
+          for (var i = 0; i < heartrateData.length; i++) {
+            if (heartrateData[i].time.hour == hourDrink) {
+              initialIndex = i;
+              initFlagHR = false;
+              break;
+            }
+          }
+
+          for (var i = 0; i < heartrateData.length; i++) {
+            if (hourDrink == 23){
+              finalIndex = listHRValue.length-1;
+              finalFlagHR = false;
+              break;
+
+            }else if (heartrateData[i].time.hour == hourDrink + 1) {
+              finalIndex = i;
+              finalFlagHR = false;
+              break;
+            }
+            
+          }
+          
+
+          if (!initFlagHR && !finalFlagHR) {
+            int sumHRrel = listHRValue
+                .sublist(initialIndex, finalIndex)
+                .reduce((value, element) => value + element);
+            int meanHRrel = ((sumHRrel) /
+                    (listHRValue.sublist(initialIndex, finalIndex).length))
+                .floor();
+
+            if (!mapMeanHR.containsKey(hourDrink)) {
+              mapMeanHR[hourDrink] = meanHRrel;
+              listKey.add(hourDrink);
+            }
+          } else {
+            if (!mapMeanHR.containsKey(hourDrink)) {
+              mapMeanHR[hourDrink] = 0;
+              listKey.add(hourDrink);
+            }
+          }
+        }
+      }
+    }
+  }
+
+  
+
+  void subtractDate() {
     checkHRData = false;
-    showDate = showDate.subtract(const Duration(days:1));
+    showDate = showDate.subtract(const Duration(days: 1));
     heartrateData.clear();
     fetchHRData(showDate);
     notifyListeners();
-
   }
 
-  void addDate(){
+  void addDate() {
     checkHRData = false;
-    showDate = showDate.add(const Duration(days:1));
+    showDate = showDate.add(const Duration(days: 1));
     heartrateData.clear();
     fetchHRData(showDate);
     notifyListeners();
-
   }
-
 
   //Method to clear the "memory"
   void clearData() {
     heartrateData.clear();
     notifyListeners();
   } //clearData
+
+  //block hard level data
+  List<DateTime> listDate = [];
+  void populateListDate(DateTime? soberTime) {
+    listDate.clear();
+    if (soberTime != null) {
+      listDate.add(soberTime);
+      listDate.add(soberTime.add(const Duration(days: 1)));
+      listDate.add(soberTime.add(const Duration(days: 2)));
+    }
+    notifyListeners();
+  }
+
+  Map<String,int> meanHRHard = {};
+  bool checkHRHard= false;
+
+  void fecthHRDataHard(List<DateTime> listDate) async {
+    checkHRHard= false;
+    if (listDate.isNotEmpty) {
+       meanHRHard.clear();
+      
+      for (var i = 0; i < listDate.length; i++) {
+        heartrateData.clear();
+      listHRValue.clear();
+     
+        DateTime giorno = listDate[i];
+        String day = DateFormat('y-M-d').format(giorno);
+        final data = await Impact().fetchHeartRateData(day);
+        if (data != null) {
+          for (var i = 0; i < data['data']['data'].length; i++) {
+            heartrateData.add(HeartRateData.fromJson(
+                data['data']['date'], data['data']['data'][i]));
+            listHRValue.add(heartrateData[i].value);
+          } //for
+          int somma = listHRValue.reduce((value, element) => element + value);
+          heartRateMean = (somma / listHRValue.length).floor();
+          meanHRHard[day] = heartRateMean;
+
+        } //if
+      }
+      checkHRHard = true;
+    }
+    notifyListeners();
+  }
+
 }
-
-
-

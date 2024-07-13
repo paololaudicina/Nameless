@@ -42,6 +42,7 @@ class _ActivityState extends State<Activity> {
                       InkWell(
                         onTap: () {
                           showDialog(
+                            barrierDismissible:false,
                             context: context, 
                             builder: (context) =>AlertDialog(
                               content: Container(
@@ -97,13 +98,7 @@ class _ActivityState extends State<Activity> {
                                   ),)
                                 ],
                               )),
-                            //color: const Color.fromARGB(255, 106, 0, 255),
-                           /* child: Stack(
-                              children:[
-                              Image.asset('images/spaghetti.jpg', width: 400,),
-                               Center(child: Text(catalogue.list[index].title)),
-                    ]
-                  )*/
+
                           ),
                         ),
                       ),

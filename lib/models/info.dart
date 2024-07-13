@@ -5,8 +5,10 @@ import 'package:provider/provider.dart';
 
 Future<void> levelExplanation(BuildContext context){
   return   showGeneralDialog(
+
+    
               context: context,
-              barrierDismissible: true,
+              barrierDismissible: false,
               barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
               barrierColor: Colors.black54,
               transitionDuration: Duration(milliseconds: 300),

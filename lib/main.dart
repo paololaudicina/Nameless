@@ -16,7 +16,8 @@ class MyApp extends StatelessWidget {
     return   ChangeNotifierProvider(
       create: (context) => HomeProvider(),
        builder: (context, child) =>
-       const MaterialApp(
+        MaterialApp(
+          debugShowCheckedModeBanner: false,
         home: Splash()
       ),
     );

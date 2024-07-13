@@ -1,5 +1,5 @@
 import 'package:Nameless/screens/activity.dart';
-import 'package:Nameless/screens/chartPage.dart';
+import 'package:Nameless/screens/chartHardPage.dart';
 import 'package:flutter/material.dart';
 import 'package:Nameless/models/info.dart';
 import 'package:Nameless/provider/homeProvider.dart';
@@ -36,6 +36,7 @@ class _HomeHardPageState extends State<HomeHardPage> {
                         context,
                         MaterialPageRoute(
                             builder: (context) => const ProfilePage()));
+                            Provider.of<HomeProvider>(context, listen:false).populateListDate(Provider.of<HomeProvider>(context, listen:false).soberTime);
                   },
                   icon: const Icon(Icons.person)),
             IconButton(
@@ -58,15 +59,15 @@ class _HomeHardPageState extends State<HomeHardPage> {
                     height: 300,
 
                     child: Card(
-                     // color: Colors.white,
+                    
 
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(
-                            15.0), // Imposta il raggio degli angoli del bordo
+                            15.0), 
                         side: const BorderSide(
                             color: Colors.black,
                             width:
-                                2.0), // Imposta il colore e lo spessore del bordo
+                                2.0), 
                       ),
 
                       child: Column(
@@ -133,16 +134,16 @@ class _HomeHardPageState extends State<HomeHardPage> {
                     width: 180,
                     height: 180,
                     child: InkWell(
-                      onTap: () => fecthHRData() ,
+                      onTap: () =>fecthHRDataHard(),
                       child: Card(
                         color: Colors.lightBlue,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(
-                              15.0), // Imposta il raggio degli angoli del bordo
+                              15.0), 
                           side: const BorderSide(
                               color: Colors.black,
                               width:
-                                  2.0), // Imposta il colore e lo spessore del bordo
+                                  2.0), 
                         ),
                         child: const Column(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -165,11 +166,11 @@ class _HomeHardPageState extends State<HomeHardPage> {
                         color: Colors.lightBlue,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(
-                              15.0), // Imposta il raggio degli angoli del bordo
+                              15.0), 
                           side: const BorderSide(
                               color: Colors.black,
                               width:
-                                  2.0), // Imposta il colore e lo spessore del bordo
+                                  2.0), 
                         ),
                         child: const Column(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -187,15 +188,17 @@ class _HomeHardPageState extends State<HomeHardPage> {
     );
   }
 
-  void fecthHRData() {
-    DateTime giorno = DateTime.now().subtract(const Duration(days: 1));
-    Provider.of<HomeProvider>(context, listen: false).fetchHRData(giorno);
-    Navigator.push(context,MaterialPageRoute(builder: (context) => const ChartPage()));
+  void fecthHRDataHard() {
+    
+    Provider.of<HomeProvider>(context, listen: false).populateListDate(Provider.of<HomeProvider>(context, listen: false).soberTime);
+    Provider.of<HomeProvider>(context, listen: false).fecthHRDataHard(Provider.of<HomeProvider>(context, listen: false).listDate);
+    Navigator.push(context,MaterialPageRoute(builder: (context) => const ChartHardPage()));
   }
 
 
   void startCounter() {
     Provider.of<HomeProvider>(context, listen: false).startCounter();
+    
   }
 
   void stopCounter() {

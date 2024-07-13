@@ -25,7 +25,7 @@ class _SplashQuizState extends State<SplashQuiz> {
   Future<void> _softChoice(bool personalData) async {
     final sp = await SharedPreferences.getInstance();
         await sp.setInt('levelChoice',1);
-        Provider.of<HomeProvider>(context,listen:false).initPreferences();
+        Provider.of<HomeProvider>(context,listen:false).getPreferences();
     
          if(!personalData){
           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> PersonalData()));
@@ -39,7 +39,7 @@ class _SplashQuizState extends State<SplashQuiz> {
   Future<void> _hardChoice(bool personalData) async {
     final sp = await SharedPreferences.getInstance();
         await sp.setInt('levelChoice',2);
-        Provider.of<HomeProvider>(context,listen:false).initPreferences();
+        Provider.of<HomeProvider>(context,listen:false).getPreferences();
         
     if(!personalData){
           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> PersonalData()));
@@ -60,7 +60,6 @@ class _SplashQuizState extends State<SplashQuiz> {
           child: Consumer<HomeProvider>(builder: (context, provider, child) {
         if (score < 4) {
           return Column(
-    //                mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
                   margin: EdgeInsets.only(top:70),
@@ -126,7 +125,6 @@ class _SplashQuizState extends State<SplashQuiz> {
               );
         } else {
           return Column(
-              //mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
                    margin: EdgeInsets.only(top:70),

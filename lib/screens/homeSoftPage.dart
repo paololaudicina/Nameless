@@ -1,11 +1,14 @@
+import 'package:Nameless/models/cataloguehealth.dart';
 import 'package:Nameless/screens/activity.dart';
 import 'package:Nameless/screens/calendarPage.dart';
 import 'package:Nameless/screens/chartPage.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:Nameless/models/info.dart';
 import 'package:Nameless/provider/homeProvider.dart';
 import 'package:Nameless/screens/profilePage.dart';
-import 'package:Nameless/widget/lineplot.dart';
+import 'package:flutter/rendering.dart';
+import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
 class HomeSoftPage extends StatefulWidget {
@@ -31,6 +34,12 @@ class _HomeSoftPage extends State<HomeSoftPage> {
           backgroundColor: Colors.blue,
           actions: [
             IconButton(
+              onPressed: () {
+                goToProfile();
+              },
+              icon: const Icon(Icons.person),
+            ),
+            IconButton(
                 onPressed: () {
                   levelExplanation(context);
                 },
@@ -48,17 +57,16 @@ class _HomeSoftPage extends State<HomeSoftPage> {
                     width: 180,
                     height: 180,
                     child: InkWell(
-                      onTap: () => Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => const CalendarPage())),
+                      onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const CalendarPage())),
                       child: Card(
                         color: Colors.lightBlue,
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(
-                              15.0), // Imposta il raggio degli angoli del bordo
-                          side: const BorderSide(
-                              color: Colors.black,
-                              width:
-                                  2.0), // Imposta il colore e lo spessore del bordo
+                          borderRadius: BorderRadius.circular(15.0),
+                          side:
+                              const BorderSide(color: Colors.black, width: 2.0),
                         ),
                         child: const Column(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -79,12 +87,9 @@ class _HomeSoftPage extends State<HomeSoftPage> {
                       child: Card(
                         color: Colors.lightBlue,
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(
-                              15.0), // Imposta il raggio degli angoli del bordo
-                          side: const BorderSide(
-                              color: Colors.black,
-                              width:
-                                  2.0), // Imposta il colore e lo spessore del bordo
+                          borderRadius: BorderRadius.circular(15.0),
+                          side:
+                              const BorderSide(color: Colors.black, width: 2.0),
                         ),
                         child: const Column(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -102,7 +107,9 @@ class _HomeSoftPage extends State<HomeSoftPage> {
                     width: 180,
                     height: 180,
                     child: InkWell(
-                      onTap: () {fecthHRData();},
+                      onTap: () {
+                        fecthHRData();
+                      },
                       child: Card(
                         color: Colors.lightBlue,
                         shape: RoundedRectangleBorder(
@@ -127,25 +134,147 @@ class _HomeSoftPage extends State<HomeSoftPage> {
               ),
               Consumer<HomeProvider>(builder: (context, data, child) {
                 if (data.drive) {
-                  return const Text(
-                    'You can drive',
-                    style: TextStyle(color: Colors.green, fontSize: 20),
+                  return Container(
+                    width: 350,
+                    height: 300,
+                    child: Card(
+                      color: Colors.green[200],
+                      child: Padding(
+                        padding: const EdgeInsets.all(10),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                         
+                          children: [
+                            SizedBox(height: 20),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Image.asset('images/rate.png',
+                                    height: 60, width: 60),
+                                SizedBox(width: 25),
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      'Your blood Alchool Level',
+                                      style: TextStyle(fontSize: 18),
+                                    ),
+                                    Text(
+                                      '${((data.totalBAC * 100).roundToDouble()) / 100} g/L',
+                                      style: TextStyle(fontSize: 15),
+                                    ),
+                                  ],
+                                )
+                              ],
+                            ),
+                            SizedBox(height: 20),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Image.asset('images/safeDriver.png',
+                                    height: 60, width: 60),
+                                SizedBox(width: 30),
+                                Text(
+                                  'You are a safe driver',
+                                  style: TextStyle(fontSize: 20),
+                                  textAlign:  TextAlign.center,
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 20),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              //crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Image.asset('images/healthSoft.png',
+                                    height: 60, width: 60),
+                                SizedBox(width: 20),
+                                Expanded(
+                                  child: Text(
+                                    healthStatus(),
+                                    style: const TextStyle(fontSize: 15),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
                   );
                 } else {
-                  return const Text(
-                    'WARNING: YOUR BLOOD ALCHOL LEVEL IS TOO HIGH TO DRIVE',
-                    style: TextStyle(color: Colors.red),
+                  return Container(
+                    width: 350,
+                    height: 300,
+                    child: Card(
+                      color: Colors.red[200],
+                      child: Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SizedBox(height: 20),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Image.asset('images/rate.png',
+                                    height: 60, width: 60),
+                                SizedBox(width: 25),
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      'Your blood Alchool Level',
+                                      style: TextStyle(fontSize: 18),
+                                    ),
+                                    Text(
+                                      '${((data.totalBAC * 100).roundToDouble()) / 100} g/L',
+                                      style: TextStyle(fontSize: 15),
+                                    ),
+                                  ],
+                                )
+                              ],
+                            ),
+                            SizedBox(height: 20),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Image.asset('images/noSafeDriver.png',
+                                    height: 60, width: 60),
+                                SizedBox(width: 20),
+                                Text(
+                                  'You are not a safe driver',
+                                  style: TextStyle(fontSize: 20),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 20),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Image.asset('images/healthHard.png',
+                                    height: 60, width: 60),
+                                SizedBox(width: 20),
+                                Expanded(
+                                  child: Text(
+                                    healthStatus(),
+                                    style: const TextStyle(fontSize: 15),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
                   );
                 }
               }),
-              
               const SizedBox(
                 height: 20,
               ),
-              IconButton(
-                onPressed: () {goToProfile();},
-                icon: const Icon(Icons.person),
-              )
             ],
           ),
         ),
@@ -154,15 +283,27 @@ class _HomeSoftPage extends State<HomeSoftPage> {
   }
 
   void goToProfile() {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => const ProfilePage()));
-    Provider.of<HomeProvider>(context, listen: false).updateNewBAL();
-
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => const ProfilePage()));
+    Provider.of<HomeProvider>(context, listen: false).updateBAL();
   }
 
   void fecthHRData() {
     DateTime giorno = DateTime.now().subtract(const Duration(days: 1));
     Provider.of<HomeProvider>(context, listen: false).fetchHRData(giorno);
-    Navigator.push(context,MaterialPageRoute(builder: (context) => const ChartPage()));
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => const ChartPage()));
   }
 
+  String healthStatus() {
+    final CatalogueEffect catalogue = CatalogueEffect();
+    double BAL = Provider.of<HomeProvider>(context, listen: false).totalBAC;
+    for (var i = 0; i < catalogue.list.length; i++) {
+      if (BAL >= catalogue.list[i].rangeAlchool[0] &&
+          BAL <= catalogue.list[i].rangeAlchool[1]) {
+        return catalogue.list[i].description;
+      }
+    }
+    return 'A problem occured';
+  }
 }
