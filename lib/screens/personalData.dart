@@ -18,7 +18,8 @@ class PersonalData extends StatefulWidget {
     this.surname,
     this.age,
     this.weight,
-    this.sex,});
+    this.sex,
+  });
 
   @override
   State<PersonalData> createState() => _PersonalDataState();
@@ -27,13 +28,13 @@ class PersonalData extends StatefulWidget {
 class _PersonalDataState extends State<PersonalData> {
   final _formKey = GlobalKey<FormState>();
 
-  late TextEditingController nameController ;
+  late TextEditingController nameController;
 
   late TextEditingController surnameController;
   //fare il check che inserisca roba valida l'utente (tipo per il nome devono essere caratteri e non numeri)
-  late TextEditingController ageController ;
+  late TextEditingController ageController;
 
-  late TextEditingController weightController ;
+  late TextEditingController weightController;
 
   String? _selectedSex;
 
@@ -42,8 +43,10 @@ class _PersonalDataState extends State<PersonalData> {
     super.initState();
     nameController = TextEditingController(text: widget.name);
     surnameController = TextEditingController(text: widget.surname);
-    ageController = TextEditingController(text: (widget.age!=null)?widget.age.toString():'');
-    weightController = TextEditingController(text: (widget.weight!=null)?widget.weight.toString():'');
+    ageController = TextEditingController(
+        text: (widget.age != null) ? widget.age.toString() : '');
+    weightController = TextEditingController(
+        text: (widget.weight != null) ? widget.weight.toString() : '');
     _selectedSex = widget.sex;
   }
 
@@ -64,12 +67,12 @@ class _PersonalDataState extends State<PersonalData> {
                     ),
                     TextFormField(
                         validator: (String? value) {
-                           if (value == null || value.isEmpty) {
-                        return 'Required name';
-                      } else if (!RegExp(r'^[a-zA-Z]+$').hasMatch(value)) {
-                        return 'Name must contain only letters';
-                      }
-                      return null;
+                          if (value == null || value.isEmpty) {
+                            return 'Required name';
+                          } else if (!RegExp(r'^[a-zA-Z]+$').hasMatch(value)) {
+                            return 'Name must contain only letters';
+                          }
+                          return null;
                         },
                         controller: nameController,
                         decoration: const InputDecoration(
@@ -82,11 +85,11 @@ class _PersonalDataState extends State<PersonalData> {
                     TextFormField(
                         validator: (String? value) {
                           if (value == null || value.isEmpty) {
-                        return 'Required surname';
-                      } else if (!RegExp(r'^[a-zA-Z]+$').hasMatch(value)) {
-                        return 'Surname must contain only letters';
-                      }
-                      return null;
+                            return 'Required surname';
+                          } else if (!RegExp(r'^[a-zA-Z]+$').hasMatch(value)) {
+                            return 'Surname must contain only letters';
+                          }
+                          return null;
                         },
                         controller: surnameController,
                         decoration: const InputDecoration(
@@ -99,13 +102,13 @@ class _PersonalDataState extends State<PersonalData> {
                     TextFormField(
                         validator: (String? value) {
                           if (value == null || value.isEmpty) {
-                        return 'Required age';
-                      } else if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
-                        return 'Age must be a number';
-                      }else if(int.parse(value)<=17){
-                        return 'you are too young for using this app';
-                      }
-                      return null;
+                            return 'Required age';
+                          } else if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
+                            return 'Age must be a number';
+                          } else if (int.parse(value) <= 17) {
+                            return 'you are too young for using this app';
+                          }
+                          return null;
                         },
                         controller: ageController,
                         decoration: const InputDecoration(
@@ -118,11 +121,11 @@ class _PersonalDataState extends State<PersonalData> {
                     TextFormField(
                         validator: (String? value) {
                           if (value == null || value.isEmpty) {
-                        return 'Required weight';
-                      } else if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
-                        return 'Weight must be a number';
-                      }
-                      return null;
+                            return 'Required weight';
+                          } else if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
+                            return 'Weight must be a number';
+                          }
+                          return null;
                         },
                         controller: weightController,
                         decoration: const InputDecoration(
@@ -154,11 +157,9 @@ class _PersonalDataState extends State<PersonalData> {
                     const SizedBox(
                       height: 15,
                     ),
-                   ElevatedButton(
+                    ElevatedButton(
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
-                            
-
                             final sp = await SharedPreferences.getInstance();
                             sp.setBool('personalData', true);
 
@@ -168,7 +169,7 @@ class _PersonalDataState extends State<PersonalData> {
                             sp.setInt(
                                 'weight', int.parse(weightController.text));
                             sp.setString('sex', _selectedSex!);
-                            
+
                             Provider.of<HomeProvider>(context, listen: false)
                                 .getPreferences();
                             bool flagEdit = Provider.of<HomeProvider>(context,
@@ -198,10 +199,7 @@ class _PersonalDataState extends State<PersonalData> {
 
                               Provider.of<HomeProvider>(context, listen: false)
                                   .getPreferences();
-                              ScaffoldMessenger.of(context)
-                              ..removeCurrentSnackBar()
-                              ..showSnackBar(const SnackBar(
-                                  content: Text('The operation was successful')));
+                              Navigator.pop(context);
                             }
                           } else {
                             ScaffoldMessenger.of(context)
@@ -219,4 +217,3 @@ class _PersonalDataState extends State<PersonalData> {
         ));
   }
 }
-
