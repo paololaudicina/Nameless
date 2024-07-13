@@ -123,7 +123,7 @@ class _LoginPage extends State<LoginPage> {
                                       
                                       focusedBorder: OutlineInputBorder(
                                           borderSide:
-                                              BorderSide(color: Colors.white),
+                                              BorderSide(color: Colors.black),
                                           borderRadius:
                                               BorderRadius.circular(15)),
                                       // border: ,

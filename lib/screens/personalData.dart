@@ -18,8 +18,10 @@ class PersonalData extends StatefulWidget {
     this.surname,
     this.age,
     this.weight,
+
     this.sex,
   });
+
 
   @override
   State<PersonalData> createState() => _PersonalDataState();
@@ -27,6 +29,7 @@ class PersonalData extends StatefulWidget {
 
 class _PersonalDataState extends State<PersonalData> {
   final _formKey = GlobalKey<FormState>();
+
 
   late TextEditingController nameController;
 
@@ -185,6 +188,7 @@ class _PersonalDataState extends State<PersonalData> {
                                         await SharedPreferences.getInstance();
                                     sp.setBool('personalData', true);
 
+
                                     sp.setString('Name', nameController.text);
                                     sp.setString(
                                         'Surname', surnameController.text);
@@ -208,6 +212,7 @@ class _PersonalDataState extends State<PersonalData> {
                                                   listen: false)
                                               .levelChoice;
 
+
                                       if (levelChoice == 1) {
                                         Navigator.pushReplacement(
                                             context,
@@ -225,6 +230,7 @@ class _PersonalDataState extends State<PersonalData> {
                                       Provider.of<HomeProvider>(context,
                                               listen: false)
                                           .upDateFlagEdit();
+
 
                                       Provider.of<HomeProvider>(context,
                                               listen: false)
@@ -261,5 +267,6 @@ class _PersonalDataState extends State<PersonalData> {
                         ),
                       ]),
                 ))));
+
   }
 }
