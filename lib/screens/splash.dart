@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
-import 'package:lottie/lottie.dart';
 import 'package:Nameless/provider/homeProvider.dart';
 import 'package:Nameless/screens/advice.dart';
 import 'package:Nameless/screens/homeHardPage.dart';
