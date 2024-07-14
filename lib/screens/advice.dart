@@ -55,138 +55,140 @@ class _SplashQuizState extends State<SplashQuiz> {
   Widget build(BuildContext context) {
     bool personalData = Provider.of<HomeProvider>(context,listen: false).personalData;
     
-    return Scaffold(
-      body: Center(
-          child: Consumer<HomeProvider>(builder: (context, provider, child) {
-        if (score < 4) {
-          return Column(
-              children: [
-                Container(
-                  margin: EdgeInsets.only(top:70),
-                  height: 150,
-                  width: 150,
-                  child: Image.asset('images/soft_piuma.png'),
-                ),
-                Container(
-                  child: Text('Your recommended level is Soft',
-                            style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),),
-                ),
-                Container(
-                  margin: EdgeInsets.only(top:70, left:40, right:40, bottom:40),
-                  child: Text('Your responses have indicated that you are not a habitual alcohol consumer. This level is suitable for you if you want to reduce or completely eliminate alcohol from your life.')),
-                
-                SizedBox(
-                  height: 30,
-                  child: Text('Choise your level'),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      height: 150,
-                      width: 150,
-                      child: InkWell(
-                        onTap: () => _softChoice(personalData),
-                        child: Card(
-                          
-                          child:Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Text('Soft', style: TextStyle(fontSize: 28)),
-                              Image.asset('images/soft_piuma.png',height: 40,width: 40,),
-                            ],
+    return SafeArea(
+      child: Scaffold(
+        body: Center(
+            child: Consumer<HomeProvider>(builder: (context, provider, child) {
+          if (score < 4) {
+            return Column(
+                children: [
+                  Container(
+                    margin: EdgeInsets.only(top:70),
+                    height: 150,
+                    width: 150,
+                    child: Image.asset('images/soft_piuma.png'),
+                  ),
+                  Container(
+                    child: Text('Your recommended level is Soft',
+                              style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(top:70, left:40, right:40, bottom:40),
+                    child: Text('Your responses to the Audit Test have indicated that you are not a habitual alcohol consumer. This level is suitable for you if you want to reduce the amount of alcohol you consume daily.')),
+                  
+                  SizedBox(
+                    height: 30,
+                    child: Text('Choise your level'),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        height: 150,
+                        width: 150,
+                        child: InkWell(
+                          onTap: () => _softChoice(personalData),
+                          child: Card(
+                            
+                            child:Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text('Soft', style: TextStyle(fontSize: 28)),
+                                Image.asset('images/soft_piuma.png',height: 40,width: 40,),
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    Container(
-                      height: 150,
-                      width: 150,
-                      child: InkWell(
-                        onTap: () => _hardChoice(personalData),
-                        child: Card(
-                          child:Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Text('Hard', style: TextStyle(fontSize: 28)),
-                              Image.asset('images/fire.png',height: 40,width: 40,),
-                            ],
+                      Container(
+                        height: 150,
+                        width: 150,
+                        child: InkWell(
+                          onTap: () => _hardChoice(personalData),
+                          child: Card(
+                            child:Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text('Hard', style: TextStyle(fontSize: 28)),
+                                Image.asset('images/fire.png',height: 40,width: 40,),
+                              ],
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
+                  )
+      
+      
+                ]
+                );
+          } else {
+            return Column(
+                children: [
+                  Container(
+                     margin: EdgeInsets.only(top:70),
+                    height: 150,
+                    width: 150,
+                    child: Image.asset('images/fire.png'),
+                  ),
+                  Container(
+                    child: Text('Your recommended level is Hard',style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(top:70, left:40, right:40, bottom:40),
+                    child: Text('Your responses to the Audit Test have indicated that you are a habitual alcohol consumer. This level is suitable for you if you want to completely eliminate alcohol from your habits.')
+                  ),
+                  
+                  SizedBox(
+                    height: 30,
+                    child: Text('Choise your level'),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        height: 150,
+                        width: 150,
+                        child: InkWell(
+                          onTap: () => _softChoice(personalData),
+                          child: Card(
+                            
+                            child:Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text('Soft', style: TextStyle(fontSize: 28)),
+                                Image.asset('images/soft_piuma.png',height: 40,width: 40,),
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                    )
-                  ],
-                )
-    
-    
-              ]
-              );
-        } else {
-          return Column(
-              children: [
-                Container(
-                   margin: EdgeInsets.only(top:70),
-                  height: 150,
-                  width: 150,
-                  child: Image.asset('images/fire.png'),
-                ),
-                Container(
-                  child: Text('Your recommended level is Hard',style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),),
-                ),
-                Container(
-                  margin: EdgeInsets.only(top:70, left:40, right:40, bottom:40),
-                  child: Text('Your responses have indicated that you are a habitual alcohol consumer. This level is suitable for you to manage and gradually reduce your alcohol habits.')
-                ),
-                
-                SizedBox(
-                  height: 30,
-                  child: Text('Choise your level'),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      height: 150,
-                      width: 150,
-                      child: InkWell(
-                        onTap: () => _softChoice(personalData),
-                        child: Card(
-                          
-                          child:Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Text('Soft', style: TextStyle(fontSize: 28)),
-                              Image.asset('images/soft_piuma.png',height: 40,width: 40,),
-                            ],
+                      Container(
+                        height: 150,
+                        width: 150,
+                        child: InkWell(
+                          onTap: () => _hardChoice(personalData),
+                          child: Card(
+                            child:Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text('Hard', style: TextStyle(fontSize: 28)),
+                                Image.asset('images/fire.png',height: 40,width: 40,),
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                    ),
-                    Container(
-                      height: 150,
-                      width: 150,
-                      child: InkWell(
-                        onTap: () => _hardChoice(personalData),
-                        child: Card(
-                          child:Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Text('Hard', style: TextStyle(fontSize: 28)),
-                              Image.asset('images/fire.png',height: 40,width: 40,),
-                            ],
-                          ),
-                        ),
-                      ),
-                    )
-                  ],
-                )
-              ]
-              );
-        }}),
+                      )
+                    ],
+                  )
+                ]
+                );
+          }}),
+        ),
       ),
     );
   }

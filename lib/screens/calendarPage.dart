@@ -32,16 +32,16 @@ class _CalendarPageState extends State<CalendarPage> {
             child: ListTile(
               leading: IconButton(onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => AddDrink(date: date,index: index)));}, 
                       icon: const Icon(Icons.edit)),
-              title: Text('date: $date',style: TextStyle(color: Colors.white,fontSize: 20)),
+              title: Text('Type: ${(Provider.of<HomeProvider>(context, listen: false).dictionaryDrinks[date]![index]['type']==1)? 'Beer':(Provider.of<HomeProvider>(context, listen: false).dictionaryDrinks[date]![index]['type']==2)? 'Wine':'Cocktail'}',style: TextStyle(color: Colors.white,fontSize: 20)),
               subtitle: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start, 
                 children: [
                   Text(
-                      'quantity: ${Provider.of<HomeProvider>(context, listen: false).dictionaryDrinks[date]![index]['quantity']}',
+                      'Quantity: ${Provider.of<HomeProvider>(context, listen: false).dictionaryDrinks[date]![index]['quantity']}',
                       style: TextStyle(color: Colors.white,fontSize: 20),
                       ),
                   Text(
-                      'hour: ${Provider.of<HomeProvider>(context, listen: false).dictionaryDrinks[date]![index]['hour']}',
+                      'Hour: ${Provider.of<HomeProvider>(context, listen: false).dictionaryDrinks[date]![index]['hour']}',
                       style: TextStyle(color: Colors.white,fontSize: 20))
                 ],
               ),
@@ -97,7 +97,7 @@ class _CalendarPageState extends State<CalendarPage> {
                                             fontSize: 18)),
                                     const SizedBox(height: 10),
                                     const Text(
-                                      'In this page you can add, modify or remove drink. The day colored green means you are under the limit. If you overcome the limit, you will see it colored red ',
+                                      'In this page you can add, modify or remove drink. The day colored green means you are under the limit. If you overcome the limit, you will see it colored red. If you have not added any drinks, you will see the day colored black',
                                       
                                       textAlign: TextAlign.left,
                                     ),
@@ -141,11 +141,11 @@ class _CalendarPageState extends State<CalendarPage> {
                     defaultBuilder: (context, day, focusedDay) {
                       final drinkProvider = Provider.of<HomeProvider>(context, listen: false);
                       String formattedDate = DateFormat('yyyy-MM-dd').format(day);
-                       drinkProvider.sumQuantity(formattedDate);
+            
                       return Center(
                         child: Text(
                           day.day.toString(),
-                          style: TextStyle(color: (drinkProvider.calendarColors[formattedDate]!=null)? drinkProvider.calendarColors[formattedDate] : Colors.green),
+                          style: TextStyle(color: (drinkProvider.calendarColors[formattedDate]!=null)? drinkProvider.calendarColors[formattedDate] : Colors.black),
                         ),
                       );
                     },

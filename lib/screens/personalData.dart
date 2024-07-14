@@ -90,7 +90,7 @@ class _PersonalDataState extends State<PersonalData> {
                                   validator: (String? value) {
                                     if (value == null || value.isEmpty) {
                                       return 'Required name';
-                                    } else if (!RegExp(r'^[a-zA-Z]+$')
+                                    } else if (!RegExp(r'^[a-zA-Z\s]+$')
                                         .hasMatch(value)) {
                                       return 'Name must contain only letters';
                                     }
@@ -108,7 +108,7 @@ class _PersonalDataState extends State<PersonalData> {
                                   validator: (String? value) {
                                     if (value == null || value.isEmpty) {
                                       return 'Required surname';
-                                    } else if (!RegExp(r'^[a-zA-Z]+$')
+                                    } else if (!RegExp(r'^[a-zA-Z\s]+$')
                                         .hasMatch(value)) {
                                       return 'Surname must contain only letters';
                                     }
@@ -117,7 +117,7 @@ class _PersonalDataState extends State<PersonalData> {
                                   controller: surnameController,
                                   decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
-                                    labelText: 'surname',
+                                    labelText: 'Surname',
                                   )),
                               SizedBox(
                                 height: 20,
@@ -137,7 +137,7 @@ class _PersonalDataState extends State<PersonalData> {
                                   controller: ageController,
                                   decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
-                                    labelText: 'age',
+                                    labelText: 'Age',
                                   )),
                               SizedBox(
                                 height: 20,
@@ -155,7 +155,7 @@ class _PersonalDataState extends State<PersonalData> {
                                   controller: weightController,
                                   decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
-                                    labelText: 'weight',
+                                    labelText: 'Weight',
                                   )),
                               SizedBox(height: 20),
                               Row(
@@ -186,7 +186,7 @@ class _PersonalDataState extends State<PersonalData> {
                               ),
                               ElevatedButton(
                                 onPressed: () async {
-                                  if (_formKey.currentState!.validate()) {
+                                  if (_formKey.currentState!.validate() && _selectedSex!=null) {
                                     final sp =
                                         await SharedPreferences.getInstance();
                                     sp.setBool('personalData', true);
@@ -233,11 +233,11 @@ class _PersonalDataState extends State<PersonalData> {
                                       Provider.of<HomeProvider>(context,
                                               listen: false)
                                           .upDateFlagEdit();
-
-
                                       Provider.of<HomeProvider>(context,
-                                              listen: false)
-                                          .getPreferences();
+                                              listen: false).updateBAL();
+                                        
+
+                                      
                                       Navigator.pop(context);
                                     }
                                   } else {
