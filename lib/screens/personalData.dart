@@ -58,8 +58,11 @@ class _PersonalDataState extends State<PersonalData> {
     return SafeArea(
         child: Scaffold(
             appBar: AppBar(
-              title: const Text('Personal Data',
-                  style: TextStyle(fontSize: 28, color: Colors.black)),
+              automaticallyImplyLeading: false,
+              title: Center(
+                child: const Text('Personal Data',
+                    style: TextStyle(fontSize: 35, color: Colors.white),),
+              ),
               backgroundColor: Colors.blue,
             ),
             body: Padding(
@@ -87,7 +90,7 @@ class _PersonalDataState extends State<PersonalData> {
                                   validator: (String? value) {
                                     if (value == null || value.isEmpty) {
                                       return 'Required name';
-                                    } else if (!RegExp(r'^[a-zA-Z]+$')
+                                    } else if (!RegExp(r'^[a-zA-Z\s]+$')
                                         .hasMatch(value)) {
                                       return 'Name must contain only letters';
                                     }
@@ -105,7 +108,7 @@ class _PersonalDataState extends State<PersonalData> {
                                   validator: (String? value) {
                                     if (value == null || value.isEmpty) {
                                       return 'Required surname';
-                                    } else if (!RegExp(r'^[a-zA-Z]+$')
+                                    } else if (!RegExp(r'^[a-zA-Z\s]+$')
                                         .hasMatch(value)) {
                                       return 'Surname must contain only letters';
                                     }
@@ -114,7 +117,7 @@ class _PersonalDataState extends State<PersonalData> {
                                   controller: surnameController,
                                   decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
-                                    labelText: 'surname',
+                                    labelText: 'Surname',
                                   )),
                               SizedBox(
                                 height: 20,
@@ -134,7 +137,7 @@ class _PersonalDataState extends State<PersonalData> {
                                   controller: ageController,
                                   decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
-                                    labelText: 'age',
+                                    labelText: 'Age',
                                   )),
                               SizedBox(
                                 height: 20,
@@ -152,7 +155,7 @@ class _PersonalDataState extends State<PersonalData> {
                                   controller: weightController,
                                   decoration: const InputDecoration(
                                     border: OutlineInputBorder(),
-                                    labelText: 'weight',
+                                    labelText: 'Weight',
                                   )),
                               SizedBox(height: 20),
                               Row(
@@ -183,7 +186,7 @@ class _PersonalDataState extends State<PersonalData> {
                               ),
                               ElevatedButton(
                                 onPressed: () async {
-                                  if (_formKey.currentState!.validate()) {
+                                  if (_formKey.currentState!.validate() && _selectedSex!=null) {
                                     final sp =
                                         await SharedPreferences.getInstance();
                                     sp.setBool('personalData', true);
@@ -230,11 +233,11 @@ class _PersonalDataState extends State<PersonalData> {
                                       Provider.of<HomeProvider>(context,
                                               listen: false)
                                           .upDateFlagEdit();
-
-
                                       Provider.of<HomeProvider>(context,
-                                              listen: false)
-                                          .getPreferences();
+                                              listen: false).updateBAL();
+                                        
+
+                                      
                                       Navigator.pop(context);
                                     }
                                   } else {
@@ -245,21 +248,18 @@ class _PersonalDataState extends State<PersonalData> {
                                               Text('Missing personal data')));
                                   }
                                 },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.blue,
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 40, vertical: 15),
+
+                                ),
                                 child: const Text(
                                   'SAVE',
                                   style: TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.bold,
                                       color: Colors.white),
-                                ),
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.blue,
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 40, vertical: 15),
-                                  textStyle: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                  ),
                                 ),
                               ),
                             ],

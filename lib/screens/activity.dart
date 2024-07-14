@@ -17,8 +17,8 @@ class _ActivityState extends State<Activity> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Creative activities'),
-          backgroundColor: Colors.lightBlue,
+          title: Text('Creative Activities',style: TextStyle(color: Colors.white,fontSize: 35)),
+          backgroundColor: Colors.blue,
         ),
         body: SingleChildScrollView(
           child: Column(

@@ -10,6 +10,7 @@ class HRDataPlot extends StatelessWidget {
   HRDataPlot({Key? key, required this.heartrateData}) : super(key: key);
 
   final List<HeartRateData> heartrateData;
+ 
 
   @override
   Widget build(BuildContext context) {
@@ -20,10 +21,11 @@ class HRDataPlot extends StatelessWidget {
       ),
       primaryXAxis:
           const DateTimeAxis(majorGridLines: MajorGridLines(width: 0)),
-      primaryYAxis: const NumericAxis(
+      primaryYAxis:  NumericAxis(
           labelFormat: '{value} bpm',
           axisLine: AxisLine(width: 0),
-          majorTickLines: MajorTickLines(color: Colors.transparent)),
+          majorTickLines: MajorTickLines(color: Colors.transparent),
+          ),
       series: _getHeartRateDataSeries(),
       tooltipBehavior: TooltipBehavior(enable: true),
     );
@@ -41,4 +43,6 @@ class HRDataPlot extends StatelessWidget {
       ),
     ];
   } //_getStepDataSeries
+
+    
 }//StepDataPlot

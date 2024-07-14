@@ -7,7 +7,6 @@ import 'package:Nameless/screens/profilePage.dart';
 
 import 'package:provider/provider.dart';
 
-
 class HomeHardPage extends StatefulWidget {
   const HomeHardPage({super.key});
 
@@ -24,21 +23,24 @@ class _HomeHardPageState extends State<HomeHardPage> {
           title: const Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text('HARD LEVEL',
-                  style: TextStyle(fontSize: 40, color: Colors.white)),
+              Text('Hard Level',
+                  style: TextStyle(fontSize: 35, color: Colors.white)),
             ],
           ),
           backgroundColor: Colors.blue,
           actions: [
-             IconButton(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const ProfilePage()));
-                            Provider.of<HomeProvider>(context, listen:false).populateListDate(Provider.of<HomeProvider>(context, listen:false).soberTime);
-                  },
-                  icon: const Icon(Icons.person)),
+            IconButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const ProfilePage()));
+                  Provider.of<HomeProvider>(context, listen: false)
+                      .populateListDate(
+                          Provider.of<HomeProvider>(context, listen: false)
+                              .soberTime);
+                },
+                icon: const Icon(Icons.person)),
             IconButton(
                 onPressed: () {
                   levelExplanation(context);
@@ -51,76 +53,91 @@ class _HomeHardPageState extends State<HomeHardPage> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               SizedBox(height: 30),
-                         Row(
+              Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SizedBox(
                     width: 380,
                     height: 300,
-
                     child: Card(
-                    
-
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(
-                            15.0), 
-                        side: const BorderSide(
-                            color: Colors.black,
-                            width:
-                                2.0), 
+                        borderRadius: BorderRadius.circular(15.0),
+                        side: const BorderSide(color: Colors.black, width: 2.0),
                       ),
-
                       child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text('You have been sober for', style: TextStyle(fontSize: 23),),
+                            Text(
+                              'You have been sober for',
+                              style: TextStyle(fontSize: 23),
+                            ),
                             Consumer<HomeProvider>(
                                 builder: (context, data, child) {
-                              return Text(data.counterText, style: TextStyle(fontSize: 18),);
+                              return Text(
+                                data.counterText,
+                                style: TextStyle(fontSize: 18),
+                              );
                             }),
                             SizedBox(height: 30),
-                                    Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-              SizedBox(
-                      height: 150,
-                      width: 150,
-                      child: InkWell(
-                        onTap: startCounter,
-                        child: Card(
-                          child:Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Text('Start Counter',style: TextStyle(fontSize: 18),),
-                              SizedBox(height: 10),
-                              Image.asset('images/start.png',height: 40,width: 40,),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  SizedBox(width: 20),
-                SizedBox(
-                      height: 150,
-                      width: 150,
-                      child: InkWell(
-                        onTap: stopCounter,
-                        child: Card(
-                          child:Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Text('Stop Counter',style: TextStyle(fontSize: 18),),
-                              SizedBox(height: 10),
-                              Image.asset('images/stop.png',height: 40,width: 40,),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                ]
-              ),
+                            Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  SizedBox(
+                                    height: 150,
+                                    width: 150,
+                                    child: InkWell(
+                                      onTap: startCounter,
+                                      child: Card(
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              'Start Counter',
+                                              style: TextStyle(fontSize: 18),
+                                            ),
+                                            SizedBox(height: 10),
+                                            Image.asset(
+                                              'images/start.png',
+                                              height: 40,
+                                              width: 40,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(width: 20),
+                                  SizedBox(
+                                    height: 150,
+                                    width: 150,
+                                    child: InkWell(
+                                      onTap: stopCounter,
+                                      child: Card(
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              'Stop Counter',
+                                              style: TextStyle(fontSize: 18),
+                                            ),
+                                            SizedBox(height: 10),
+                                            Image.asset(
+                                              'images/stop.png',
+                                              height: 40,
+                                              width: 40,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ]),
                           ]),
                     ),
                   ),
@@ -134,20 +151,17 @@ class _HomeHardPageState extends State<HomeHardPage> {
                     width: 180,
                     height: 180,
                     child: InkWell(
-                      onTap: () =>fecthHRDataHard(),
+                      onTap: () => fecthHRDataHard(),
                       child: Card(
                         color: Colors.lightBlue,
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(
-                              15.0), 
-                          side: const BorderSide(
-                              color: Colors.black,
-                              width:
-                                  2.0), 
+                          borderRadius: BorderRadius.circular(15.0),
+                          side:
+                              const BorderSide(color: Colors.black, width: 2.0),
                         ),
                         child: const Column(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: [Icon(Icons.insert_chart), Text('CHARTS')],
+                          children: [Icon(Icons.favorite), Text('CHART HISTORY HR')],
                         ),
                       ),
                     ),
@@ -157,20 +171,17 @@ class _HomeHardPageState extends State<HomeHardPage> {
                     height: 180,
                     child: InkWell(
                       onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const Activity()));
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const Activity()));
                       },
                       child: Card(
                         color: Colors.lightBlue,
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(
-                              15.0), 
-                          side: const BorderSide(
-                              color: Colors.black,
-                              width:
-                                  2.0), 
+                          borderRadius: BorderRadius.circular(15.0),
+                          side:
+                              const BorderSide(color: Colors.black, width: 2.0),
                         ),
                         child: const Column(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -189,20 +200,19 @@ class _HomeHardPageState extends State<HomeHardPage> {
   }
 
   void fecthHRDataHard() {
-    
-    Provider.of<HomeProvider>(context, listen: false).populateListDate(Provider.of<HomeProvider>(context, listen: false).soberTime);
-    Provider.of<HomeProvider>(context, listen: false).fecthHRDataHard(Provider.of<HomeProvider>(context, listen: false).listDate);
-    Navigator.push(context,MaterialPageRoute(builder: (context) => const ChartHardPage()));
+    Provider.of<HomeProvider>(context, listen: false).populateListDateFake(
+        Provider.of<HomeProvider>(context, listen: false).soberTime);
+    Provider.of<HomeProvider>(context, listen: false).fecthHRDataHard(
+        Provider.of<HomeProvider>(context, listen: false).listDate);
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => const ChartHardPage()));
   }
-
 
   void startCounter() {
     Provider.of<HomeProvider>(context, listen: false).startCounter();
-    
   }
 
   void stopCounter() {
     Provider.of<HomeProvider>(context, listen: false).stopCounter();
   }
 }
-
