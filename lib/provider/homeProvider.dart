@@ -271,6 +271,8 @@ class HomeProvider extends ChangeNotifier {
      await sp.remove('drinks');
      await sp.remove('limit');
      dictionaryDrinks.clear();
+     mapQuantity.clear();
+     calendarColors.clear();
      updateBAL();
      notifyListeners();
   }
