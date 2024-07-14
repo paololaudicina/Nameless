@@ -174,7 +174,7 @@ class _HomeHardPageState extends State<HomeHardPage> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const Activity()));
+                                builder: (context) =>  Activity()));
                       },
                       child: Card(
                         color: Colors.lightBlue,

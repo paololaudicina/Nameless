@@ -2,14 +2,9 @@
 import 'package:flutter/material.dart';
 import 'package:Nameless/models/list.dart';
 
-class Activity extends StatefulWidget {
-  const Activity({super.key});
+class Activity extends StatelessWidget {
+   Activity({super.key});
 
-  @override
-  State<Activity> createState() => _ActivityState();
-}
-
-class _ActivityState extends State<Activity> {
   final CatalogueList catalogue = CatalogueList();
 
   @override
