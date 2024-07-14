@@ -17,7 +17,7 @@ class HomeProvider extends ChangeNotifier {
   int weight = 0;
   int newHour = DateTime.now().hour;
   double C = 0;
-  double K = 0.66;
+  double K = 0;
   double istantBAL = 0;
   List<int> listNumDrinks = [2, 4, 6, 8, 10];
   String Sex = '';
@@ -69,7 +69,8 @@ class HomeProvider extends ChangeNotifier {
     nameUser = sp.getString('Name') ?? 'nameUser';
     surnameUser = sp.getString('Surname') ?? 'surnameUser';
     age = sp.getInt('age') ?? 0;
-    if (Sex == 'Male') K = 0.73;
+    (Sex == 'Male')? K = 0.73 : K=0.66;
+    
     //soberDateTime = sp.getString('soberDateTime') ?? '';
 
     String? soberTimeString = sp.getString('soberTime');
@@ -80,49 +81,7 @@ class HomeProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void _startTimerSober() {
-    _timerSober
-        ?.cancel(); //si cancella il timeSober solo se questo è diverso da null.
-    _timerSober = Timer.periodic(const Duration(seconds: 1), (Timer timer) {
-      _updateCounter();
-    });
-  }
-
-  void _updateCounter() {
-    if (soberTime != null) {
-      Duration difference = DateTime.now().difference(soberTime!);
-      int days = difference.inDays;
-      int hours = difference.inHours % 24;
-      int minutes = difference.inMinutes % 60;
-      int seconds = difference.inSeconds % 60;
-
-      _counterText =
-          '$days days, $hours hours, $minutes minutes, $seconds seconds';
-      notifyListeners();
-    }
-  }
-
-  Future<void> startCounter() async {
-    final sp = await SharedPreferences.getInstance();
-    soberTime = DateTime.now().subtract(Duration(days: 3));
-    String formattedTime = DateFormat('yyyy-MM-dd HH:mm:ss').format(soberTime!);
-    sp.setString('soberTime', formattedTime);
-    populateListDate(soberTime);
-    _startTimerSober();
-    await getPreferences();
-    notifyListeners();
-  }
-
-  Future<void> stopCounter() async {
-    final sp = await SharedPreferences.getInstance();
-
-    sp.remove('soberTime');
-    soberTime = null;
-    _counterText = "0 days, 0 hours, 0 minutes, 0 seconds";
-    _timer?.cancel();
-    meanHRHard.clear();
-    notifyListeners();
-  }
+  //block SOFT LEVEL
 
   void addDrink(String date, int quantity, int hour, int type) {
     Drink drink = Drink(quantity: quantity, hour: hour,type: type);
@@ -143,6 +102,7 @@ class HomeProvider extends ChangeNotifier {
     dictionaryDrinks[date]?.removeAt(index);
     if (dictionaryDrinks[date]?.isEmpty ?? true) {
       dictionaryDrinks.remove(date);
+      mapQuantity.remove(date);
     }
     _saveDrinks();
     sumQuantity(date);
@@ -210,9 +170,7 @@ class HomeProvider extends ChangeNotifier {
         totalQuantity += dictionaryDrinks[date]![i]['quantity']!;
         mapQuantity[date] = totalQuantity;
       }
-    } else {
-      mapQuantity[date] = 0;
-    }
+    } 
     updateCalendarColors();
   }
 
@@ -245,6 +203,7 @@ class HomeProvider extends ChangeNotifier {
   double totalBAC = 0.0;
   bool drive = true;
   void updateBAL() {
+    getPreferences();
     DateTime now = DateTime.now();
     totalBAC = 0.0;
     drive = true;
@@ -259,10 +218,16 @@ class HomeProvider extends ChangeNotifier {
             ((quantityAlchool * C * 1.055) / (weight * K)) - (0.15 * hours);
         totalBAC += drinkBAC > 0 ? drinkBAC : 0.0;
       }
-      if (totalBAC > 0.5) drive = false;
+      if(age<21){
+        if(totalBAC>0) drive=false;
+      }
+      else{
+        if (totalBAC > 0.5) drive = false;
+      }
       notifyListeners();
     }
   }
+
   void updateBALfake() {
     DateTime now = DateTime.now().add(Duration(hours: 1));
     totalBAC = 0.0;
@@ -277,27 +242,22 @@ class HomeProvider extends ChangeNotifier {
         drinkBAC =
             ((quantityAlchool * C * 1.055) / (weight * K)) - (0.15 * hours);
         totalBAC += drinkBAC > 0 ? drinkBAC : 0.0;
+        
       }
+      totalBAC=((totalBAC * 100).roundToDouble()) / 100;
       if (totalBAC > 0.5) drive = false;
       notifyListeners();
     }
   }
 
   void startTimer() {
-    _timer = Timer.periodic(const Duration(minutes: 1), (timer) {
+    _timer = Timer.periodic(const Duration(seconds: 10), (timer) {
       // update newBAL every 5 minutes
       updateBAL();
     });
   }
 
-  void removeAll() async {
-    final sp = await SharedPreferences.getInstance();
-    // await sp.remove('refreshToken');
-    // await sp.remove('accessToken');
-   await sp.clear();
-    getPreferences();
-    notifyListeners();
-  }
+  
 
   void switchSoft() async{
      final sp = await SharedPreferences.getInstance();
@@ -308,18 +268,7 @@ class HomeProvider extends ChangeNotifier {
      notifyListeners();
   }
 
-// this call the functions when the provider borns, in particular in splash page
-  HomeProvider() {
-    initPreferences();
-    startTimer();
-    _loadDrinks();
-    
-    _startTimerSober();
-   
-    notifyListeners();
-  }
-
-  // block soft level data
+  
   List<HeartRateData> heartrateData = [];
   List<int> listHRValue = [];
   // int initHour=0;
@@ -347,7 +296,7 @@ class HomeProvider extends ChangeNotifier {
     checkHRData = true;
     meanHRrelative();
     notifyListeners();
-  } //fetchStepData
+  } 
 
   String showDateFormatted = '';
   int hourDrink = 0;
@@ -441,7 +390,7 @@ class HomeProvider extends ChangeNotifier {
     notifyListeners();
   } //clearData
 
-  //block hard level data
+  //block HARD LEVEL
   List<DateTime> listDate = [];
   void populateListDate(DateTime? soberTime) {
     listDate.clear();
@@ -497,6 +446,70 @@ class HomeProvider extends ChangeNotifier {
       }
       checkHRHard = true;
     }
+    notifyListeners();
+  }
+
+  void _startTimerSober() {
+    _timerSober
+        ?.cancel(); //si cancella il timeSober solo se questo è diverso da null.
+    _timerSober = Timer.periodic(const Duration(seconds: 1), (Timer timer) {
+      _updateCounter();
+    });
+  }
+
+  void _updateCounter() {
+    if (soberTime != null) {
+      Duration difference = DateTime.now().difference(soberTime!);
+      int days = difference.inDays;
+      int hours = difference.inHours % 24;
+      int minutes = difference.inMinutes % 60;
+      int seconds = difference.inSeconds % 60;
+
+      _counterText =
+          '$days days, $hours hours, $minutes minutes, $seconds seconds';
+      notifyListeners();
+    }
+  }
+
+  Future<void> startCounter() async {
+    final sp = await SharedPreferences.getInstance();
+    soberTime = DateTime.now().subtract(Duration(days: 3));
+    String formattedTime = DateFormat('yyyy-MM-dd HH:mm:ss').format(soberTime!);
+    sp.setString('soberTime', formattedTime);
+    populateListDate(soberTime);
+    _startTimerSober();
+    await getPreferences();
+    notifyListeners();
+  }
+
+  Future<void> stopCounter() async {
+    final sp = await SharedPreferences.getInstance();
+
+    sp.remove('soberTime');
+    soberTime = null;
+    _counterText = "0 days, 0 hours, 0 minutes, 0 seconds";
+    _timer?.cancel();
+    meanHRHard.clear();
+    notifyListeners();
+  }
+
+  // this call the functions when the provider borns, in particular in splash page
+  HomeProvider() {
+    initPreferences();
+    startTimer();
+    _loadDrinks();
+    
+    _startTimerSober();
+   
+    notifyListeners();
+  }
+
+  void removeAll() async {
+    final sp = await SharedPreferences.getInstance();
+    await sp.remove('refreshToken');
+     await sp.remove('accessToken');
+  
+    getPreferences();
     notifyListeners();
   }
 

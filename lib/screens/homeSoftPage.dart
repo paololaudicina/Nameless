@@ -70,10 +70,7 @@ class _HomeSoftPage extends State<HomeSoftPage> {
                         ),
                         child: const Column(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(Icons.local_bar),
-                            Text('ADD DRINKS')
-                          ],
+                          children: [Icon(Icons.local_bar), Text('ADD DRINKS')],
                         ),
                       ),
                     ),
@@ -138,14 +135,13 @@ class _HomeSoftPage extends State<HomeSoftPage> {
                     children: [
                       Container(
                         width: 350,
-                        height: 300,
+                        height: 330,
                         child: Card(
                           color: Colors.green[200],
                           child: Padding(
                             padding: const EdgeInsets.all(10),
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
-                             
                               children: [
                                 SizedBox(height: 20),
                                 Row(
@@ -155,7 +151,8 @@ class _HomeSoftPage extends State<HomeSoftPage> {
                                         height: 60, width: 60),
                                     SizedBox(width: 25),
                                     Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: [
                                         Text(
                                           'Your blood Alchool Level',
@@ -179,7 +176,7 @@ class _HomeSoftPage extends State<HomeSoftPage> {
                                     Text(
                                       'You are a safe driver',
                                       style: TextStyle(fontSize: 20),
-                                      textAlign:  TextAlign.center,
+                                      textAlign: TextAlign.center,
                                     ),
                                   ],
                                 ),
@@ -199,39 +196,53 @@ class _HomeSoftPage extends State<HomeSoftPage> {
                                       ),
                                     ),
                                   ],
-                                )
+                                ),
+                                SizedBox(height: 10),
+                                Text(data.age<21?'*Your BAC must be 0.00 g/L because your age is under 21': '*Your BAC must be less than 0.50 g/L'),
                               ],
                             ),
                           ),
                         ),
                       ),
-                         Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  ElevatedButton(onPressed: (){data.updateBALfake();},
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.blue,
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 40, vertical: 15),
-                            
-                          ), child: const Text('ADD HOUR',style: TextStyle(
-                                fontSize: 13,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white),
-                          ),),
-                  ElevatedButton(onPressed: (){data.updateBAL();},
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.blue,
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 40, vertical: 15),
-                            
-                          ), child: const Text('RESET',style: TextStyle(
-                                fontSize: 13,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white),
-                          ),),
-                ],
-              )
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          ElevatedButton(
+                            onPressed: () {
+                              data.updateBALfake();
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.blue,
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 40, vertical: 15),
+                            ),
+                            child: const Text(
+                              'ADD HOUR',
+                              style: TextStyle(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white),
+                            ),
+                          ),
+                          ElevatedButton(
+                            onPressed: () {
+                              data.updateBAL();
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.blue,
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 53, vertical: 15),
+                            ),
+                            child: const Text(
+                              'RESET',
+                              style: TextStyle(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white),
+                            ),
+                          ),
+                        ],
+                      )
                     ],
                   );
                 } else {
@@ -239,7 +250,7 @@ class _HomeSoftPage extends State<HomeSoftPage> {
                     children: [
                       Container(
                         width: 350,
-                        height: 300,
+                        height: 330,
                         child: Card(
                           color: Colors.red[200],
                           child: Padding(
@@ -255,7 +266,8 @@ class _HomeSoftPage extends State<HomeSoftPage> {
                                         height: 60, width: 60),
                                     SizedBox(width: 25),
                                     Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: [
                                         Text(
                                           'Your blood Alchool Level',
@@ -297,45 +309,58 @@ class _HomeSoftPage extends State<HomeSoftPage> {
                                       ),
                                     ),
                                   ],
-                                )
+                                ),
+                                SizedBox(height: 10),
+                                Text(data.age<21?'*Your BAC must be 0.00 g/L because your age is under 21': '*Your BAC must be less than 0.50 g/L'),
+                                
                               ],
                             ),
                           ),
                         ),
                       ),
-                        Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  ElevatedButton(onPressed: (){data.updateBALfake();},
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.blue,
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 40, vertical: 15),
-                          
-                          ), child: const Text('ADD HOUR',style: TextStyle(
-                                fontSize: 13,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white),
-                          ),),
-                  ElevatedButton(onPressed: (){data.updateBAL();},
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.blue,
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 40, vertical: 15),
-                            
-                          ), child: const Text('RESET',style: TextStyle(
-                                fontSize: 13,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white),
-                          ),),
-                ],
-              )
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          ElevatedButton(
+                            onPressed: () {
+                              data.updateBALfake();
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.blue,
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 40, vertical: 15),
+                            ),
+                            child: const Text(
+                              'ADD HOUR',
+                              style: TextStyle(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white),
+                            ),
+                          ),
+                          ElevatedButton(
+                            onPressed: () {
+                              data.updateBAL();
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.blue,
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 53, vertical: 15),
+                            ),
+                            child: const Text(
+                              'RESET',
+                              style: TextStyle(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white),
+                            ),
+                          ),
+                        ],
+                      )
                     ],
                   );
                 }
               }),
-              
-             
             ],
           ),
         ),
