@@ -17,7 +17,7 @@ Future<void> levelExplanation(BuildContext context){
                   alignment: Alignment.center,
                   child: Container(
                     margin: EdgeInsets.only(top: 50,bottom: 50, left: 20, right: 20),
-                    height: MediaQuery.of(context).size.height * 0.8,
+                    height: MediaQuery.of(context).size.height * 0.55,
                     decoration:BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(30)
@@ -36,20 +36,20 @@ Future<void> levelExplanation(BuildContext context){
                             children: [
                               
                               const Text(
-                                'SOFT LEVEL EXPLANATION',
-                                style: TextStyle(fontSize: 24.0, color: Colors.black,),
+                                'Soft Level Explanation',
+                                style: TextStyle(fontSize: 24.0, color: Colors.black, fontWeight: FontWeight.bold),
                               ),
                               const SizedBox(height: 20,),
                               Image.asset('images/soft_piuma.png',height: 60,width: 60,),
                               const SizedBox(height: 20,),
-                              const Padding(
+                               Padding(
                                 padding: EdgeInsets.all(10.0),
                                 child: Text(
-                                  'The goal of the soft level is to reduce daily alcohol consumption. To do that, this level use your answer to question number 2. In particular, the app memorizes your answer and calculate the number of drinks that you can drink daily as your answer minus one. For example, if your answer is 3/4 drinks at day with this level you can drink a maximum of 2 driks ( 3 - 1 )',  
-                                  style: TextStyle(fontSize: 20),
+                                  'The goal of the soft level is to reduce daily alcohol consumption. To do that, this level use your answer to question number 2. In particular, the app memorizes your answer and calculate your daily drink limit as your answer minus one. For example, if your answer is 3/4 drinks at day with this level you can drink a maximum of 3 drinks ( 4 - 1 ).Your current limit is : ${(data.limit==null)? (data.numDrinks-1):data.limit}. If you want to change the limit, go to profile ',  
+                                  
                                 ),
                               ),
-                              const SizedBox(height: 20,),
+                              const SizedBox(height: 10,),
                               ElevatedButton(onPressed: () {
                                Navigator.pop(context);
                               }, 
@@ -64,8 +64,8 @@ Future<void> levelExplanation(BuildContext context){
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               const Text(
-                                'HARD LEVEL EXPLANATION',
-                                style: TextStyle(fontSize: 24.0, color: Colors.black,),
+                                'Hard Level Explanation',
+                                style: TextStyle(fontSize: 24.0, color: Colors.black,fontWeight: FontWeight.bold),
                               ),
                               const SizedBox(height: 20,),
                               Image.asset('images/fire.png',height: 60,width: 60,),
@@ -73,11 +73,11 @@ Future<void> levelExplanation(BuildContext context){
                               const Padding(
                                 padding: EdgeInsets.all(10.0),
                                 child: Text(
-                                  'The goal of the hard level is to delete daily alcohol consumption. At this level you need determination, perseverance and sincerity. In fact, in this level you cannot drink. you will have a counter that will tell you how long it has been since you drank, which will be reset if you answer YES the question that is shown in the level',  
-                                  style: TextStyle(fontSize: 20),
+                                  'The goal of the hard level is to delete daily alcohol consumption. At this level you need determination, perseverance and sincerity. In fact, in this level you cannot drink. You will have a counter that will tell you how long it has been since you drank. If you drink, you must restart the counter',  
+                                  
                                 ),
                               ),
-                              const SizedBox(height: 20,),
+                              const SizedBox(height: 10,),
                               ElevatedButton(onPressed: () {
                                Navigator.pop(context);
                               }, 

@@ -1,9 +1,12 @@
+
 import 'package:Nameless/screens/advice.dart';
 import 'package:Nameless/screens/personalData.dart';
 
 import 'package:flutter/material.dart';
 import 'package:Nameless/provider/homeProvider.dart';
 import 'package:Nameless/screens/login.dart';
+
+
 
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -16,6 +19,7 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  
   @override
   Widget build(BuildContext context) {
     // String data = DateFormat('yyyy-MM-dd').format(DateTime.now());
@@ -39,12 +43,13 @@ class _ProfilePageState extends State<ProfilePage> {
       }
     }
 
+
     return SafeArea(
         child: Scaffold(
       appBar: AppBar(
           title: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-            Text('Profile page',
-                style: TextStyle(fontSize: 35, color: Colors.black))
+            Text('Profile Page',
+                style: TextStyle(fontSize: 35, color: Colors.white))
           ]),
           backgroundColor: Colors.blue,
           actions: [
@@ -54,9 +59,12 @@ class _ProfilePageState extends State<ProfilePage> {
                 },
                 icon: const Icon(Icons.logout)),
             SizedBox(width: 10),
+
           ]),
+
       body: Consumer<HomeProvider>(builder: (context, provider, child) {
         return SingleChildScrollView(
+
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -201,8 +209,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                         sex: provider.Sex,
                                       )));
                         },
-                        child: Text('EDIT',
-                            style: const TextStyle(
+                        child: const Text('EDIT',
+                            style:  TextStyle(
                               color: Colors.black,
                               fontSize: 15,
                               fontWeight: FontWeight.bold,
@@ -211,173 +219,248 @@ class _ProfilePageState extends State<ProfilePage> {
                     ]),
                   )),
               SizedBox(height: 40),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  ElevatedButton(
-                    onPressed: () {
-                      showDialog(
-                          context: context,
-                          builder: (context) => AlertDialog(
-                                content: Container(
-                                  height: 170,
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      const Text('Switch Level',
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 18)),
-                                      const SizedBox(height: 10),
-                                      const Text(
-                                        'If you press ok, you lose your progress, otherwise press outside the card',
-                                        style: TextStyle(fontSize: 17),
-                                        textAlign: TextAlign.left,
-                                      ),
-                                      const SizedBox(height: 10),
-                                      ElevatedButton(
-                                        onPressed: () {
-                                          if (provider.levelChoice == 1) {
-                                            provider.switchSoft();
-                                          } else {
-                                            provider.stopCounter();
-                                          }
+              (provider.levelChoice == 1)
+                  ? Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        ElevatedButton(
+                          onPressed: () {
+                            showDialog(
+                                context: context,
+                                builder: (context) => AlertDialog(
+                                      content: Container(
+                                        height: 170,
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            const Text('Switch Level',
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 18)),
+                                            const SizedBox(height: 10),
+                                            const Text(
+                                              'If you press ok, you lose your progress, otherwise press outside the card',
+                                              style: TextStyle(fontSize: 17),
+                                              textAlign: TextAlign.left,
+                                            ),
+                                            const SizedBox(height: 10),
+                                            ElevatedButton(
+                                              onPressed: () {
+                                                provider.switchSoft();
 
-                                          Navigator.of(context)
-                                              .pushAndRemoveUntil(
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    SplashQuiz(
-                                                      score: scoreQuiz,
-                                                    )),
-                                            (Route<dynamic> route) => false,
-                                          );
-                                        },
-                                        child: const Text('Ok'),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              ));
-                    },
-                    child: Text(
-                      'SWITCH LEVEL',
-                      style: TextStyle(
-                          fontSize: 13,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white),
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.blue,
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 40, vertical: 15),
-                      textStyle: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      showDialog(
-                          context: context,
-                          builder: (context) => AlertDialog(
-                                content: Container(
-                                  height: 170,
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      const Text('Change limit',
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 18)),
-                                      const SizedBox(height: 10),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          IconButton(
-                                            onPressed: () {
-                                              Provider.of<HomeProvider>(context,
-                                                      listen: false)
-                                                  .removeNumber();
-                                            },
-                                            icon: const Icon(Icons.remove,
-                                                size: 30),
-                                          ),
-                                          const SizedBox(
-                                            width: 15,
-                                          ),
-                                          Consumer<HomeProvider>(
-                                            builder:
-                                                (context, provider, child) {
-                                              return Text(
-                                                '${provider.number}',
-                                                style: const TextStyle(
-                                                    fontSize: 30),
-                                              );
-                                            },
-                                          ),
-                                          const SizedBox(
-                                            width: 15,
-                                          ),
-                                          IconButton(
-                                            onPressed: () {
-                                              Provider.of<HomeProvider>(context,
-                                                      listen: false)
-                                                  .addNumber();
-                                            },
-                                            icon:
-                                                const Icon(Icons.add, size: 30),
-                                          ),
-                                        ],
+                                                Navigator.of(context)
+                                                    .pushAndRemoveUntil(
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          SplashQuiz(
+                                                            score: scoreQuiz,
+                                                          )),
+                                                  (Route<dynamic> route) =>
+                                                      false,
+                                                );
+                                              },
+                                              child: const Text('Ok'),
+                                            )
+                                          ],
+                                        ),
                                       ),
-                                      const SizedBox(height: 10),
-                                      ElevatedButton(
-                                        onPressed: () async{
-                                          int limit = Provider.of<HomeProvider>(context,listen: false).number;
-                                          final sp = await SharedPreferences.getInstance();
-                                          
-                                          sp.setInt('limit',limit);
-                                          Provider.of<HomeProvider>(context,listen:false).updateCalendarColors();
-                                          
-                                         Navigator.pop(context);
-                                        },
-                                        child: const Text('Ok'),
-                                      )
-                                  
-                                    ],
-                                  ),
-                                ),
-                              ));
-                    },
-                    child: Text(
-                      ' CHANGE LIMIT',
-                      style: TextStyle(
-                          fontSize: 13,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white),
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.blue,
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 40, vertical: 15),
-                      textStyle: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ],
-              )
+                                    ));
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.blue,
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 40, vertical: 15),
+
+                          ),
+                          child: const Text(
+                            'SWITCH LEVEL',
+                            style: TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white),
+                          ),
+                        ),
+                        ElevatedButton(
+                          onPressed: () {
+                            Provider.of<HomeProvider>(context,listen:false).initNumber();
+                            
+                            showDialog(
+                                context: context,
+                                builder: (context) => AlertDialog(
+                                      content: Container(
+                                        height: 170,
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            const Text('Change limit',
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 18)),
+                                            const SizedBox(height: 10),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                IconButton(
+                                                  onPressed: () {
+                                                    Provider.of<HomeProvider>(
+                                                            context,
+                                                            listen: false)
+                                                        .removeNumber();
+                                                  },
+                                                  icon: const Icon(Icons.remove,
+                                                      size: 30),
+                                                ),
+                                                const SizedBox(
+                                                  width: 15,
+                                                ),
+                                                Consumer<HomeProvider>(
+                                                  builder: (context, provider,
+                                                      child) {
+                                                    return Text(
+                                                      '${provider.number}',
+                                                      style: const TextStyle(
+                                                          fontSize: 30),
+                                                    );
+                                                  },
+                                                ),
+                                                const SizedBox(
+                                                  width: 15,
+                                                ),
+                                                IconButton(
+                                                  onPressed: () {
+                                                    Provider.of<HomeProvider>(
+                                                            context,
+                                                            listen: false)
+                                                        .addNumber();
+                                                  },
+                                                  icon: const Icon(Icons.add,
+                                                      size: 30),
+                                                ),
+                                              ],
+                                            ),
+                                            const SizedBox(height: 10),
+                                            ElevatedButton(
+                                              onPressed: () async {
+                                                int limit =
+                                                    Provider.of<HomeProvider>(
+                                                            context,
+                                                            listen: false)
+                                                        .number;
+                                                final sp =
+                                                    await SharedPreferences
+                                                        .getInstance();
+
+                                                sp.setInt('limit', limit);
+                                                Provider.of<HomeProvider>(
+                                                        context,
+                                                        listen: false)
+                                                    .updateCalendarColors();
+
+                                                Navigator.pop(context);
+                                              },
+                                              child: const Text('Ok'),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    ));
+                          },
+                          child: Text(
+                            ' CHANGE LIMIT',
+                            style: TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white),
+                          ),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.blue,
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 40, vertical: 15),
+                           
+                          ),
+                        ),
+                      ],
+                    )
+                  : Row(
+                      // if change
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        ElevatedButton(
+                          onPressed: () {
+                            showDialog(
+                                context: context,
+                                builder: (context) => AlertDialog(
+                                      content: Container(
+                                        height: 170,
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            const Text('Switch Level',
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 18)),
+                                            const SizedBox(height: 10),
+                                            const Text(
+                                              'If you press ok, you lose your progress, otherwise press outside the card',
+                                              style: TextStyle(fontSize: 17),
+                                              textAlign: TextAlign.left,
+                                            ),
+                                            const SizedBox(height: 10),
+                                            ElevatedButton(
+                                              onPressed: () {
+                                                provider.stopCounter();
+
+                                                Navigator.of(context)
+                                                    .pushAndRemoveUntil(
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          SplashQuiz(
+                                                            score: scoreQuiz,
+                                                          )),
+                                                  (Route<dynamic> route) =>
+                                                      false,
+                                                );
+                                              },
+                                              child: const Text('Ok'),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    ));
+                          },
+                          child: Text(
+                            'SWITCH LEVEL',
+                            style: TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white),
+                          ),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.blue,
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 40, vertical: 15),
+                           
+                          ),
+                        ),
+                      ],
+                    )
             ]));
       }),
     ));
+
   }
 }
+

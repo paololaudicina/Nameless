@@ -2,14 +2,9 @@
 import 'package:flutter/material.dart';
 import 'package:Nameless/models/list.dart';
 
-class Activity extends StatefulWidget {
-  const Activity({super.key});
+class Activity extends StatelessWidget {
+   Activity({super.key});
 
-  @override
-  State<Activity> createState() => _ActivityState();
-}
-
-class _ActivityState extends State<Activity> {
   final CatalogueList catalogue = CatalogueList();
 
   @override
@@ -17,8 +12,8 @@ class _ActivityState extends State<Activity> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Creative activities'),
-          backgroundColor: Colors.lightBlue,
+          title: Text('Creative Activities',style: TextStyle(color: Colors.white,fontSize: 35)),
+          backgroundColor: Colors.blue,
         ),
         body: SingleChildScrollView(
           child: Column(

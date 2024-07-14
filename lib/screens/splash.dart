@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
-import 'package:lottie/lottie.dart';
 import 'package:Nameless/provider/homeProvider.dart';
 import 'package:Nameless/screens/advice.dart';
 import 'package:Nameless/screens/homeHardPage.dart';
@@ -91,29 +90,52 @@ class _SplashState extends State<Splash> {
     return Consumer<HomeProvider>(
       builder: (context, homeProvider, child) {
         if (!homeProvider.isInitialized) {
-          return const Scaffold(
+          return const SafeArea(
+            child: Scaffold(
             body: Center(
               child: CircularProgressIndicator(),
             ),
-          );
+          ));
         } else {
-          return Scaffold(
-            body: Center(
+
+
+          return SafeArea(
+          child:Scaffold(
+            body: Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [ Colors.white, Colors.blue.shade300,Colors.blue.shade900],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+              ),
+            child:Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Container(
-                    height: 20,
-                    width: 50,
-                    child: Lottie.asset('images/chain.json'),
+                  Image.asset('images/wellness.png',
+                  width: 150,
+                  height: 150,),
+                  const SizedBox(height: 20),
+                  const Text('Welcome in your new life',
+                  style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,)
                   ),
-                  Container(
-                    child: Text('Welcome in your new life'),
+                  const SizedBox(height: 10),
+                  const Text(
+                    'We are glad to have you here',
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.white60,
+                    ),
                   ),
                 ],
               ),
-            ),
-          );
+            ),)
+          ));
+
         }
       },
     );

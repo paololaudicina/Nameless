@@ -54,8 +54,8 @@ class _QuestionnaireState extends State<Questionnaire> {
         return Container(
           decoration: BoxDecoration(
             color: isSelected
-                ? Color.fromARGB(255, 167, 226, 240)
-                : Color.fromARGB(255, 55, 115, 245),
+                ? Color.fromARGB(255, 136, 221, 242)
+                : Colors.blue,
             borderRadius: BorderRadius.circular(15),
             boxShadow: [
               BoxShadow(
@@ -87,16 +87,16 @@ class _QuestionnaireState extends State<Questionnaire> {
         Provider.of<HomeProvider>(context,listen: false).personalData;
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Color.fromARGB(255, 167, 226, 240),
+        backgroundColor: Colors.white,
         appBar: AppBar(
           title: const Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text('AUDIT TEST',
-                  style: TextStyle(fontSize: 40, color: Colors.white)),
+              Text('Audit Test',
+                  style: TextStyle(fontSize: 35, color: Colors.white)),
             ],
           ),
-          backgroundColor: Color.fromARGB(255, 167, 226, 240),
+          backgroundColor: Colors.blue,
         ),
         body: SingleChildScrollView(
           child: Column(
@@ -105,7 +105,7 @@ class _QuestionnaireState extends State<Questionnaire> {
               Padding(
                 padding: const EdgeInsets.all(10),
                 child: Card(
-                  color: Color.fromARGB(255, 89, 139, 247),
+                  color: Colors.blue,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15.0),
                     side: BorderSide(color: Colors.black, width: 2.0),
@@ -136,7 +136,7 @@ class _QuestionnaireState extends State<Questionnaire> {
               Padding(
                 padding: const EdgeInsets.all(10),
                 child: Card(
-                  color: Color.fromARGB(255, 41, 107, 249),
+                  color: Colors.blue,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15.0),
                     side: BorderSide(color: Colors.black, width: 2.0),
@@ -165,7 +165,7 @@ class _QuestionnaireState extends State<Questionnaire> {
               Padding(
                 padding: const EdgeInsets.all(10),
                 child: Card(
-                  color: Color.fromARGB(255, 41, 107, 249),
+                  color: Colors.blue,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15.0),
                     side: BorderSide(color: Colors.black, width: 2.0),
@@ -235,14 +235,14 @@ class _QuestionnaireState extends State<Questionnaire> {
                   }
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Color.fromARGB(255, 41, 107, 249),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(15)),
-                      side: BorderSide(color: Colors.black)),
-                ),
-                child: Text(
-                  'Save',
-                  style: TextStyle(color: Colors.black),
+                            backgroundColor: Colors.blue,
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 40, vertical: 15),
+
+                          ),
+                child: const Text(
+                  'SAVE',
+                  style: TextStyle(color: Colors.white,fontSize: 13),
                 ),
               )
             ],
