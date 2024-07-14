@@ -202,6 +202,7 @@ class HomeProvider extends ChangeNotifier {
   double drinkBAC = 0.0;
   double totalBAC = 0.0;
   bool drive = true;
+  
   void updateBAL() {
     getPreferences();
     DateTime now = DateTime.now();
@@ -218,6 +219,7 @@ class HomeProvider extends ChangeNotifier {
             ((quantityAlchool * C * 1.055) / (weight * K)) - (0.15 * hours);
         totalBAC += drinkBAC > 0 ? drinkBAC : 0.0;
       }
+      totalBAC=((totalBAC * 100).roundToDouble()) / 100;
       if(age<21){
         if(totalBAC>0) drive=false;
       }
@@ -245,7 +247,12 @@ class HomeProvider extends ChangeNotifier {
         
       }
       totalBAC=((totalBAC * 100).roundToDouble()) / 100;
-      if (totalBAC > 0.5) drive = false;
+      if(age<21){
+        if(totalBAC>0) drive=false;
+      }
+      else{
+        if (totalBAC > 0.5) drive = false;
+      }
       notifyListeners();
     }
   }
